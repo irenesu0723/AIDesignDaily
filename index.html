@@ -507,6 +507,7 @@ async function loadNews(){
     const currentDate = document.querySelector('.date-current');
     const dateMenu = document.querySelector('.date-menu');
     const dailyList = document.querySelector('.daily-list');
+    const tabs = document.querySelectorAll('.tab');
 
     currentDate.innerHTML = `
       ${data.currentDate}
@@ -517,29 +518,45 @@ async function loadNews(){
       <a href="#" class="${index===0 ? 'active' : ''}">${date}</a>
     `).join('');
 
-    dailyList.innerHTML = data.items.map(item => `
-      <article class="daily-item">
-        <div class="daily-meta">
-          <span class="tag dark">${item.important ? '今日最重要' : item.category}</span>
-          <span class="tag brown">${item.tag}</span>
-        </div>
+    function renderNews(category='全部'){
+      const filtered = category === '全部'
+        ? data.items
+        : data.items.filter(item => item.category === category);
 
-        <div>
-          <h2>${item.title}</h2>
-          <p>${item.summary}</p>
-        </div>
+      dailyList.innerHTML = filtered.map(item => `
+        <article class="daily-item">
+          <div class="daily-meta">
+            <span class="tag dark">${item.important ? '今日最重要' : item.category}</span>
+            <span class="tag brown">${item.tag}</span>
+          </div>
 
-        <div class="detail-box">
-          <ul>
-            ${item.points.map(point=>`<li>${point}</li>`).join('')}
-          </ul>
-        </div>
+          <div>
+            <h2>${item.title}</h2>
+            <p>${item.summary}</p>
+          </div>
 
-        <div class="daily-actions">
-          <a class="btn sub" href="${item.url}" target="_blank">原文</a>
-        </div>
-      </article>
-    `).join('');
+          <div class="detail-box">
+            <ul>
+              ${item.points.map(point=>`<li>${point}</li>`).join('')}
+            </ul>
+          </div>
+
+          <div class="daily-actions">
+            <a class="btn sub" href="${item.url}" target="_blank">原文</a>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    renderNews();
+
+    tabs.forEach(tab=>{
+      tab.addEventListener('click',()=>{
+        tabs.forEach(t=>t.classList.remove('active'));
+        tab.classList.add('active');
+        renderNews(tab.textContent.trim());
+      });
+    });
 
   }catch(error){
     console.error('news.json 讀取失敗', error);
