@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Design Daily｜設計 AI 情報</title>
+<style>
+:root{
+  --bg:#f3f3f3;
+  --card:#ffffff;
+  --text:#333333;
+  --sub:#777777;
+  --muted:#999999;
+  --line:#e5e5e5;
+  --line2:#eeeeee;
+  --main:#8b765f;
+  --main2:#7d6752;
+  --soft:#f8f8f8;
+  --tag:#f1f1f1;
+  --radius:10px;
+  --shadow:0 2px 8px rgba(0,0,0,.04);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","Microsoft JhengHei",Arial,sans-serif;font-weight:400;letter-spacing:.01em;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit}
+.page{width:1180px;max-width:100%;margin:0 auto;padding:22px 18px 48px;}
+.header{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:20px;}
+.logo{display:flex;flex-direction:column;gap:10px;line-height:1.25;}
+.logo .title{font-size:38px;letter-spacing:-0.03em;font-weight:500;color:#2f2f2f;line-height:1.05;}
+.logo .desc{font-size:20px;color:#666;line-height:1.35;margin-top:0;}
+.nav{display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;justify-content:flex-end;padding-top:42px;}
+.nav a{font-size:14px;color:#555;background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 12px;}
+.nav a.active{background:var(--main);border-color:var(--main);color:#fff;}
+
+.date-switcher{position:relative;}
+.date-current{height:44px;min-width:220px;padding:0 16px;border:1px solid #dcdcdc;border-radius:12px;background:#fff;color:#555;font-size:15px;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;transition:.18s ease;box-shadow:0 1px 2px rgba(0,0,0,.03);}
+.date-current:hover{border-color:#cfcfcf;background:#fcfcfc;}
+.date-current .arrow{width:14px;height:14px;display:inline-block;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") center/14px 14px no-repeat;font-size:0;line-height:0;}
+.date-menu{position:absolute;top:46px;right:0;min-width:220px;background:#fff;border:1px solid #e6e6e6;border-radius:12px;padding:6px 0;box-shadow:0 10px 30px rgba(0,0,0,.08);display:grid;gap:0;opacity:0;pointer-events:none;transform:translateY(4px);transition:.18s ease;z-index:20;}
+.date-switcher:hover .date-menu{opacity:1;pointer-events:auto;transform:translateY(0);}
+.date-menu a{padding:10px 16px;font-size:14px;color:#666;transition:.15s ease;border-radius:0;border:0;background:transparent;}
+.date-menu a:hover,.date-menu a.active{background:#f1f1f1;color:#8b765f;}
+.daily-panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:14px;}
+.daily-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px;}
+.daily-title{margin:0;font-size:34px;line-height:1.25;font-weight:400;color:#333;letter-spacing:-0.02em;}
+.daily-sub{font-size:18px;color:var(--sub);line-height:1.7;margin-top:10px;}
+.daily-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:stretch;}
+.daily-item{position:relative;display:flex;flex-direction:column;gap:14px;border:1px solid var(--line2);border-radius:12px;background:#fff;padding:18px 18px 16px;min-height:320px;height:100%;overflow:hidden;}
+.daily-meta{display:flex;flex-direction:row;gap:8px;align-items:center;flex-wrap:wrap;}
+.daily-item h2{margin:0 0 8px;font-size:28px;line-height:1.35;font-weight:400;color:#2f2f2f;letter-spacing:-0.02em;}
+.daily-item p{margin:0;color:#666;font-size:16px;line-height:1.82;}
+.daily-actions{display:flex;gap:8px;white-space:nowrap;padding-top:8px;margin-top:auto;position:relative;z-index:3;}
+.detail-box{margin-top:10px;color:#666;font-size:16px;line-height:1.88;min-height:100px;}
+.detail-box ul{margin:0;padding-left:18px;}
+.main-card,.side-card,.section,.mini-card,.tool-card,.history-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);}
+.main-card{padding:28px;min-height:320px;display:flex;flex-direction:column;justify-content:space-between;border:0;box-shadow:none;border-radius:0;background:transparent;}
+.eyebrow{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;margin-bottom:12px;width:100%;}
+.tag{display:inline-flex;align-items:center;border-radius:999px;background:#f1f1f1;color:#666;border:0;font-size:13px;line-height:1;padding:7px 11px;white-space:nowrap;}
+.tag.dark{background:#707070;color:#fff;border:0;}
+.tag.brown{background:#ededed;color:#666;border:0;}
+.hero h1{margin:0 0 10px;font-size:38px;line-height:1.28;font-weight:500;color:#222;max-width:720px;letter-spacing:-0.02em;}
+.hero p{margin:0;color:#666;font-size:15px;line-height:1.8;max-width:560px;}
+.action-row{display:flex;align-items:center;gap:10px;flex-wrap:nowrap;margin-top:22px;width:100%;}
+.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:10px 16px;font-size:14px;border:1px solid var(--main);background:var(--main);color:#fff;min-height:38px;cursor:pointer;}
+
+.btn.sub{background:#fff;color:#555;border-color:var(--line);}
+.date-note{font-size:12px;color:var(--muted);margin-left:auto;text-align:right;white-space:nowrap;display:inline-flex;align-items:center;line-height:1;}
+.side-list{display:grid;gap:10px;}
+.side-card{padding:16px;display:flex;flex-direction:column;gap:8px;transition:.2s ease;cursor:pointer;}
+.side-card:hover{transform:translateY(-2px);border-color:#d8d8d8;}
+.card-link{display:inline-flex;align-items:center;gap:5px;width:max-content;margin-top:3px;font-size:13px;line-height:1;color:var(--main);border-bottom:1px solid rgba(139,118,95,.35);padding-bottom:3px;}
+.card-link::after{content:'↓';font-size:11px;transform:translateY(-1px);}
+.side-card .kicker{font-size:13px;color:var(--main);}
+.side-card h3{margin:0;font-size:17px;line-height:1.45;font-weight:400;}
+.side-card p{margin:0;color:#777;font-size:13px;line-height:1.6;}
+.section{padding:18px 20px;margin-bottom:14px;background:#fff;transition:.2s ease;}
+.section:hover{transform:translateY(-1px);} 
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:16px;}
+.section-title{margin:0;font-size:34px;line-height:1.25;font-weight:400;color:#333;letter-spacing:-0.02em;}
+.section-sub{font-size:18px;color:#777;line-height:1.7;margin-top:10px;}
+.more-link{font-size:14px;color:var(--main);white-space:nowrap;}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.news-card{background:#fff;border:1px solid var(--line2);border-radius:9px;padding:16px;display:flex;flex-direction:column;gap:10px;min-height:210px;}
+.news-card h3{margin:0;font-size:17px;line-height:1.55;font-weight:400;color:#333;}
+.news-card p{margin:0;color:#666;font-size:14px;line-height:1.75;}
+.news-card .foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:auto;padding-top:8px;border-top:1px solid #f1f1f1;color:#999;font-size:13px;}
+.source{color:var(--main);}
+.tabs{display:flex;gap:26px;overflow-x:auto;padding-top:10px;padding-bottom:10px;margin-bottom:18px;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{position:relative;flex:0 0 auto;border:0;background:transparent;border-radius:0;padding:0 0 14px;font-size:18px;color:#888;line-height:1.1;}
+.tab.active{background:transparent;color:#333;border-color:transparent;}
+.tab.active::after{content:'';position:absolute;left:0;bottom:-1px;width:100%;height:2px;background:#666;border-radius:999px;}
+.retouch-layout{display:grid;grid-template-columns:1.05fr 1fr;gap:12px;}
+.feature-card{background:#fafafa;border:1px solid var(--line2);border-radius:9px;padding:18px;}
+.feature-card h3{font-size:19px;line-height:1.45;margin:0 0 10px;font-weight:400;}
+.feature-card p{font-size:14px;line-height:1.8;color:#666;margin:0 0 14px;}
+.score-list{display:grid;gap:8px;}
+.score-row{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #ededed;padding-top:8px;font-size:14px;color:#666;}
+.score-row span:last-child{color:#333;letter-spacing:.08em;}
+.mini-list{display:grid;gap:10px;}
+.mini-card{box-shadow:none;padding:14px;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;}
+.num{width:28px;height:28px;border-radius:50%;background:#f1f1f1;border:1px solid #e5e5e5;color:#777;display:flex;align-items:center;justify-content:center;font-size:12px;}
+.mini-card h4{margin:0 0 4px;font-size:16px;line-height:1.4;font-weight:400;}
+.mini-card p{margin:0;font-size:14px;color:#777;line-height:1.6;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.adobe-list{display:grid;gap:10px;}
+.adobe-item{display:flex;justify-content:space-between;gap:12px;align-items:center;border:1px solid var(--line2);border-radius:10px;background:#fff;padding:16px;}
+.adobe-item h4{margin:0 0 4px;font-size:16px;font-weight:400;line-height:1.4;}
+.adobe-item p{margin:0;font-size:14px;color:#777;line-height:1.5;}
+.adobe-item .label{font-size:12px;color:#999;white-space:nowrap;}
+.watch-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.watch-card{border:1px solid var(--line2);border-radius:9px;background:#fafafa;padding:14px;min-height:130px;}
+.watch-card .small{font-size:12px;color:var(--main);margin-bottom:8px;}
+.watch-card h4{margin:0 0 8px;font-size:16px;line-height:1.45;font-weight:400;}
+.watch-card p{margin:0;color:#777;font-size:14px;line-height:1.55;}
+.tool-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+.tool-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:stretch;}
+.tool-card{width:100%;box-shadow:none;padding:18px 16px;text-align:left;display:flex;flex-direction:column;justify-content:flex-start;min-height:118px;background:#fff;border:1px solid var(--line2);}
+.tool-card a{color:var(--main);border-bottom:1px solid rgba(139,118,95,.22);padding-bottom:1px;transition:.15s ease;}
+.tool-card a:hover{color:var(--main2);border-color:rgba(125,103,82,.5);}
+.tool-card h4{font-size:24px;font-weight:400;margin:0 0 10px;color:#333;letter-spacing:-0.01em;line-height:1.3;}
+.tool-card p{font-size:16px;color:#777;line-height:1.85;margin:0;}
+.history-row{display:grid;grid-template-columns:80px 1fr auto;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid #eeeeee;}
+.history-row:last-child{border-bottom:0;padding-bottom:0;}
+.history-date{color:#555;font-size:15px;}
+.history-title{font-size:15px;color:#333;line-height:1.45;}
+.history-meta{font-size:12px;color:#999;white-space:nowrap;}
+.footer{padding:20px 0 0;text-align:center;color:#999;font-size:12px;line-height:1.7;}
+@media(max-width:860px){
+  .logo{width:100%;}
+  .nav{order:2;}
+  .daily-list{grid-template-columns:1fr;}
+  .daily-item{min-height:auto;}
+  .daily-actions{width:100%;}
+  .daily-actions .btn,.daily-actions .detail-btn{flex:1;}
+  .detail-box{grid-column:1 / 2;}
+  .page{padding:16px 14px 38px;}
+  .header{align-items:flex-start;margin-bottom:14px;flex-direction:column;gap:12px;}
+  .logo .title{font-size:30px;}
+  .nav{display:flex;width:100%;justify-content:flex-start;padding-top:0;}
+  .date-switcher{width:100%;}
+  .date-current{width:100%;min-width:0;}
+  .hero{grid-template-columns:1fr;}
+  .main-card{padding:20px;min-height:auto;}
+  .hero h1{font-size:25px;}
+  .hero p{font-size:14px;line-height:1.8;}
+  .date-note{width:100%;margin-left:0;}
+  .grid{grid-template-columns:1fr;}
+  .retouch-layout{grid-template-columns:1fr;}
+  .two-col{grid-template-columns:1fr;}
+  .watch-grid{grid-template-columns:1fr 1fr;}
+  .tool-flow{grid-template-columns:1fr 1fr;}
+  .section{padding:16px;margin-bottom:14px;}
+  .section-head{align-items:flex-start;}
+  .history-row{grid-template-columns:64px 1fr;}
+  .history-meta{grid-column:2/3;}
+}
+@media(max-width:460px){
+  .watch-grid{grid-template-columns:1fr;}
+  .tool-flow{grid-template-columns:1fr 1fr;}
+  .main-card{border-radius:9px;}
+  .section-title{font-size:18px;}
+  .news-card{min-height:auto;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="header">
+    <a class="logo" href="#">
+      <span class="title">AI Design Daily</span>
+      <span class="desc">Daily AI Updates for Designers</span>
+    </a>
+    <div class="nav" style="align-items:flex-end;">
+      <div class="date-switcher">
+        <button class="date-current">
+          2026/05/09（六）
+          <span class="arrow" aria-hidden="true"></span>
+        </button>
+        <div class="date-menu">
+          <a href="#" class="active">2026/05/09（六）</a>
+          <a href="#">2026/05/08（五）</a>
+          <a href="#">2026/05/07（四）</a>
+        </div>
+      </div>
+    </div>
+    
+  </header>
+
+  <main>
+    <section class="daily-panel" id="today">
+      <div class="daily-head">
+        <div>
+          <h1 class="daily-title">今日 AI 重點</h1>
+          
+        </div>
+      </div>
+
+      <div class="tabs" style="margin-bottom:18px;">
+        <button class="tab active">全部</button>
+        <button class="tab">AI 設計</button>
+        <button class="tab">Adobe</button>
+        <button class="tab">模型 / Agent</button>
+        <button class="tab">其他</button>
+      </div>
+
+      <div class="daily-list">
+        <article class="daily-item">
+          <div class="daily-meta">
+            <span class="tag dark">今日最重要</span>
+            <span class="tag brown">AI修圖</span>
+          </div>
+          <div>
+            <h2>Gemini 2.5 Pro 圖像編修更新</h2>
+            <p>改善局部編修穩定度與商品人物合成一致性。</p>
+          </div>
+          
+          
+          <div class="detail-box">
+            <ul>
+              <li>支援更細緻的局部圖像修改。</li>
+              <li>改善商品與人物合成一致性。</li>
+              <li>降低服裝與背景細節變形問題。</li>
+            </ul>
+          </div>
+          <div class="daily-actions">
+            <a class="btn sub" href="#">原文</a>
+          </div>
+        </article>
+
+        <article class="daily-item">
+          <div class="daily-meta">
+            <span class="tag dark">AI 生圖</span>
+            <span class="tag brown">Midjourney</span>
+          </div>
+          <div>
+            <h2>Midjourney 提升風格一致性與細節生成</h2>
+            <p>近期更新改善人物細節、材質表現與風格穩定度。</p>
+          </div>
+          
+          
+          <div class="detail-box">
+            <ul>
+              <li>提升人物、材質與場景風格一致性。</li>
+              <li>改善細節生成與畫面質感。</li>
+            </ul>
+          </div>
+          <div class="daily-actions">
+            <a class="btn sub" href="#">原文</a>
+          </div>
+        </article>
+
+        <article class="daily-item">
+          <div class="daily-meta">
+            <span class="tag dark">AI 動畫</span>
+            <span class="tag brown">Runway</span>
+          </div>
+          <div>
+            <h2>Runway 改善 AI 人物動作自然度</h2>
+            <p>近期更新開始改善 AI 動畫人物卡頓與肢體不自然問題。</p>
+          </div>
+          
+          
+          <div class="detail-box">
+            <ul>
+              <li>改善 AI 生成影片中的人物動作自然度。</li>
+              <li>降低肢體扭曲與動作卡頓感。</li>
+            </ul>
+          </div>
+          <div class="daily-actions">
+            <a class="btn sub" href="#">原文</a>
+          </div>
+        </article>
+
+        <article class="daily-item">
+          <div class="daily-meta">
+            <span class="tag dark">AI 3D</span>
+            <span class="tag brown">建模</span>
+          </div>
+          <div>
+            <h2>草圖 + 文字描述，可直接生成 3D 模型</h2>
+            <p>手繪草稿搭配文字描述即可快速建立基礎 3D 模型。</p>
+          </div>
+          <div class="detail-box">
+            <ul>
+              <li>可用手繪草圖建立初步模型輪廓。</li>
+              <li>搭配文字描述補充材質、形狀與用途。</li>
+            </ul>
+          </div>
+          <div class="daily-actions">
+            <a class="btn sub" href="#">原文</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="tools">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">熱門常用 AI 工具</h2>
+        </div>
+      </div>
+
+      <div class="tool-grid tool-flow">
+        <article class="tool-card">
+          <h4>人像修圖</h4>
+          <p>
+            <a href="#">Evoto</a> ·
+            <a href="#">Lightroom AI</a> ·
+            <a href="#">Luminar Neo</a>
+          </p>
+        </article>
+
+        <article class="tool-card">
+          <h4>商品修圖</h4>
+          <p>
+            <a href="#">Photoshop Firefly</a> ·
+            <a href="#">Flair AI</a> ·
+            <a href="#">Pebblely</a> ·
+            <a href="#">Photoroom</a> ·
+            <a href="#">Caspa AI</a>
+          </p>
+        </article>
+
+        <article class="tool-card">
+          <h4>去背</h4>
+          <p>
+            <a href="#">Remove.bg</a> ·
+            <a href="#">Clipdrop</a> ·
+            <a href="#">Cleanup.pictures</a>
+          </p>
+        </article>
+
+        <article class="tool-card">
+          <h4>放大清晰</h4>
+          <p>
+            <a href="#">Topaz Photo AI</a> ·
+            <a href="#">Magnific</a>
+          </p>
+        </article>
+
+        <article class="tool-card">
+          <h4>生圖</h4>
+          <p>
+            <a href="#">Midjourney</a> ·
+            <a href="#">Leonardo</a> ·
+            <a href="#">Flux</a> ·
+            <a href="#">Ideogram</a> ·
+            <a href="#">Stable Diffusion</a>
+          </p>
+        </article>
+
+        <article class="tool-card">
+          <h4>LOGO</h4>
+          <p>
+            <a href="#">Looka</a> ·
+            <a href="#">Brandmark</a> ·
+            <a href="#">LogoAI</a>
+          </p>
+        </article>
+
+        <article class="tool-card">
+          <h4>ICON / 插圖</h4>
+          <p>
+            <a href="#">Icons8 AI</a> ·
+            <a href="#">SVG.io</a> ·
+            <a href="#">illostration AI</a> ·
+            <a href="#">Khroma</a>
+          </p>
+        </article>
+
+        <article class="tool-card">
+          <h4>UI / 網頁</h4>
+          <p>
+            <a href="#">Figma AI</a> ·
+            <a href="#">Framer AI</a> ·
+            <a href="#">v0</a> ·
+            <a href="#">Relume</a>
+          </p>
+        </article>
+
+        <article class="tool-card">
+          <h4>排版設計</h4>
+          <p>
+            <a href="#">Canva AI</a> ·
+            <a href="#">Adobe Express</a> ·
+            <a href="#">Gamma</a> ·
+            <a href="#">Beautiful.ai</a> ·
+            <a href="#">Tome</a>
+          </p>
+        </article>
+
+        <article class="tool-card">
+          <h4>3D 建模</h4>
+          <p>
+            <a href="#">Tripo</a> ·
+            <a href="#">Spline</a> ·
+            <a href="#">Meshy</a> ·
+            <a href="#">Masterpiece X</a>
+          </p>
+        </article>
+
+        <article class="tool-card">
+          <h4>動畫</h4>
+          <p>
+            <a href="#">Pika</a> ·
+            <a href="#">AnimateDiff</a> ·
+            <a href="#">Tooncrafter</a> ·
+            <a href="#">Viggle</a>
+          </p>
+        </article>
+
+        <article class="tool-card">
+          <h4>影片</h4>
+          <p>
+            <a href="#">Runway</a> ·
+            <a href="#">Kling</a> ·
+            <a href="#">Sora</a> ·
+            <a href="#">Luma AI</a>
+          </p>
+        </article>
+
+        <article class="tool-card">
+          <h4>音樂 / 配音</h4>
+          <p>
+            <a href="#">Suno</a> ·
+            <a href="#">Udio</a> ·
+            <a href="#">ElevenLabs</a> ·
+            <a href="#">Voicemod</a>
+          </p>
+        </article>
+
+        <article class="tool-card">
+          <h4>室內建築</h4>
+          <p>
+            <a href="#">RoomGPT</a> ·
+            <a href="#">Interior AI</a> ·
+            <a href="#">Vizcom</a>
+          </p>
+        </article>
+
+        <article class="tool-card">
+          <h4>AI 試穿</h4>
+          <p>
+            <a href="#">IDM-VTON</a> ·
+            <a href="#">Fashn AI</a> ·
+            <a href="#">Kling Try-on</a>
+          </p>
+        </article>
+
+        <article class="tool-card">
+          <h4>模型 / Agent</h4>
+          <p>
+            <a href="#">ChatGPT</a> ·
+            <a href="#">Gemini</a> ·
+            <a href="#">Claude</a> ·
+            <a href="#">Perplexity</a> ·
+            <a href="#">Grok</a> ·
+            <a href="#">DeepSeek</a>
+          </p>
+        </article>
+
+        <article class="tool-card">
+          <h4>文件筆記</h4>
+          <p>
+            <a href="#">Notion AI</a> ·
+            <a href="#">NotebookLM</a> ·
+            <a href="#">Mem</a> ·
+            <a href="#">Craft AI</a>
+          </p>
+        </article>
+
+        <article class="tool-card">
+          <h4>工作流</h4>
+          <p>
+            <a href="#">n8n</a> ·
+            <a href="#">Make</a> ·
+            <a href="#">Zapier AI</a> ·
+            <a href="#">Relay.app</a>
+          </p>
+        </article>
+
+        <article class="tool-card">
+          <h4>AI Coding</h4>
+          <p>
+            <a href="#">Cursor</a> ·
+            <a href="#">Windsurf</a> ·
+            <a href="#">Bolt</a> ·
+            <a href="#">Replit AI</a>
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    AI Design Daily｜AI 情報整理更新
+  </footer>
+
+<script>
+async function loadNews(){
+  try{
+    const response = await fetch('./data/news.json');
+    const data = await response.json();
+
+    const currentDate = document.querySelector('.date-current');
+    const dateMenu = document.querySelector('.date-menu');
+    const dailyList = document.querySelector('.daily-list');
+
+    currentDate.innerHTML = `
+      ${data.currentDate}
+      <span class="arrow" aria-hidden="true"></span>
+    `;
+
+    dateMenu.innerHTML = data.dates.map((date,index)=>`
+      <a href="#" class="${index===0 ? 'active' : ''}">${date}</a>
+    `).join('');
+
+    dailyList.innerHTML = data.items.map(item => `
+      <article class="daily-item">
+        <div class="daily-meta">
+          <span class="tag dark">${item.important ? '今日最重要' : item.category}</span>
+          <span class="tag brown">${item.tag}</span>
+        </div>
+
+        <div>
+          <h2>${item.title}</h2>
+          <p>${item.summary}</p>
+        </div>
+
+        <div class="detail-box">
+          <ul>
+            ${item.points.map(point=>`<li>${point}</li>`).join('')}
+          </ul>
+        </div>
+
+        <div class="daily-actions">
+          <a class="btn sub" href="${item.url}" target="_blank">原文</a>
+        </div>
+      </article>
+    `).join('');
+
+  }catch(error){
+    console.error('news.json 讀取失敗', error);
+  }
+}
+
+loadNews();
+</script>
+</div>
+</body>
+</html>
