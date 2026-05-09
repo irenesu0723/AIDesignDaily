@@ -1,92 +1,98 @@
 {
-  "currentDate": "2026/05/09（六）",
+  "currentDate": "2026/05/10（日）",
   "dates": [
+    "2026/05/10（日）",
     "2026/05/09（六）",
     "2026/05/08（五）",
     "2026/05/07（四）",
     "2026/05/06（三）",
     "2026/05/05（二）",
-    "2026/05/04（一）",
-    "2026/05/03（日）"
+    "2026/05/04（一）"
   ],
   "items": [
     {
       "category": "AI 設計",
-      "tag": "個人化圖像",
-      "tool": "Gemini app",
+      "tag": "個人化圖像 / Google Photos",
+      "tool": "Gemini (App)",
       "important": true,
-      "title": "Gemini app：Nano Banana 2 用你的 Google Photos 生成更個人化的影像",
-      "summary": "Nano Banana 2 現在能利用個人上下文與 Google Photos，生成更貼近你生活與風格的圖片。",
+      "title": "Gemini App：Nano Banana 2 用你的 Google Photos 資料生成個人化圖像",
+      "summary": "Nano Banana 2 現在可利用個人背景與 Google Photos 生成反映你生活的個人化影像素材，對創作者與修圖流程具實用性。",
       "points": [
-        "可串接 Google Photos 與個人上下文，產出帶個人記憶感的影像素材",
-        "適合內容創作者、社群與品牌製作更具個人化的貼文與視覺素材"
+        "直接使用個人相簿與語境資訊生成更貼近使用者生活的圖像素材，適合客製化視覺內容。",
+        "可能改變設計師/內容創作者取得素材的流程，降低外包拍攝或後製成本。"
       ],
-      "url": "https://blog.google/innovation-and-ai/products/gemini-app/personal-intelligence-nano-banana/"
+      "url": "https://blog.google/innovation-and-ai/products/gemini-app/personal-intelligence-nano-banana/",
+      "relatedUrl": "https://www.google.com/search?q=Gemini+New+ways+to+create+personalized+images+in+the+Gemini+app+中文"
     },
     {
       "category": "模型 / Agent",
-      "tag": "Gemini API Webhooks",
+      "tag": "語音合成 / Flash TTS",
+      "tool": "Gemini 3.1",
+      "important": true,
+      "title": "Gemini 3.1 Flash TTS：更具表情與自然感的下一代語音合成",
+      "summary": "Gemini 3.1 的 Flash TTS 已部署到 Google 產品，提供更表情化與高品質的 AI 語音輸出，對配音與影片創作有直接影響。",
+      "points": [
+        "提升語音表情與自然度，對影片配音、廣告旁白與內容本地化有應用價值。",
+        "跨 Google 產品可用，創作者可更方便整合語音合成到工作流程。"
+      ],
+      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-tts/",
+      "relatedUrl": "https://www.google.com/search?q=Gemini+Gemini+3.1+Flash+TTS+中文"
+    },
+    {
+      "category": "模型 / Agent",
+      "tag": "API 推理層 / 成本延遲",
       "tool": "Gemini API",
       "important": true,
-      "title": "Gemini API 推出 Event‑Driven Webhooks，減少長任務輪詢延遲",
-      "summary": "Event‑Driven Webhooks 提供推送式通知，讓長時間或非同步任務不用頻繁輪詢。",
+      "title": "Gemini API：推出 Flex 與 Priority 兩種推理層，平衡成本與延遲",
+      "summary": "Google 在 Gemini API 新增 Flex 與 Priority 推理層，讓開發者在成本與回應延遲間做更細緻的配置。",
       "points": [
-        "替代輪詢以降低延遲與資源消耗",
-        "對影片渲染、長時間生成、或多步 agent 工作流的整合特別有幫助"
+        "Flex 與 Priority 提供不同成本/延遲選項，利於在影像/影片生成等大型工作流中控制開銷與速度。",
+        "對需要大規模批次生成或低延遲交互的創作管線特別實用。"
       ],
-      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/event-driven-webhooks/"
+      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-flex-and-priority-inference/",
+      "relatedUrl": "https://www.google.com/search?q=Gemini+New+ways+to+balance+cost+and+reliability+in+the+Gemini+API+中文"
     },
     {
       "category": "模型 / Agent",
-      "tag": "推論階層",
+      "tag": "Webhook / 長時間作業",
       "tool": "Gemini API",
       "important": true,
-      "title": "Gemini API 新增 Flex 與 Priority 推論層，平衡成本與延遲",
-      "summary": "Google 在 Gemini API 推出兩種推論階層，讓開發者依需求在成本與回應速度間取捨。",
+      "title": "Gemini API：Event-Driven Webhooks 減少長任務輪詢與延遲",
+      "summary": "Gemini API 現支援事件驅動 Webhooks，取代低效輪詢，讓長時間運算任務（如高解析影像/影片生成）更順暢。",
       "points": [
-        "Flex 提供較低成本的推論選項；Priority 則保證低延遲與更高可用性",
-        "適合設計工具決定何種生成任務需要優先保證回應時間"
+        "採用推播通知取代輪詢，降低延遲與資源浪費，適合處理大型生成與後製流程。",
+        "有助整合到自動化工作流，讓生成結果能即時觸發下一步處理或通知。"
       ],
-      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-flex-and-priority-inference/"
+      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/event-driven-webhooks/",
+      "relatedUrl": "https://www.google.com/search?q=Gemini+Reduce+friction+and+latency+for+long-running+jobs+with+Webhooks+in+Gemini+API+中文"
     },
     {
       "category": "模型 / Agent",
-      "tag": "語音合成 (TTS)",
-      "tool": "Gemini 3.1 Flash TTS",
-      "important": true,
-      "title": "Gemini 3.1 Flash TTS 上線：更自然、更具表情的 AI 語音",
-      "summary": "Gemini 3.1 Flash TTS 已在多項 Google 產品提供，更高表現力的語音輸出適合內容創作者配音與旁白。",
+      "tag": "長上下文 / Agents",
+      "tool": "DeepSeek",
+      "important": false,
+      "title": "DeepSeek‑V4：支援百萬 token 上下文的代理模型",
+      "summary": "DeepSeek‑V4 宣稱可實際被 agents 使用的百萬 token 上下文，讓代理能處理更龐大的文件與素材集合。",
       "points": [
-        "語音表情與自然度提升，利於影片與廣告配音使用",
-        "已整合至 Google 生態，方便直接在工具中產出音訊素材"
+        "對需要跨大量素材（設計稿、資產、說明文件）進行理解與操作的創作專案很有幫助。",
+        "長上下文能力可改善多步驟指令、版本管理與複雜設計決策的自動化。"
       ],
-      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-tts/"
-    },
-    {
-      "category": "AI 設計",
-      "tag": "影片生成",
-      "tool": "Google Vids (Lyria 3 / Veo 3.1)",
-      "important": true,
-      "title": "Google Vids：免費高品質影片生成與編輯（Lyria 3 + Veo 3.1）",
-      "summary": "Google Vids 引入由 Lyria 3 與 Veo 3.1 驅動的免費影片生成與新 AI 編輯功能，降低製作門檻。",
-      "points": [
-        "提供高品質的免費影片生成，適合短影片／社群內容快速製作與原型",
-        "與 Google 生態整合，可搭配圖片、語音與個人化素材加速工作流程"
-      ],
-      "url": "https://blog.google/products-and-platforms/products/workspace/google-vids-updates-lyria-veo/"
+      "url": "https://huggingface.co/blog/deepseekv4",
+      "relatedUrl": "https://www.google.com/search?q=DeepSeek+DeepSeek-V4+一百萬+token+上下文+中文"
     },
     {
       "category": "模型 / Agent",
-      "tag": "多模態長上下文",
+      "tag": "多模態 / 文件影音代理",
       "tool": "NVIDIA Nemotron 3 Nano Omni",
       "important": false,
-      "title": "NVIDIA Nemotron 3 Nano Omni：面向文件、音訊與影像的長上下文多模態模型",
-      "summary": "Nemotron 3 Nano Omni 支援長上下文與多模態輸入，強化文件、音訊與影片代理任務的理解能力。",
+      "title": "NVIDIA Nemotron 3 Nano Omni：面向文件、音頻與影片的長上下文多模態智慧",
+      "summary": "NVIDIA 發表 Nemotron 3 Nano Omni，主打文件、音頻與影片等多模態長上下文處理，利於打造影音與文件代理工具。",
       "points": [
-        "針對文件與影音代理優化，能處理更長的內容與跨媒體訊息",
-        "對想要打造長影片自動摘要、素材檢索或跨媒體工作流的團隊有參考價值"
+        "強化文件與影音的長上下文理解與生成，對影片剪輯、自動摘要及多媒體指令有幫助。",
+        "可以用於構建能處理長影片/錄音與相關資產的創作型 agent。"
       ],
-      "url": "https://huggingface.co/blog/nvidia/nemotron-3-nano-omni-multimodal-intelligence"
+      "url": "https://huggingface.co/blog/nvidia/nemotron-3-nano-omni-multimodal-intelligence",
+      "relatedUrl": "https://www.google.com/search?q=NVIDIA+Nemotron+3+Nano+Omni+Long-Context+Multimodal+Intelligence+中文"
     }
   ]
 }
