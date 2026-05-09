@@ -41,7 +41,7 @@ button,input{font:inherit}
 .date-menu::-webkit-scrollbar{width:6px;}
 .date-menu::-webkit-scrollbar-thumb{background:#d8d8d8;border-radius:999px;}
 .date-menu::-webkit-scrollbar-track{background:transparent;}
-.date-switcher:hover .date-menu{opacity:1;pointer-events:auto;transform:translateY(0);}
+.date-switcher.open .date-menu{opacity:1;pointer-events:auto;transform:translateY(0);}
 .date-menu a{padding:10px 16px;font-size:14px;color:#666;transition:.15s ease;border-radius:0;border:0;background:transparent;}
 .date-menu a:hover,.date-menu a.active{background:#f1f1f1;color:#8b765f;}
 .daily-panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:14px;}
@@ -205,7 +205,9 @@ function normalizeNewsData(data){
   const items = Array.isArray(safeData.items) ? safeData.items : [];
   return {
     currentDate: safeData.currentDate || FALLBACK_NEWS.currentDate,
-    dates: Array.isArray(safeData.dates) && safeData.dates.length ? safeData.dates : [safeData.currentDate || FALLBACK_NEWS.currentDate],
+    dates: Array.isArray(safeData.availableDates) && safeData.availableDates.length
+      ? safeData.availableDates
+      : [safeData.currentDate || FALLBACK_NEWS.currentDate],
     items: items.map(item => ({
       category: item.category || "其他",
       tag: item.tag || item.tool || "AI",
@@ -241,24 +243,28 @@ async function fetchNewsJson(){
 }
 
 function setDateMenu(data){
+  const switcher = document.querySelector('.date-switcher');
   const currentDate = document.querySelector('.date-current');
   const dateMenu = document.querySelector('.date-menu');
+  const dates = Array.isArray(data.dates) && data.dates.length ? data.dates : [data.currentDate];
 
   currentDate.innerHTML = `
     <span class="current-date-text">${data.currentDate}</span>
     <span class="arrow" aria-hidden="true"></span>
   `;
 
-  dateMenu.innerHTML = data.dates.map((date,index)=>`
+  dateMenu.innerHTML = dates.map((date,index)=>`
     <a href="#" data-date="${date}" class="${index===0 ? 'active' : ''}">${date}</a>
   `).join('');
 
-  const menuLinks = dateMenu.querySelectorAll('a');
+  currentDate.onclick = (e)=>{
+    e.preventDefault();
+    switcher.classList.toggle('open');
+  };
 
-  menuLinks.forEach(link=>{
+  dateMenu.querySelectorAll('a').forEach(link=>{
     link.addEventListener('click',(e)=>{
       e.preventDefault();
-
       const selectedDate = link.dataset.date;
 
       currentDate.innerHTML = `
@@ -266,12 +272,14 @@ function setDateMenu(data){
         <span class="arrow" aria-hidden="true"></span>
       `;
 
-      menuLinks.forEach(item=>item.classList.remove('active'));
+      dateMenu.querySelectorAll('a').forEach(item=>item.classList.remove('active'));
       link.classList.add('active');
-
-      // 之後可在這裡接真正歷史資料切換
-      console.log('切換日期：', selectedDate);
+      switcher.classList.remove('open');
     });
+  });
+
+  document.addEventListener('click',(e)=>{
+    if(!switcher.contains(e.target)) switcher.classList.remove('open');
   });
 }
 
