@@ -1,92 +1,92 @@
 {
   "currentDate": "2026/05/09（六）",
   "dates": [
-    "2026/05/09（六）"
+    "2026/05/09（六）",
+    "2026/05/08（五）",
+    "2026/05/07（四）",
+    "2026/05/06（三）",
+    "2026/05/05（二）",
+    "2026/05/04（一）",
+    "2026/05/03（日）"
   ],
   "items": [
     {
       "category": "AI 設計",
       "tag": "個人化圖像",
-      "tool": "Gemini (Nano Banana 2)",
+      "tool": "Gemini app",
       "important": true,
-      "title": "Gemini 應用：用你的相片與個人語境生成個人化影像（Nano Banana 2）",
-      "summary": "Nano Banana 2 可存取 Google Photos 與使用者上下文，生成更貼近個人生活與長相的影像，適合做個人化素材、社群圖或商品情境圖。",
+      "title": "Gemini app：Nano Banana 2 用你的 Google Photos 生成更個人化的影像",
+      "summary": "Nano Banana 2 現在能利用個人上下文與 Google Photos，生成更貼近你生活與風格的圖片。",
       "points": [
-        "可使用個人相片與生活語境提高生成圖的真實感與一致性。",
-        "適合快速做個人化行銷素材、社群貼文或產品情境 mockup。",
-        "注意隱私設定與授權：會存取 Google Photos 的資料以產生結果。"
+        "可串接 Google Photos 與個人上下文，產出帶個人記憶感的影像素材",
+        "適合內容創作者、社群與品牌製作更具個人化的貼文與視覺素材"
       ],
       "url": "https://blog.google/innovation-and-ai/products/gemini-app/personal-intelligence-nano-banana/"
     },
     {
-      "category": "AI 設計",
-      "tag": "語音合成",
+      "category": "模型 / Agent",
+      "tag": "Gemini API Webhooks",
+      "tool": "Gemini API",
+      "important": true,
+      "title": "Gemini API 推出 Event‑Driven Webhooks，減少長任務輪詢延遲",
+      "summary": "Event‑Driven Webhooks 提供推送式通知，讓長時間或非同步任務不用頻繁輪詢。",
+      "points": [
+        "替代輪詢以降低延遲與資源消耗",
+        "對影片渲染、長時間生成、或多步 agent 工作流的整合特別有幫助"
+      ],
+      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/event-driven-webhooks/"
+    },
+    {
+      "category": "模型 / Agent",
+      "tag": "推論階層",
+      "tool": "Gemini API",
+      "important": true,
+      "title": "Gemini API 新增 Flex 與 Priority 推論層，平衡成本與延遲",
+      "summary": "Google 在 Gemini API 推出兩種推論階層，讓開發者依需求在成本與回應速度間取捨。",
+      "points": [
+        "Flex 提供較低成本的推論選項；Priority 則保證低延遲與更高可用性",
+        "適合設計工具決定何種生成任務需要優先保證回應時間"
+      ],
+      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-flex-and-priority-inference/"
+    },
+    {
+      "category": "模型 / Agent",
+      "tag": "語音合成 (TTS)",
       "tool": "Gemini 3.1 Flash TTS",
       "important": true,
-      "title": "Gemini 3.1 Flash TTS：下一代有表情的 AI 語音",
-      "summary": "Gemini 3.1 Flash TTS 推出，更自然、有表情的語音合成，已在多項 Google 產品中上線，適用於配音、導覽與介面語音回應。",
+      "title": "Gemini 3.1 Flash TTS 上線：更自然、更具表情的 AI 語音",
+      "summary": "Gemini 3.1 Flash TTS 已在多項 Google 產品提供，更高表現力的語音輸出適合內容創作者配音與旁白。",
       "points": [
-        "生成語音更具情感與語氣變化，適合旁白、UI 配音、產品 Demo。",
-        "可降低配音製作成本、加速多語系試聽與本地化流程。",
-        "設計師可用於快速原型配音或加入影片/互動介面中提升沉浸感。"
+        "語音表情與自然度提升，利於影片與廣告配音使用",
+        "已整合至 Google 生態，方便直接在工具中產出音訊素材"
       ],
       "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-tts/"
     },
     {
       "category": "AI 設計",
       "tag": "影片生成",
-      "tool": "Google Vids (Lyria 3, Veo 3.1)",
+      "tool": "Google Vids (Lyria 3 / Veo 3.1)",
       "important": true,
-      "title": "Google Vids：免費的 AI 影片創作與編輯（Lyria 3 / Veo 3.1）",
-      "summary": "Google Vids 導入 Lyria 3 與 Veo 3.1，提供免費且高品質的影片生成功能與編輯工具，對內容行銷與快速原型很有用。",
+      "title": "Google Vids：免費高品質影片生成與編輯（Lyria 3 + Veo 3.1）",
+      "summary": "Google Vids 引入由 Lyria 3 與 Veo 3.1 驅動的免費影片生成與新 AI 編輯功能，降低製作門檻。",
       "points": [
-        "可生成高品質影片並進行編輯、分享，降低影片產出門檻。",
-        "適合做短影片行銷素材、產品展示或 UI 動態示範。",
-        "留意產權、素材來源與品質控制，視需求做二次調整。"
+        "提供高品質的免費影片生成，適合短影片／社群內容快速製作與原型",
+        "與 Google 生態整合，可搭配圖片、語音與個人化素材加速工作流程"
       ],
       "url": "https://blog.google/products-and-platforms/products/workspace/google-vids-updates-lyria-veo/"
     },
     {
       "category": "模型 / Agent",
-      "tag": "Prompt 工具",
-      "tool": "Chrome Skills",
-      "important": true,
-      "title": "Chrome Skills：把常用 prompt 變成一鍵工具",
-      "summary": "Skills in Chrome 讓你發現、儲存與 remix AI 工作流程，將常用提示整合成可重複執行的一鍵操作，適合加速設計研究與素材產出流程。",
-      "points": [
-        "可把複雜 prompt 與步驟包成一鍵操作，省去重複輸入與調整時間。",
-        "對設計師來說方便做風格一致的圖片生成、文案草稿或參考收集。",
-        "可與瀏覽流程結合，快速把網頁內容轉成設計素材或 brief。"
-      ],
-      "url": "https://blog.google/products-and-platforms/products/chrome/skills-in-chrome/"
-    },
-    {
-      "category": "模型 / Agent",
-      "tag": "API / Webhooks",
-      "tool": "Gemini API (Event-Driven Webhooks)",
+      "tag": "多模態長上下文",
+      "tool": "NVIDIA Nemotron 3 Nano Omni",
       "important": false,
-      "title": "Gemini API：Event‑Driven Webhooks 減少長任務延遲與輪詢",
-      "summary": "Gemini API 新增 Webhooks（推送通知）機制，避免頻繁輪詢，對需要處理長時間生成或批次工作的設計工具與後端整合很有幫助。",
+      "title": "NVIDIA Nemotron 3 Nano Omni：面向文件、音訊與影像的長上下文多模態模型",
+      "summary": "Nemotron 3 Nano Omni 支援長上下文與多模態輸入，強化文件、音訊與影片代理任務的理解能力。",
       "points": [
-        "推送式通知替代輪詢，降低延遲與資源消耗。",
-        "適合整合長時間生成的影像、影片或批量任務的後端流程。",
-        "對建立即時通知、任務追蹤與自動化流水線很有價值。"
+        "針對文件與影音代理優化，能處理更長的內容與跨媒體訊息",
+        "對想要打造長影片自動摘要、素材檢索或跨媒體工作流的團隊有參考價值"
       ],
-      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/event-driven-webhooks/"
-    },
-    {
-      "category": "模型 / Agent",
-      "tag": "API 推論分層",
-      "tool": "Gemini API (Flex & Priority)",
-      "important": true,
-      "title": "Gemini API 推出 Flex 與 Priority 推論層級：成本與延遲可平衡",
-      "summary": "Gemini API 新增 Flex（成本優化）與 Priority（低延遲）兩種推論層級，讓團隊可依工作型態在成本與回應時間間做取捨。",
-      "points": [
-        "Flex：較低成本、適合非即時或批量處理；Priority：低延遲、適合互動式工具與即時 UX。",
-        "對設計工具或整合服務，能明確規劃預算與使用體驗期望。",
-        "建議根據任務（互動原型 vs 背景批次生成）選擇推論層級以優化成本。"
-      ],
-      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-flex-and-priority-inference/"
+      "url": "https://huggingface.co/blog/nvidia/nemotron-3-nano-omni-multimodal-intelligence"
     }
   ]
 }
