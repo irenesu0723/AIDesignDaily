@@ -1,10 +1,8 @@
-// AI Design Daily - RSS + OpenAI 摘要分類
-// 核心規則：
-// 1. 第一優先：Evoto / Adobe / Firefly / Midjourney / Runway / ChatGPT / Gemini
-// 2. 熱門常用 AI 工具為其次，有重大更新或新聞也收錄
-// 3. 模型 / Agent 也會進今日 AI 重點
-// 4. 分不到類別一律放「其他」
-// 5. 自動產生 relatedUrl：Google 中文搜尋
+// AI Design Daily - RSS + OpenAI 摘要分類 + 每日歷史資料
+// 會輸出：
+// 1. data/news.json                  最新資料
+// 2. data/history/YYYY-MM-DD.json    每日歷史資料
+// 3. data/index.json                 日期下拉索引
 
 const fs = require("fs");
 const path = require("path");
@@ -12,7 +10,10 @@ const path = require("path");
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const MODEL = process.env.OPENAI_MODEL || "gpt-5-mini";
 
-const OUTPUT_PATH = path.join(__dirname, "../data/news.json");
+const DATA_DIR = path.join(__dirname, "../data");
+const HISTORY_DIR = path.join(DATA_DIR, "history");
+const LATEST_PATH = path.join(DATA_DIR, "news.json");
+const INDEX_PATH = path.join(DATA_DIR, "index.json");
 
 const RSS_SOURCES = [
   "https://openai.com/news/rss.xml",
@@ -67,6 +68,8 @@ function stripHtml(html = "") {
     .replace(/<[^>]+>/g, " ")
     .replace(/&nbsp;/g, " ")
     .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -115,7 +118,6 @@ async function fetchRSS(url) {
 
 function scoreItem(item) {
   const text = `${item.title} ${item.summary}`.toLowerCase();
-
   let score = 0;
 
   for (const tool of PRIORITY_TOOLS) {
@@ -153,6 +155,11 @@ function removeDuplicates(items) {
     seen.add(key);
     return true;
   });
+}
+
+function makeRelatedUrl(tool, title) {
+  const query = `${tool || "AI"} ${title || "AI 更新"} 中文`;
+  return `https://www.google.com/search?q=${encodeURIComponent(query)}`;
 }
 
 async function summarizeWithAI(items) {
@@ -293,12 +300,7 @@ ${JSON.stringify(items.slice(0, 40), null, 2)}
   return parsed;
 }
 
-function makeRelatedUrl(tool, title) {
-  const query = `${tool || "AI"} ${title || "AI 更新"} 中文`;
-  return `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-}
-
-function getTaipeiDate(offsetDays = 0) {
+function getTaipeiDateParts(offsetDays = 0) {
   const now = new Date();
   now.setDate(now.getDate() + offsetDays);
 
@@ -315,13 +317,42 @@ function getTaipeiDate(offsetDays = 0) {
   const d = parts.find(p => p.type === "day").value;
   const w = parts.find(p => p.type === "weekday").value.replace("週", "");
 
-  return `${y}/${m}/${d}（${w}）`;
+  return {
+    fileDate: `${y}-${m}-${d}`,
+    label: `${y}/${m}/${d}（${w}）`
+  };
+}
+
+function readJsonIfExists(filePath, fallback) {
+  try {
+    if (!fs.existsSync(filePath)) return fallback;
+    return JSON.parse(fs.readFileSync(filePath, "utf8"));
+  } catch {
+    return fallback;
+  }
+}
+
+function updateDateIndex(todayLabel, todayFile) {
+  const existing = readJsonIfExists(INDEX_PATH, { dates: [] });
+  const dates = Array.isArray(existing.dates) ? existing.dates : [];
+
+  const withoutToday = dates.filter(item => item.file !== todayFile);
+
+  const updated = [
+    { label: todayLabel, file: todayFile },
+    ...withoutToday
+  ].slice(0, 60);
+
+  fs.writeFileSync(INDEX_PATH, JSON.stringify({ dates: updated }, null, 2), "utf8");
 }
 
 function runTests() {
   console.assert(scoreItem({ title: "Evoto new AI retouch update", summary: "" }) >= 10, "Evoto 應為高優先");
   console.assert(scoreItem({ title: "Random company funding news", summary: "" }) < 10, "一般商業新聞不應高分");
   console.assert(makeRelatedUrl("Evoto", "AI 修圖更新").includes("google.com/search"), "relatedUrl 應為 Google 搜尋");
+
+  const today = getTaipeiDateParts();
+  console.assert(today.fileDate.match(/^\d{4}-\d{2}-\d{2}$/), "fileDate 格式應為 YYYY-MM-DD");
 }
 
 async function main() {
@@ -344,24 +375,26 @@ async function main() {
 
   const aiResult = await summarizeWithAI(relevant);
 
+  const today = getTaipeiDateParts(0);
+  const historyFile = `${today.fileDate}.json`;
+  const historyPath = path.join(HISTORY_DIR, historyFile);
+
   const output = {
-    currentDate: getTaipeiDate(0),
-    dates: [
-      getTaipeiDate(0),
-      getTaipeiDate(-1),
-      getTaipeiDate(-2),
-      getTaipeiDate(-3),
-      getTaipeiDate(-4),
-      getTaipeiDate(-5),
-      getTaipeiDate(-6)
-    ],
+    currentDate: today.label,
+    dates: [today.label],
     items: aiResult.items
   };
 
-  fs.mkdirSync(path.dirname(OUTPUT_PATH), { recursive: true });
-  fs.writeFileSync(OUTPUT_PATH, JSON.stringify(output, null, 2), "utf8");
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+  fs.mkdirSync(HISTORY_DIR, { recursive: true });
 
-  console.log(`已更新 ${OUTPUT_PATH}`);
+  fs.writeFileSync(LATEST_PATH, JSON.stringify(output, null, 2), "utf8");
+  fs.writeFileSync(historyPath, JSON.stringify(output, null, 2), "utf8");
+  updateDateIndex(today.label, historyFile);
+
+  console.log(`已更新 ${LATEST_PATH}`);
+  console.log(`已備份 ${historyPath}`);
+  console.log(`已更新 ${INDEX_PATH}`);
   console.log(`收錄 ${output.items.length} 則 AI 重點`);
 }
 
