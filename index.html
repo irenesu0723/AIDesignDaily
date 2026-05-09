@@ -245,13 +245,34 @@ function setDateMenu(data){
   const dateMenu = document.querySelector('.date-menu');
 
   currentDate.innerHTML = `
-    ${data.currentDate}
+    <span class="current-date-text">${data.currentDate}</span>
     <span class="arrow" aria-hidden="true"></span>
   `;
 
   dateMenu.innerHTML = data.dates.map((date,index)=>`
-    <a href="#" class="${index===0 ? 'active' : ''}">${date}</a>
+    <a href="#" data-date="${date}" class="${index===0 ? 'active' : ''}">${date}</a>
   `).join('');
+
+  const menuLinks = dateMenu.querySelectorAll('a');
+
+  menuLinks.forEach(link=>{
+    link.addEventListener('click',(e)=>{
+      e.preventDefault();
+
+      const selectedDate = link.dataset.date;
+
+      currentDate.innerHTML = `
+        <span class="current-date-text">${selectedDate}</span>
+        <span class="arrow" aria-hidden="true"></span>
+      `;
+
+      menuLinks.forEach(item=>item.classList.remove('active'));
+      link.classList.add('active');
+
+      // 之後可在這裡接真正歷史資料切換
+      console.log('切換日期：', selectedDate);
+    });
+  });
 }
 
 function renderNewsList(items){
