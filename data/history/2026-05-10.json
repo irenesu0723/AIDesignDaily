@@ -5,19 +5,88 @@
   ],
   "items": [
     {
-      "category": "AI 設計",
-      "tag": "AI修圖",
-      "tool": "Evoto",
+      "category": "模型 / Agent",
+      "tag": "個人化圖像、Google Photos",
+      "tool": "Gemini",
       "important": true,
-      "title": "範例：Evoto AI 修圖更新摘要",
-      "summary": "這是測試資料，Actions 成功後會自動換成真正抓取與摘要的內容。",
+      "title": "Gemini 用 Nano Banana 2 在 App 內生成更個人化的影像",
+      "summary": "Nano Banana 2 開始使用個人上下文與 Google Photos，生成更能反映使用者生活的個人化圖像。",
       "points": [
-        "確認 index.html 可讀取 data/news.json。",
-        "確認日期下拉可讀取 data/index.json。",
-        "確認原文與相關文章按鈕正常顯示。"
+        "可讀取個人資料與相簿，產出與生活情境一致的圖像素材。",
+        "對內容創作者與社群經營者有助於快速製作個人化素材與情境化照片。"
       ],
-      "url": "https://evoto.ai",
-      "relatedUrl": "https://www.google.com/search?q=Evoto%20AI%20%E4%BF%AE%E5%9C%96%20%E6%9B%B4%E6%96%B0%20%E4%B8%AD%E6%96%87"
+      "url": "https://blog.google/innovation-and-ai/products/gemini-app/personal-intelligence-nano-banana/",
+      "relatedUrl": "https://www.google.com/search?q=Gemini+Nano+Banana+2+個人化+影像+更新"
+    },
+    {
+      "category": "模型 / Agent",
+      "tag": "語音合成、TTS",
+      "tool": "Gemini",
+      "important": true,
+      "title": "Gemini 3.1 Flash TTS：更有表情的 AI 語音",
+      "summary": "Gemini 3.1 Flash TTS 推出具表情與高表現力的語音合成功能，已在多個 Google 產品上可用。",
+      "points": [
+        "表情豐富的語音輸出適合配音、旁白與內容創作。",
+        "跨產品可用，能整合至影片剪輯與多媒體工作流中。"
+      ],
+      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-tts/",
+      "relatedUrl": "https://www.google.com/search?q=Gemini+3.1+Flash+TTS+表情+語音+更新"
+    },
+    {
+      "category": "模型 / Agent",
+      "tag": "API、成本管理、延遲",
+      "tool": "Gemini API",
+      "important": true,
+      "title": "Gemini API 推出 Flex 與 Priority 兩種推理等級",
+      "summary": "Google 在 Gemini API 中新增 Flex 與 Priority 推理層級，讓開發者在成本與延遲間做選擇。",
+      "points": [
+        "Flex 提供更低成本選項，Priority 提供更低延遲的即時回應。",
+        "對影像/生成任務與設計系統可根據需求優化成本或速度。"
+      ],
+      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-flex-and-priority-inference/",
+      "relatedUrl": "https://www.google.com/search?q=Gemini+API+Flex+Priority+推理+等級+更新"
+    },
+    {
+      "category": "模型 / Agent",
+      "tag": "Webhooks、工作流整合",
+      "tool": "Gemini API",
+      "important": true,
+      "title": "Gemini API 支援事件驅動 Webhooks，降低長任務輪詢延遲",
+      "summary": "Gemini API 新增 Event-Driven Webhooks，將長時間處理任務改為推播通知，減少輪詢負擔。",
+      "points": [
+        "適合長時間的圖像/影片生成或多步驟代理任務的工作流整合。",
+        "可用於自動化通知、結果回調，提升生產效率與使用者體驗。"
+      ],
+      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/event-driven-webhooks/",
+      "relatedUrl": "https://www.google.com/search?q=Gemini+API+Webhooks+長任務+推播+更新"
+    },
+    {
+      "category": "模型 / Agent",
+      "tag": "長上下文、代理",
+      "tool": "DeepSeek",
+      "important": false,
+      "title": "DeepSeek‑V4：可用的百萬 Token 長上下文",
+      "summary": "DeepSeek‑V4 支援百萬 token 的超長上下文，讓代理系統能實際利用超大記憶窗口。",
+      "points": [
+        "超長上下文有利於處理長文件、影像時間軸與跨專案記憶。",
+        "對需要維持整體專案脈絡的設計與內容團隊很有幫助。"
+      ],
+      "url": "https://huggingface.co/blog/deepseekv4",
+      "relatedUrl": "https://www.google.com/search?q=DeepSeek+V4+百萬+token+上下文+更新"
+    },
+    {
+      "category": "模型 / Agent",
+      "tag": "多模態、文件/音訊/影像代理",
+      "tool": "NVIDIA Nemotron",
+      "important": false,
+      "title": "NVIDIA 發表 Nemotron 3 Nano Omni：長上下文多模態智能",
+      "summary": "Nemotron 3 Nano Omni 是面向文件、音訊與影像代理的長上下文多模態模型，強化代理在多媒體任務的能力。",
+      "points": [
+        "針對文件與影音代理優化長時間軸理解與處理。",
+        "可用於轉錄、內容理解與複雜多模態工作流的自動化。"
+      ],
+      "url": "https://huggingface.co/blog/nvidia/nemotron-3-nano-omni-multimodal-intelligence",
+      "relatedUrl": "https://www.google.com/search?q=NVIDIA+Nemotron+3+Nano+Omni+多模態+更新"
     }
   ]
 }
