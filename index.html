@@ -37,7 +37,10 @@ button,input{font:inherit}
 .date-current{height:44px;min-width:220px;padding:0 16px;border:1px solid #dcdcdc;border-radius:12px;background:#fff;color:#555;font-size:15px;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;transition:.18s ease;box-shadow:0 1px 2px rgba(0,0,0,.03);}
 .date-current:hover{border-color:#cfcfcf;background:#fcfcfc;}
 .date-current .arrow{width:14px;height:14px;display:inline-block;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") center/14px 14px no-repeat;font-size:0;line-height:0;}
-.date-menu{position:absolute;top:46px;right:0;min-width:220px;background:#fff;border:1px solid #e6e6e6;border-radius:12px;padding:6px 0;box-shadow:0 10px 30px rgba(0,0,0,.08);display:grid;gap:0;opacity:0;pointer-events:none;transform:translateY(4px);transition:.18s ease;z-index:20;}
+.date-menu{position:absolute;top:46px;right:0;min-width:220px;max-height:260px;overflow-y:auto;background:#fff;border:1px solid #e6e6e6;border-radius:12px;padding:6px 0;box-shadow:0 10px 30px rgba(0,0,0,.08);display:grid;gap:0;opacity:0;pointer-events:none;transform:translateY(4px);transition:.18s ease;z-index:20;scrollbar-width:thin;}
+.date-menu::-webkit-scrollbar{width:6px;}
+.date-menu::-webkit-scrollbar-thumb{background:#d8d8d8;border-radius:999px;}
+.date-menu::-webkit-scrollbar-track{background:transparent;}
 .date-switcher:hover .date-menu{opacity:1;pointer-events:auto;transform:translateY(0);}
 .date-menu a{padding:10px 16px;font-size:14px;color:#666;transition:.15s ease;border-radius:0;border:0;background:transparent;}
 .date-menu a:hover,.date-menu a.active{background:#f1f1f1;color:#8b765f;}
