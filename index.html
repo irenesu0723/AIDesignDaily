@@ -47,7 +47,6 @@ button,input{font:inherit}
 .daily-panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:14px;}
 .daily-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px;}
 .daily-title{margin:0;font-size:34px;line-height:1.25;font-weight:400;color:#333;letter-spacing:-0.02em;}
-.daily-sub{font-size:18px;color:var(--sub);line-height:1.7;margin-top:10px;}
 .daily-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:stretch;}
 .daily-item{position:relative;display:flex;flex-direction:column;gap:14px;border:1px solid var(--line2);border-radius:12px;background:#fff;padding:18px 18px 16px;min-height:320px;height:100%;overflow:hidden;}
 .daily-meta{display:flex;flex-direction:row;gap:8px;align-items:center;flex-wrap:wrap;}
@@ -56,67 +55,22 @@ button,input{font:inherit}
 .daily-actions{display:flex;gap:8px;white-space:nowrap;padding-top:8px;margin-top:auto;position:relative;z-index:3;}
 .detail-box{margin-top:10px;color:#666;font-size:16px;line-height:1.88;min-height:100px;}
 .detail-box ul{margin:0;padding-left:18px;}
+.empty-state{grid-column:1/-1;border:1px dashed #dddddd;border-radius:12px;background:#fafafa;color:#777;padding:26px;text-align:center;font-size:15px;line-height:1.8;}
 .main-card,.side-card,.section,.mini-card,.tool-card,.history-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);}
-.main-card{padding:28px;min-height:320px;display:flex;flex-direction:column;justify-content:space-between;border:0;box-shadow:none;border-radius:0;background:transparent;}
-.eyebrow{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;margin-bottom:12px;width:100%;}
 .tag{display:inline-flex;align-items:center;border-radius:999px;background:#f1f1f1;color:#666;border:0;font-size:13px;line-height:1;padding:7px 11px;white-space:nowrap;}
 .tag.dark{background:#707070;color:#fff;border:0;}
 .tag.brown{background:#ededed;color:#666;border:0;}
-.hero h1{margin:0 0 10px;font-size:38px;line-height:1.28;font-weight:500;color:#222;max-width:720px;letter-spacing:-0.02em;}
-.hero p{margin:0;color:#666;font-size:15px;line-height:1.8;max-width:560px;}
-.action-row{display:flex;align-items:center;gap:10px;flex-wrap:nowrap;margin-top:22px;width:100%;}
 .btn{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:10px 16px;font-size:14px;border:1px solid var(--main);background:var(--main);color:#fff;min-height:38px;cursor:pointer;}
-
 .btn.sub{background:#fff;color:#555;border-color:var(--line);}
-.date-note{font-size:12px;color:var(--muted);margin-left:auto;text-align:right;white-space:nowrap;display:inline-flex;align-items:center;line-height:1;}
-.side-list{display:grid;gap:10px;}
-.side-card{padding:16px;display:flex;flex-direction:column;gap:8px;transition:.2s ease;cursor:pointer;}
-.side-card:hover{transform:translateY(-2px);border-color:#d8d8d8;}
-.card-link{display:inline-flex;align-items:center;gap:5px;width:max-content;margin-top:3px;font-size:13px;line-height:1;color:var(--main);border-bottom:1px solid rgba(139,118,95,.35);padding-bottom:3px;}
-.card-link::after{content:'↓';font-size:11px;transform:translateY(-1px);}
-.side-card .kicker{font-size:13px;color:var(--main);}
-.side-card h3{margin:0;font-size:17px;line-height:1.45;font-weight:400;}
-.side-card p{margin:0;color:#777;font-size:13px;line-height:1.6;}
 .section{padding:18px 20px;margin-bottom:14px;background:#fff;transition:.2s ease;}
 .section:hover{transform:translateY(-1px);} 
 .section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:16px;}
 .section-title{margin:0;font-size:34px;line-height:1.25;font-weight:400;color:#333;letter-spacing:-0.02em;}
-.section-sub{font-size:18px;color:#777;line-height:1.7;margin-top:10px;}
-.more-link{font-size:14px;color:var(--main);white-space:nowrap;}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
-.news-card{background:#fff;border:1px solid var(--line2);border-radius:9px;padding:16px;display:flex;flex-direction:column;gap:10px;min-height:210px;}
-.news-card h3{margin:0;font-size:17px;line-height:1.55;font-weight:400;color:#333;}
-.news-card p{margin:0;color:#666;font-size:14px;line-height:1.75;}
-.news-card .foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:auto;padding-top:8px;border-top:1px solid #f1f1f1;color:#999;font-size:13px;}
-.source{color:var(--main);}
 .tabs{display:flex;gap:26px;overflow-x:auto;padding-top:10px;padding-bottom:10px;margin-bottom:18px;scrollbar-width:none;}
 .tabs::-webkit-scrollbar{display:none;}
-.tab{position:relative;flex:0 0 auto;border:0;background:transparent;border-radius:0;padding:0 0 14px;font-size:18px;color:#888;line-height:1.1;}
+.tab{position:relative;flex:0 0 auto;border:0;background:transparent;border-radius:0;padding:0 0 14px;font-size:18px;color:#888;line-height:1.1;cursor:pointer;}
 .tab.active{background:transparent;color:#333;border-color:transparent;}
 .tab.active::after{content:'';position:absolute;left:0;bottom:-1px;width:100%;height:2px;background:#666;border-radius:999px;}
-.retouch-layout{display:grid;grid-template-columns:1.05fr 1fr;gap:12px;}
-.feature-card{background:#fafafa;border:1px solid var(--line2);border-radius:9px;padding:18px;}
-.feature-card h3{font-size:19px;line-height:1.45;margin:0 0 10px;font-weight:400;}
-.feature-card p{font-size:14px;line-height:1.8;color:#666;margin:0 0 14px;}
-.score-list{display:grid;gap:8px;}
-.score-row{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #ededed;padding-top:8px;font-size:14px;color:#666;}
-.score-row span:last-child{color:#333;letter-spacing:.08em;}
-.mini-list{display:grid;gap:10px;}
-.mini-card{box-shadow:none;padding:14px;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;}
-.num{width:28px;height:28px;border-radius:50%;background:#f1f1f1;border:1px solid #e5e5e5;color:#777;display:flex;align-items:center;justify-content:center;font-size:12px;}
-.mini-card h4{margin:0 0 4px;font-size:16px;line-height:1.4;font-weight:400;}
-.mini-card p{margin:0;font-size:14px;color:#777;line-height:1.6;}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.adobe-list{display:grid;gap:10px;}
-.adobe-item{display:flex;justify-content:space-between;gap:12px;align-items:center;border:1px solid var(--line2);border-radius:10px;background:#fff;padding:16px;}
-.adobe-item h4{margin:0 0 4px;font-size:16px;font-weight:400;line-height:1.4;}
-.adobe-item p{margin:0;font-size:14px;color:#777;line-height:1.5;}
-.adobe-item .label{font-size:12px;color:#999;white-space:nowrap;}
-.watch-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
-.watch-card{border:1px solid var(--line2);border-radius:9px;background:#fafafa;padding:14px;min-height:130px;}
-.watch-card .small{font-size:12px;color:var(--main);margin-bottom:8px;}
-.watch-card h4{margin:0 0 8px;font-size:16px;line-height:1.45;font-weight:400;}
-.watch-card p{margin:0;color:#777;font-size:14px;line-height:1.55;}
 .tool-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
 .tool-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:stretch;}
 .tool-card{width:100%;box-shadow:none;padding:18px 16px;text-align:left;display:flex;flex-direction:column;justify-content:flex-start;min-height:118px;background:#fff;border:1px solid var(--line2);}
@@ -124,47 +78,27 @@ button,input{font:inherit}
 .tool-card a:hover{color:var(--main2);border-color:rgba(125,103,82,.5);}
 .tool-card h4{font-size:24px;font-weight:400;margin:0 0 10px;color:#333;letter-spacing:-0.01em;line-height:1.3;}
 .tool-card p{font-size:16px;color:#777;line-height:1.85;margin:0;}
-.history-row{display:grid;grid-template-columns:80px 1fr auto;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid #eeeeee;}
-.history-row:last-child{border-bottom:0;padding-bottom:0;}
-.history-date{color:#555;font-size:15px;}
-.history-title{font-size:15px;color:#333;line-height:1.45;}
-.history-meta{font-size:12px;color:#999;white-space:nowrap;}
 .footer{padding:20px 0 0;text-align:center;color:#999;font-size:12px;line-height:1.7;}
 @media(max-width:860px){
   .logo{width:100%;}
-  .nav{order:2;}
+  .nav{order:2;display:flex;width:100%;justify-content:flex-start;padding-top:0;}
+  .date-switcher{width:100%;}
+  .date-current{width:100%;min-width:0;}
   .daily-list{grid-template-columns:1fr;}
   .daily-item{min-height:auto;}
   .daily-actions{width:100%;}
-  .daily-actions .btn,.daily-actions .detail-btn{flex:1;}
-  .detail-box{grid-column:1 / 2;}
+  .daily-actions .btn{flex:1;}
   .page{padding:16px 14px 38px;}
   .header{align-items:flex-start;margin-bottom:14px;flex-direction:column;gap:12px;}
   .logo .title{font-size:30px;}
-  .nav{display:flex;width:100%;justify-content:flex-start;padding-top:0;}
-  .date-switcher{width:100%;}
-  .date-current{width:100%;min-width:0;}
-  .hero{grid-template-columns:1fr;}
-  .main-card{padding:20px;min-height:auto;}
-  .hero h1{font-size:25px;}
-  .hero p{font-size:14px;line-height:1.8;}
-  .date-note{width:100%;margin-left:0;}
-  .grid{grid-template-columns:1fr;}
-  .retouch-layout{grid-template-columns:1fr;}
-  .two-col{grid-template-columns:1fr;}
-  .watch-grid{grid-template-columns:1fr 1fr;}
   .tool-flow{grid-template-columns:1fr 1fr;}
   .section{padding:16px;margin-bottom:14px;}
-  .section-head{align-items:flex-start;}
-  .history-row{grid-template-columns:64px 1fr;}
-  .history-meta{grid-column:2/3;}
 }
 @media(max-width:460px){
-  .watch-grid{grid-template-columns:1fr;}
   .tool-flow{grid-template-columns:1fr 1fr;}
-  .main-card{border-radius:9px;}
-  .section-title{font-size:18px;}
-  .news-card{min-height:auto;}
+  .section-title{font-size:28px;}
+  .daily-title{font-size:28px;}
+  .daily-item h2{font-size:23px;}
 }
 </style>
 </head>
@@ -177,18 +111,13 @@ button,input{font:inherit}
     </a>
     <div class="nav" style="align-items:flex-end;">
       <div class="date-switcher">
-        <button class="date-current">
-          2026/05/09（六）
+        <button class="date-current" type="button">
+          讀取日期中
           <span class="arrow" aria-hidden="true"></span>
         </button>
-        <div class="date-menu">
-          <a href="#" class="active">2026/05/09（六）</a>
-          <a href="#" target="_blank" rel="noopener noreferrer">2026/05/08（五）</a>
-          <a href="#" target="_blank" rel="noopener noreferrer">2026/05/07（四）</a>
-        </div>
+        <div class="date-menu"></div>
       </div>
     </div>
-    
   </header>
 
   <main>
@@ -196,105 +125,19 @@ button,input{font:inherit}
       <div class="daily-head">
         <div>
           <h1 class="daily-title">今日 AI 重點</h1>
-          
         </div>
       </div>
 
       <div class="tabs" style="margin-bottom:18px;">
-        <button class="tab active">全部</button>
-        <button class="tab">AI 設計</button>
-        <button class="tab">Adobe</button>
-        <button class="tab">模型 / Agent</button>
-        <button class="tab">其他</button>
+        <button class="tab active" type="button">全部</button>
+        <button class="tab" type="button">AI 設計</button>
+        <button class="tab" type="button">Adobe</button>
+        <button class="tab" type="button">模型 / Agent</button>
+        <button class="tab" type="button">其他</button>
       </div>
 
       <div class="daily-list">
-        <article class="daily-item">
-          <div class="daily-meta">
-            <span class="tag dark">今日最重要</span>
-            <span class="tag brown">AI修圖</span>
-          </div>
-          <div>
-            <h2>Gemini 2.5 Pro 圖像編修更新</h2>
-            <p>改善局部編修穩定度與商品人物合成一致性。</p>
-          </div>
-          
-          
-          <div class="detail-box">
-            <ul>
-              <li>支援更細緻的局部圖像修改。</li>
-              <li>改善商品與人物合成一致性。</li>
-              <li>降低服裝與背景細節變形問題。</li>
-            </ul>
-          </div>
-          <div class="daily-actions">
-            <a class="btn sub" href="#">原文</a>
-          </div>
-        </article>
-
-        <article class="daily-item">
-          <div class="daily-meta">
-            <span class="tag dark">AI 生圖</span>
-            <span class="tag brown">Midjourney</span>
-          </div>
-          <div>
-            <h2>Midjourney 提升風格一致性與細節生成</h2>
-            <p>近期更新改善人物細節、材質表現與風格穩定度。</p>
-          </div>
-          
-          
-          <div class="detail-box">
-            <ul>
-              <li>提升人物、材質與場景風格一致性。</li>
-              <li>改善細節生成與畫面質感。</li>
-            </ul>
-          </div>
-          <div class="daily-actions">
-            <a class="btn sub" href="#">原文</a>
-          </div>
-        </article>
-
-        <article class="daily-item">
-          <div class="daily-meta">
-            <span class="tag dark">AI 動畫</span>
-            <span class="tag brown">Runway</span>
-          </div>
-          <div>
-            <h2>Runway 改善 AI 人物動作自然度</h2>
-            <p>近期更新開始改善 AI 動畫人物卡頓與肢體不自然問題。</p>
-          </div>
-          
-          
-          <div class="detail-box">
-            <ul>
-              <li>改善 AI 生成影片中的人物動作自然度。</li>
-              <li>降低肢體扭曲與動作卡頓感。</li>
-            </ul>
-          </div>
-          <div class="daily-actions">
-            <a class="btn sub" href="#">原文</a>
-          </div>
-        </article>
-
-        <article class="daily-item">
-          <div class="daily-meta">
-            <span class="tag dark">AI 3D</span>
-            <span class="tag brown">建模</span>
-          </div>
-          <div>
-            <h2>草圖 + 文字描述，可直接生成 3D 模型</h2>
-            <p>手繪草稿搭配文字描述即可快速建立基礎 3D 模型。</p>
-          </div>
-          <div class="detail-box">
-            <ul>
-              <li>可用手繪草圖建立初步模型輪廓。</li>
-              <li>搭配文字描述補充材質、形狀與用途。</li>
-            </ul>
-          </div>
-          <div class="daily-actions">
-            <a class="btn sub" href="#">原文</a>
-          </div>
-        </article>
+        <div class="empty-state">正在讀取今日 AI 重點...</div>
       </div>
     </section>
 
@@ -306,193 +149,25 @@ button,input{font:inherit}
       </div>
 
       <div class="tool-grid tool-flow">
-        <article class="tool-card">
-          <h4>人像修圖</h4>
-          <p>
-            <a href="https://evoto.ai" target="_blank" rel="noopener noreferrer">Evoto</a> ·
-            <a href="https://www.adobe.com/products/photoshop-lightroom.html" target="_blank" rel="noopener noreferrer">Lightroom AI</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Luminar Neo</a>
-          </p>
-        </article>
-
-        <article class="tool-card">
-          <h4>商品修圖</h4>
-          <p>
-            <a href="#" target="_blank" rel="noopener noreferrer">Photoshop Firefly</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Flair AI</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Pebblely</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Photoroom</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Caspa AI</a>
-          </p>
-        </article>
-
-        <article class="tool-card">
-          <h4>去背</h4>
-          <p>
-            <a href="#" target="_blank" rel="noopener noreferrer">Remove.bg</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Clipdrop</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Cleanup.pictures</a>
-          </p>
-        </article>
-
-        <article class="tool-card">
-          <h4>放大清晰</h4>
-          <p>
-            <a href="#" target="_blank" rel="noopener noreferrer">Topaz Photo AI</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Magnific</a>
-          </p>
-        </article>
-
-        <article class="tool-card">
-          <h4>生圖</h4>
-          <p>
-            <a href="https://www.midjourney.com" target="_blank" rel="noopener noreferrer">Midjourney</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Leonardo</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Flux</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Ideogram</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Stable Diffusion</a>
-          </p>
-        </article>
-
-        <article class="tool-card">
-          <h4>LOGO</h4>
-          <p>
-            <a href="#" target="_blank" rel="noopener noreferrer">Looka</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Brandmark</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">LogoAI</a>
-          </p>
-        </article>
-
-        <article class="tool-card">
-          <h4>ICON / 插圖</h4>
-          <p>
-            <a href="#" target="_blank" rel="noopener noreferrer">Icons8 AI</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">SVG.io</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">illostration AI</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Khroma</a>
-          </p>
-        </article>
-
-        <article class="tool-card">
-          <h4>UI / 網頁</h4>
-          <p>
-            <a href="https://www.figma.com/ai" target="_blank" rel="noopener noreferrer">Figma AI</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Framer AI</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">v0</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Relume</a>
-          </p>
-        </article>
-
-        <article class="tool-card">
-          <h4>排版設計</h4>
-          <p>
-            <a href="#" target="_blank" rel="noopener noreferrer">Canva AI</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Adobe Express</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Gamma</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Beautiful.ai</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Tome</a>
-          </p>
-        </article>
-
-        <article class="tool-card">
-          <h4>3D 建模</h4>
-          <p>
-            <a href="#" target="_blank" rel="noopener noreferrer">Tripo</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Spline</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Meshy</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Masterpiece X</a>
-          </p>
-        </article>
-
-        <article class="tool-card">
-          <h4>動畫</h4>
-          <p>
-            <a href="#" target="_blank" rel="noopener noreferrer">Pika</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">AnimateDiff</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Tooncrafter</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Viggle</a>
-          </p>
-        </article>
-
-        <article class="tool-card">
-          <h4>影片</h4>
-          <p>
-            <a href="https://runwayml.com" target="_blank" rel="noopener noreferrer">Runway</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Kling</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Sora</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Luma AI</a>
-          </p>
-        </article>
-
-        <article class="tool-card">
-          <h4>音樂 / 配音</h4>
-          <p>
-            <a href="#" target="_blank" rel="noopener noreferrer">Suno</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Udio</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">ElevenLabs</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Voicemod</a>
-          </p>
-        </article>
-
-        <article class="tool-card">
-          <h4>室內建築</h4>
-          <p>
-            <a href="#" target="_blank" rel="noopener noreferrer">RoomGPT</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Interior AI</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Vizcom</a>
-          </p>
-        </article>
-
-        <article class="tool-card">
-          <h4>AI 試穿</h4>
-          <p>
-            <a href="#" target="_blank" rel="noopener noreferrer">IDM-VTON</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Fashn AI</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Kling Try-on</a>
-          </p>
-        </article>
-
-        <article class="tool-card">
-          <h4>模型 / Agent</h4>
-          <p>
-            <a href="https://chatgpt.com" target="_blank" rel="noopener noreferrer">ChatGPT</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Gemini</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Claude</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Perplexity</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Grok</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">DeepSeek</a>
-          </p>
-        </article>
-
-        <article class="tool-card">
-          <h4>文件筆記</h4>
-          <p>
-            <a href="#" target="_blank" rel="noopener noreferrer">Notion AI</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">NotebookLM</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Mem</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Craft AI</a>
-          </p>
-        </article>
-
-        <article class="tool-card">
-          <h4>工作流</h4>
-          <p>
-            <a href="#" target="_blank" rel="noopener noreferrer">n8n</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Make</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Zapier AI</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Relay.app</a>
-          </p>
-        </article>
-
-        <article class="tool-card">
-          <h4>AI Coding</h4>
-          <p>
-            <a href="https://cursor.com" target="_blank" rel="noopener noreferrer">Cursor</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Windsurf</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Bolt</a> ·
-            <a href="#" target="_blank" rel="noopener noreferrer">Replit AI</a>
-          </p>
-        </article>
+        <article class="tool-card"><h4>人像修圖</h4><p><a href="https://evoto.ai" target="_blank" rel="noopener noreferrer">Evoto</a> · <a href="https://www.adobe.com/products/photoshop-lightroom.html" target="_blank" rel="noopener noreferrer">Lightroom AI</a> · <a href="https://skylum.com/luminar" target="_blank" rel="noopener noreferrer">Luminar Neo</a></p></article>
+        <article class="tool-card"><h4>商品修圖</h4><p><a href="https://www.adobe.com/products/firefly.html" target="_blank" rel="noopener noreferrer">Photoshop Firefly</a> · <a href="https://flair.ai" target="_blank" rel="noopener noreferrer">Flair AI</a> · <a href="https://pebblely.com" target="_blank" rel="noopener noreferrer">Pebblely</a> · <a href="https://www.photoroom.com" target="_blank" rel="noopener noreferrer">Photoroom</a> · <a href="https://www.caspa.ai" target="_blank" rel="noopener noreferrer">Caspa AI</a></p></article>
+        <article class="tool-card"><h4>去背</h4><p><a href="https://www.remove.bg" target="_blank" rel="noopener noreferrer">Remove.bg</a> · <a href="https://clipdrop.co" target="_blank" rel="noopener noreferrer">Clipdrop</a> · <a href="https://cleanup.pictures" target="_blank" rel="noopener noreferrer">Cleanup.pictures</a></p></article>
+        <article class="tool-card"><h4>放大清晰</h4><p><a href="https://www.topazlabs.com/topaz-photo-ai" target="_blank" rel="noopener noreferrer">Topaz Photo AI</a> · <a href="https://magnific.ai" target="_blank" rel="noopener noreferrer">Magnific</a></p></article>
+        <article class="tool-card"><h4>生圖</h4><p><a href="https://www.midjourney.com" target="_blank" rel="noopener noreferrer">Midjourney</a> · <a href="https://leonardo.ai" target="_blank" rel="noopener noreferrer">Leonardo</a> · <a href="https://blackforestlabs.ai" target="_blank" rel="noopener noreferrer">Flux</a> · <a href="https://ideogram.ai" target="_blank" rel="noopener noreferrer">Ideogram</a> · <a href="https://stability.ai" target="_blank" rel="noopener noreferrer">Stable Diffusion</a></p></article>
+        <article class="tool-card"><h4>LOGO</h4><p><a href="https://looka.com" target="_blank" rel="noopener noreferrer">Looka</a> · <a href="https://brandmark.io" target="_blank" rel="noopener noreferrer">Brandmark</a> · <a href="https://www.logoai.com" target="_blank" rel="noopener noreferrer">LogoAI</a></p></article>
+        <article class="tool-card"><h4>ICON / 插圖</h4><p><a href="https://icons8.com" target="_blank" rel="noopener noreferrer">Icons8 AI</a> · <a href="https://svg.io" target="_blank" rel="noopener noreferrer">SVG.io</a> · <a href="https://illostration.com" target="_blank" rel="noopener noreferrer">illostration AI</a> · <a href="https://www.khroma.co" target="_blank" rel="noopener noreferrer">Khroma</a></p></article>
+        <article class="tool-card"><h4>UI / 網頁</h4><p><a href="https://www.figma.com/ai" target="_blank" rel="noopener noreferrer">Figma AI</a> · <a href="https://www.framer.com/ai" target="_blank" rel="noopener noreferrer">Framer AI</a> · <a href="https://v0.dev" target="_blank" rel="noopener noreferrer">v0</a> · <a href="https://www.relume.io" target="_blank" rel="noopener noreferrer">Relume</a></p></article>
+        <article class="tool-card"><h4>排版設計</h4><p><a href="https://www.canva.com/ai" target="_blank" rel="noopener noreferrer">Canva AI</a> · <a href="https://www.adobe.com/express" target="_blank" rel="noopener noreferrer">Adobe Express</a> · <a href="https://gamma.app" target="_blank" rel="noopener noreferrer">Gamma</a> · <a href="https://www.beautiful.ai" target="_blank" rel="noopener noreferrer">Beautiful.ai</a> · <a href="https://tome.app" target="_blank" rel="noopener noreferrer">Tome</a></p></article>
+        <article class="tool-card"><h4>3D 建模</h4><p><a href="https://www.tripo3d.ai" target="_blank" rel="noopener noreferrer">Tripo</a> · <a href="https://spline.design" target="_blank" rel="noopener noreferrer">Spline</a> · <a href="https://www.meshy.ai" target="_blank" rel="noopener noreferrer">Meshy</a> · <a href="https://www.masterpiecex.com" target="_blank" rel="noopener noreferrer">Masterpiece X</a></p></article>
+        <article class="tool-card"><h4>動畫</h4><p><a href="https://pika.art" target="_blank" rel="noopener noreferrer">Pika</a> · <a href="https://github.com/guoyww/AnimateDiff" target="_blank" rel="noopener noreferrer">AnimateDiff</a> · <a href="https://github.com/ToonCrafter/ToonCrafter" target="_blank" rel="noopener noreferrer">Tooncrafter</a> · <a href="https://www.viggle.ai" target="_blank" rel="noopener noreferrer">Viggle</a></p></article>
+        <article class="tool-card"><h4>影片</h4><p><a href="https://runwayml.com" target="_blank" rel="noopener noreferrer">Runway</a> · <a href="https://klingai.com" target="_blank" rel="noopener noreferrer">Kling</a> · <a href="https://sora.com" target="_blank" rel="noopener noreferrer">Sora</a> · <a href="https://lumalabs.ai/dream-machine" target="_blank" rel="noopener noreferrer">Luma AI</a></p></article>
+        <article class="tool-card"><h4>音樂 / 配音</h4><p><a href="https://suno.com" target="_blank" rel="noopener noreferrer">Suno</a> · <a href="https://www.udio.com" target="_blank" rel="noopener noreferrer">Udio</a> · <a href="https://elevenlabs.io" target="_blank" rel="noopener noreferrer">ElevenLabs</a> · <a href="https://www.voicemod.net" target="_blank" rel="noopener noreferrer">Voicemod</a></p></article>
+        <article class="tool-card"><h4>室內建築</h4><p><a href="https://www.roomgpt.io" target="_blank" rel="noopener noreferrer">RoomGPT</a> · <a href="https://interiorai.com" target="_blank" rel="noopener noreferrer">Interior AI</a> · <a href="https://www.vizcom.ai" target="_blank" rel="noopener noreferrer">Vizcom</a></p></article>
+        <article class="tool-card"><h4>AI 試穿</h4><p><a href="https://github.com/yisol/IDM-VTON" target="_blank" rel="noopener noreferrer">IDM-VTON</a> · <a href="https://fashn.ai" target="_blank" rel="noopener noreferrer">Fashn AI</a> · <a href="https://klingai.com" target="_blank" rel="noopener noreferrer">Kling Try-on</a></p></article>
+        <article class="tool-card"><h4>模型 / Agent</h4><p><a href="https://chatgpt.com" target="_blank" rel="noopener noreferrer">ChatGPT</a> · <a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer">Gemini</a> · <a href="https://claude.ai" target="_blank" rel="noopener noreferrer">Claude</a> · <a href="https://www.perplexity.ai" target="_blank" rel="noopener noreferrer">Perplexity</a> · <a href="https://grok.com" target="_blank" rel="noopener noreferrer">Grok</a> · <a href="https://www.deepseek.com" target="_blank" rel="noopener noreferrer">DeepSeek</a></p></article>
+        <article class="tool-card"><h4>文件筆記</h4><p><a href="https://www.notion.com/product/ai" target="_blank" rel="noopener noreferrer">Notion AI</a> · <a href="https://notebooklm.google.com" target="_blank" rel="noopener noreferrer">NotebookLM</a> · <a href="https://get.mem.ai" target="_blank" rel="noopener noreferrer">Mem</a> · <a href="https://www.craft.do" target="_blank" rel="noopener noreferrer">Craft AI</a></p></article>
+        <article class="tool-card"><h4>工作流</h4><p><a href="https://n8n.io" target="_blank" rel="noopener noreferrer">n8n</a> · <a href="https://www.make.com" target="_blank" rel="noopener noreferrer">Make</a> · <a href="https://zapier.com/ai" target="_blank" rel="noopener noreferrer">Zapier AI</a> · <a href="https://www.relay.app" target="_blank" rel="noopener noreferrer">Relay.app</a></p></article>
+        <article class="tool-card"><h4>AI Coding</h4><p><a href="https://cursor.com" target="_blank" rel="noopener noreferrer">Cursor</a> · <a href="https://windsurf.com" target="_blank" rel="noopener noreferrer">Windsurf</a> · <a href="https://bolt.new" target="_blank" rel="noopener noreferrer">Bolt</a> · <a href="https://replit.com/ai" target="_blank" rel="noopener noreferrer">Replit AI</a></p></article>
       </div>
     </section>
   </main>
@@ -500,74 +175,162 @@ button,input{font:inherit}
   <footer class="footer">
     AI Design Daily｜AI 情報整理更新
   </footer>
+</div>
 
 <script>
-async function loadNews(){
-  try{
-    const response = await fetch('./data/news.json');
-    const data = await response.json();
+const FALLBACK_NEWS = {
+  currentDate: "2026/05/09（六）",
+  dates: ["2026/05/09（六）"],
+  items: [
+    {
+      category: "AI 設計",
+      tag: "AI修圖",
+      tool: "Gemini",
+      important: true,
+      title: "目前尚未讀取到 news.json",
+      summary: "請確認 data/news.json 是否已放在 GitHub Pages 專案根目錄下。若是在本機直接開 HTML，部分瀏覽器會阻擋 fetch。",
+      points: [
+        "正確路徑應為 data/news.json。",
+        "GitHub Pages 部署後重新整理頁面。",
+        "Actions 成功後可檢查 news.json 是否有更新。"
+      ],
+      url: "#",
+      relatedUrl: "https://www.google.com/search?q=GitHub%20Pages%20fetch%20JSON%20file"
+    }
+  ]
+};
 
-    const currentDate = document.querySelector('.date-current');
-    const dateMenu = document.querySelector('.date-menu');
-    const dailyList = document.querySelector('.daily-list');
-    const tabs = document.querySelectorAll('.tab');
+function normalizeNewsData(data){
+  const safeData = data && typeof data === "object" ? data : FALLBACK_NEWS;
+  const items = Array.isArray(safeData.items) ? safeData.items : [];
+  return {
+    currentDate: safeData.currentDate || FALLBACK_NEWS.currentDate,
+    dates: Array.isArray(safeData.dates) && safeData.dates.length ? safeData.dates : [safeData.currentDate || FALLBACK_NEWS.currentDate],
+    items: items.map(item => ({
+      category: item.category || "其他",
+      tag: item.tag || item.tool || "AI",
+      tool: item.tool || "AI",
+      important: Boolean(item.important),
+      title: item.title || "未命名更新",
+      summary: item.summary || "尚無摘要。",
+      points: Array.isArray(item.points) && item.points.length ? item.points : ["尚無功能重點。"],
+      url: item.url || "#",
+      relatedUrl: item.relatedUrl || `https://www.google.com/search?q=${encodeURIComponent((item.tool || "AI") + " " + (item.title || "AI 更新") + " 中文")}`
+    }))
+  };
+}
 
-    currentDate.innerHTML = `
-      ${data.currentDate}
-      <span class="arrow" aria-hidden="true"></span>
-    `;
+async function fetchNewsJson(){
+  const paths = [
+    `./data/news.json?v=${Date.now()}`,
+    `data/news.json?v=${Date.now()}`,
+    `/data/news.json?v=${Date.now()}`
+  ];
 
-    dateMenu.innerHTML = data.dates.map((date,index)=>`
-      <a href="#" class="${index===0 ? 'active' : ''}">${date}</a>
-    `).join('');
+  let lastError;
+  for(const url of paths){
+    try{
+      const response = await fetch(url, { cache: "no-store" });
+      if(!response.ok) throw new Error(`${response.status} ${response.statusText}`);
+      return await response.json();
+    }catch(error){
+      lastError = error;
+    }
+  }
+  throw lastError || new Error("news.json 讀取失敗");
+}
 
-    function renderNews(category='全部'){
+function setDateMenu(data){
+  const currentDate = document.querySelector('.date-current');
+  const dateMenu = document.querySelector('.date-menu');
+
+  currentDate.innerHTML = `
+    ${data.currentDate}
+    <span class="arrow" aria-hidden="true"></span>
+  `;
+
+  dateMenu.innerHTML = data.dates.map((date,index)=>`
+    <a href="#" class="${index===0 ? 'active' : ''}">${date}</a>
+  `).join('');
+}
+
+function renderNewsList(items){
+  const dailyList = document.querySelector('.daily-list');
+
+  if(!items.length){
+    dailyList.innerHTML = `<div class="empty-state">此分類目前沒有更新。</div>`;
+    return;
+  }
+
+  dailyList.innerHTML = items.map(item => `
+    <article class="daily-item">
+      <div class="daily-meta">
+        <span class="tag dark">${item.important ? '今日最重要' : item.category}</span>
+        <span class="tag brown">${item.tag}</span>
+      </div>
+
+      <div>
+        <h2>${item.title}</h2>
+        <p>${item.summary}</p>
+      </div>
+
+      <div class="detail-box">
+        <ul>
+          ${item.points.map(point=>`<li>${point}</li>`).join('')}
+        </ul>
+      </div>
+
+      <div class="daily-actions">
+        <a class="btn sub" href="${item.url}" target="_blank" rel="noopener noreferrer">原文</a>
+        ${item.relatedUrl ? `<a class="btn sub" href="${item.relatedUrl}" target="_blank" rel="noopener noreferrer">相關文章</a>` : ''}
+      </div>
+    </article>
+  `).join('');
+}
+
+function bindTabs(data){
+  const tabs = document.querySelectorAll('.tab');
+
+  tabs.forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      const category = tab.textContent.trim();
       const filtered = category === '全部'
         ? data.items
         : data.items.filter(item => item.category === category);
 
-      dailyList.innerHTML = filtered.map(item => `
-        <article class="daily-item">
-          <div class="daily-meta">
-            <span class="tag dark">${item.important ? '今日最重要' : item.category}</span>
-            <span class="tag brown">${item.tag}</span>
-          </div>
-
-          <div>
-            <h2>${item.title}</h2>
-            <p>${item.summary}</p>
-          </div>
-
-          <div class="detail-box">
-            <ul>
-              ${item.points.map(point=>`<li>${point}</li>`).join('')}
-            </ul>
-          </div>
-
-          <div class="daily-actions">
-            <a class="btn sub" href="${item.url}" target="_blank">原文</a>
-          </div>
-        </article>
-      `).join('');
-    }
-
-    renderNews();
-
-    tabs.forEach(tab=>{
-      tab.addEventListener('click',()=>{
-        tabs.forEach(t=>t.classList.remove('active'));
-        tab.classList.add('active');
-        renderNews(tab.textContent.trim());
-      });
+      tabs.forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+      renderNewsList(filtered);
     });
+  });
+}
 
+function runTests(){
+  const normalized = normalizeNewsData({ items:[{ title:"測試標題" }] });
+  console.assert(normalized.items[0].category === "其他", "預設分類應為其他");
+  console.assert(normalized.items[0].points.length === 1, "缺少 points 時應補預設重點");
+  console.assert(normalized.items[0].relatedUrl.includes("google.com/search"), "應自動產生相關文章搜尋連結");
+}
+
+async function loadNews(){
+  runTests();
+
+  try{
+    const rawData = await fetchNewsJson();
+    const data = normalizeNewsData(rawData);
+    setDateMenu(data);
+    renderNewsList(data.items);
+    bindTabs(data);
   }catch(error){
-    console.error('news.json 讀取失敗', error);
+    console.warn('news.json 讀取失敗，已使用備用資料。', error);
+    const data = normalizeNewsData(FALLBACK_NEWS);
+    setDateMenu(data);
+    renderNewsList(data.items);
+    bindTabs(data);
   }
 }
 
 loadNews();
 </script>
-</div>
 </body>
 </html>
