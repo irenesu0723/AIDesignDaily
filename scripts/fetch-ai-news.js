@@ -13,6 +13,37 @@ const RSS_SOURCES = [
 
 const OUTPUT_PATH = path.join(__dirname, "../data/news.json");
 
+const TOOL_KEYWORDS = {
+  "AI 設計": [
+    "evoto", "lightroom", "luminar", "firefly",
+    "flair ai", "pebblely", "photoroom", "caspa ai",
+    "midjourney", "leonardo", "flux", "ideogram", "stable diffusion",
+    "looka", "brandmark", "logoai",
+    "icons8", "svg.io", "illustration", "khroma",
+    "figma", "framer", "relume", "v0",
+    "canva", "adobe express", "gamma", "beautiful.ai", "tome",
+    "tripo", "spline", "meshy", "masterpiece x",
+    "pika", "animatediff", "tooncrafter", "viggle",
+    "runway", "kling", "sora", "luma ai",
+    "roomgpt", "interior ai", "vizcom",
+    "idm-vton", "fashn ai", "try-on"
+  ],
+  "Adobe": [
+    "adobe", "photoshop", "illustrator", "lightroom",
+    "firefly", "premiere", "after effects", "adobe express"
+  ],
+  "模型 / Agent": [
+    "chatgpt", "openai", "gemini", "claude",
+    "grok", "deepseek", "perplexity", "agent"
+  ],
+  "其他": [
+    "notion ai", "notebooklm", "mem", "craft ai",
+    "n8n", "make", "zapier", "relay.app",
+    "cursor", "windsurf", "bolt", "replit",
+    "suno", "udio", "elevenlabs", "voicemod"
+  ]
+};
+
 function stripHtml(html = "") {
   return html
     .replace(/<[^>]+>/g, " ")
@@ -52,13 +83,17 @@ async function fetchRSS(url) {
 
 function isLikelyRelevant(item) {
   const text = `${item.title} ${item.summary}`.toLowerCase();
-  const keywords = [
-    "ai", "artificial intelligence", "image", "photo", "design",
-    "adobe", "photoshop", "illustrator", "firefly", "figma",
-    "video", "animation", "3d", "model", "agent",
-    "gemini", "chatgpt", "claude", "midjourney", "runway", "sora"
+
+  const allKeywords = Object.values(TOOL_KEYWORDS).flat();
+
+  const designWords = [
+    "ai", "image", "photo", "design", "designer", "creative",
+    "video", "animation", "3d", "logo", "icon", "illustration",
+    "ui", "website", "web", "photoshop", "illustrator",
+    "firefly", "generative", "model", "agent"
   ];
-  return keywords.some(k => text.includes(k));
+
+  return [...allKeywords, ...designWords].some(k => text.includes(k));
 }
 
 async function summarizeWithAI(items) {
@@ -67,19 +102,32 @@ async function summarizeWithAI(items) {
   }
 
   const input = `
-你是 AI 設計情報編輯。請從以下資料中，挑出適合「AI Design Daily」的內容。
+你是「AI Design Daily」的 AI 設計情報編輯。
+
+請從以下 RSS 資料中，挑出適合設計人、修圖人、內容創作者關注的 AI 重要更新。
+
+收錄原則：
+1. 只要與熱門 AI 工具的重要更新、官方發佈、新功能、模型更新、設計工作流相關，就要收錄。
+2. Evoto、Adobe、Photoshop、Firefly、Lightroom、Midjourney、Runway、Kling、Sora、Figma、Canva、ChatGPT、Gemini、Claude、Perplexity 等工具優先。
+3. 模型 / Agent 更新也要進「今日 AI 重點」。
+4. 音樂 / 配音、文件筆記、工作流、Coding 類放「其他」。
+5. 分不到分類就放「其他」。
+6. 只保留最重要的 3～8 則。
+7. 不要收錄純商業、財報、融資、股價、企業人事新聞，除非直接影響 AI 工具功能。
 
 分類規則：
-1. AI 設計：人像修圖、商品修圖、去背、放大清晰、生圖、LOGO、ICON/插圖、UI/網頁、排版設計、3D建模、動畫、影片、音樂/配音、室內建築、AI試穿。
-2. Adobe：Photoshop、Illustrator、Firefly、Lightroom、Premiere、After Effects、Adobe Express 等 Adobe 軟體更新。
-3. 模型 / Agent：ChatGPT、Gemini、Claude、Grok、DeepSeek、Perplexity、Agent 類更新。
-4. 其他：文件筆記、工作流、自動化、Coding 或其他 AI 消息。
+- AI 設計：人像修圖、商品修圖、去背、放大清晰、生圖、LOGO、ICON/插圖、UI/網頁、排版設計、3D建模、動畫、影片、室內建築、AI試穿。
+- Adobe：Photoshop、Illustrator、Firefly、Lightroom、Premiere、After Effects、Adobe Express 等 Adobe 軟體更新。
+- 模型 / Agent：ChatGPT、Gemini、Claude、Grok、DeepSeek、Perplexity、Agent 類更新。
+- 其他：音樂/配音、文件筆記、工作流、自動化、Coding 或無法分類的 AI 消息。
 
-請輸出繁體中文，語氣簡潔，重點要像設計人會看的情報摘要。
-只保留最重要的 3～8 則。
+請輸出繁體中文。
+標題要像設計情報摘要，不要太工程化。
+summary 一句話即可。
+points 2～3 點，簡短清楚。
 
 RSS 資料：
-${JSON.stringify(items.slice(0, 20), null, 2)}
+${JSON.stringify(items.slice(0, 30), null, 2)}
 `;
 
   const schema = {
@@ -151,9 +199,11 @@ ${JSON.stringify(items.slice(0, 20), null, 2)}
   return JSON.parse(text);
 }
 
-function getTaipeiDate() {
+function getTaipeiDate(offsetDays = 0) {
   const now = new Date();
-  const date = new Intl.DateTimeFormat("zh-TW", {
+  now.setDate(now.getDate() + offsetDays);
+
+  const parts = new Intl.DateTimeFormat("zh-TW", {
     timeZone: "Asia/Taipei",
     year: "numeric",
     month: "2-digit",
@@ -161,12 +211,12 @@ function getTaipeiDate() {
     weekday: "short"
   }).formatToParts(now);
 
-  const y = date.find(p => p.type === "year").value;
-  const m = date.find(p => p.type === "month").value;
-  const d = date.find(p => p.type === "day").value;
-  const w = date.find(p => p.type === "weekday").value;
+  const y = parts.find(p => p.type === "year").value;
+  const m = parts.find(p => p.type === "month").value;
+  const d = parts.find(p => p.type === "day").value;
+  const w = parts.find(p => p.type === "weekday").value.replace("週", "");
 
-  return `${y}/${m}/${d}（${w.replace("週", "")}）`;
+  return `${y}/${m}/${d}（${w}）`;
 }
 
 async function main() {
@@ -182,12 +232,19 @@ async function main() {
   }
 
   const relevant = all.filter(isLikelyRelevant);
-
   const aiResult = await summarizeWithAI(relevant);
 
   const output = {
-    currentDate: getTaipeiDate(),
-    dates: [getTaipeiDate()],
+    currentDate: getTaipeiDate(0),
+    dates: [
+      getTaipeiDate(0),
+      getTaipeiDate(-1),
+      getTaipeiDate(-2),
+      getTaipeiDate(-3),
+      getTaipeiDate(-4),
+      getTaipeiDate(-5),
+      getTaipeiDate(-6)
+    ],
     items: aiResult.items
   };
 
