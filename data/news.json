@@ -7,86 +7,100 @@
     {
       "category": "AI 設計",
       "tag": "個人化影像",
-      "tool": "Gemini",
+      "tool": "Gemini (Nano Banana 2)",
       "important": true,
-      "title": "Gemini 用 Google Photos 與 Nano Banana 2 生成個人化影像",
-      "summary": "Nano Banana 2 利用個人上下文與 Google Photos 創造反映使用者生活的客製化影像。",
+      "title": "Gemini Nano Banana 2：用個人相片與情境生成更貼近生活的客製化圖片",
+      "summary": "Gemini 在手機 App 推出 Nano Banana 2，能利用你的個人上下文與 Google Photos 來產出更貼近生活的影像。",
       "points": [
-        "以個人相簿內容與使用者上下文微調生成結果，利於創作具有真實感的素材。",
-        "可直接把生活照風格化或延展為素材庫，提升人物/場景設計與修圖效率。"
+        "可直接使用個人相片與生活上下文做為生成依據，快速產出具個人風格的圖像素材。",
+        "對設計與修圖工作流來說，能作為快速的樣式參考、素材變體或情境化視覺創作起點。"
       ],
       "url": "https://blog.google/innovation-and-ai/products/gemini-app/personal-intelligence-nano-banana/",
-      "relatedUrl": "https://www.google.com/search?q=Gemini+New+ways+to+create+personalized+images+in+the+Gemini+app+中文"
+      "relatedUrl": "https://www.google.com/search?q=Gemini+Nano+Banana+2+用+個人+相片+生成+更新"
     },
     {
       "category": "模型 / Agent",
-      "tag": "語音合成",
-      "tool": "Gemini",
+      "tag": "語音 / TTS",
+      "tool": "Gemini 3.1 Flash TTS",
       "important": true,
-      "title": "Gemini 3.1 Flash TTS：下一代表情化語音",
-      "summary": "Gemini 3.1 Flash TTS 現已在 Google 產品中可用，強化語音的情感與自然度。",
+      "title": "Gemini 3.1 Flash TTS：跨產品推出的下一代擬真表情語音",
+      "summary": "Google 發布 Gemini 3.1 Flash TTS，提供更具表情與自然度的語音合成，並在多款 Google 產品中可用。",
       "points": [
-        "更自然、具表情的語音合成，對配音、影片旁白與互動式內容直接有幫助。",
-        "可整合到創作工具或 Agent 中，提升敘事與用戶體驗品質。"
+        "提升語音表情與自然度，對有配音或語音導覽需求的內容創作者尤其有用。",
+        "跨產品支援意味著可直接在多平台運用同一語音品質，簡化內容製作流程。"
       ],
       "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-tts/",
-      "relatedUrl": "https://www.google.com/search?q=Gemini+3.1+Flash+TTS+the+next+generation+of+expressive+AI+speech+中文"
+      "relatedUrl": "https://www.google.com/search?q=Gemini+3.1+Flash+TTS+表情+語音+更新"
     },
     {
       "category": "模型 / Agent",
-      "tag": "API / 推論層級",
+      "tag": "API 推理層級",
       "tool": "Gemini API",
       "important": true,
-      "title": "Gemini API 推出 Flex 與 Priority 推論層級，平衡成本與延遲",
-      "summary": "Google 在 Gemini API 新增 Flex 與 Priority 兩種推論層級，讓開發者在成本與延遲間有更多選擇。",
+      "title": "Gemini API 新增 Flex / Priority 推理分層：成本與延遲可平衡",
+      "summary": "Google 為 Gemini API 推出 Flex 與 Priority 兩種推理層級，讓開發者在成本與回應延遲間做選擇。",
       "points": [
-        "Flex 提供較低成本選項，Priority 提供低延遲與高可靠性，能依專案需求切換。",
-        "對設計與生成工作流來說，可依任務重要性調整成本/響應策略。"
+        "Flex 與 Priority 可在成本與低延遲需求間做權衡，利於控制大規模生成成本。",
+        "對使用生成圖像/文字 API 的設計與內容流程，有助於按需求配置效能與預算。"
       ],
       "url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-flex-and-priority-inference/",
-      "relatedUrl": "https://www.google.com/search?q=Gemini+New+ways+to+balance+cost+and+reliability+in+the+Gemini+API+中文"
+      "relatedUrl": "https://www.google.com/search?q=Gemini+API+Flex+Priority+推理+分層+更新"
     },
     {
       "category": "模型 / Agent",
-      "tag": "API / Webhooks",
-      "tool": "Gemini API",
+      "tag": "API Webhooks",
+      "tool": "Gemini API (Webhooks)",
       "important": true,
-      "title": "Gemini API 支援事件驅動 Webhooks，減少長任務輪詢延遲",
-      "summary": "Event-Driven Webhooks 提供推送通知，消除對長時推論任務的低效輪詢與等待。",
+      "title": "Gemini API 推出 Webhooks：減少長任務輪詢的延遲與摩擦",
+      "summary": "Gemini API 新增事件驅動的 Webhooks，替代頻繁輪詢以改善長時間任務的效率與響應速度。",
       "points": [
-        "適合處理長時間生成（影像/影片/大型模型推論）的通知與流程整合。",
-        "能簡化後端等待邏輯，並加速工作流自動化與用戶回饋速度。"
+        "Webhooks 可在任務完成時主動推送結果，減少不必要的資源輪詢與延遲。",
+        "對影像/影片生成、長時間批次處理或多步驟代理工作流程特別有幫助。"
       ],
       "url": "https://blog.google/innovation-and-ai/technology/developers-tools/event-driven-webhooks/",
-      "relatedUrl": "https://www.google.com/search?q=Gemini+Reduce+friction+and+latency+for+long-running+jobs+with+Webhooks+in+Gemini+API+中文"
+      "relatedUrl": "https://www.google.com/search?q=Gemini+API+Webhooks+減少+延遲+長任務+更新"
     },
     {
       "category": "模型 / Agent",
-      "tag": "超長上下文 Agent",
-      "tool": "DeepSeek",
+      "tag": "長上下文模型",
+      "tool": "DeepSeek-V4",
       "important": false,
-      "title": "DeepSeek-V4：讓 Agent 真正用到百萬 token 的長上下文",
-      "summary": "DeepSeek-V4 提供可實際被 Agent 利用的百萬 token 上下文能力，擴充長文本與多文件處理範圍。",
+      "title": "DeepSeek-V4：百萬 token 的長上下文，讓代理可實際利用長文件內容",
+      "summary": "DeepSeek-V4 宣布支援百萬級 token 上下文，讓代理能處理更長的文件、對話與多段媒體內容。",
       "points": [
-        "對多文件、長影片或複雜專案的資料整合與生成更有幫助，減少斷裂的上下文問題。",
-        "設計與影片創作者可期待更長記憶與跨檔案整合的 AI 助手。"
+        "超長上下文可讓模型一次理解整份設計規範、腳本或長篇素材，降低分段記憶的麻煩。",
+        "對需處理大型專案文檔、影片腳本或多頁風格指南的創作者與設計團隊很有幫助。"
       ],
       "url": "https://huggingface.co/blog/deepseekv4",
-      "relatedUrl": "https://www.google.com/search?q=DeepSeek-V4+a+million-token+context+that+agents+can+actually+use+中文"
+      "relatedUrl": "https://www.google.com/search?q=DeepSeek-V4+百萬+token+上下文+更新"
     },
     {
       "category": "模型 / Agent",
-      "tag": "多模態長上下文",
-      "tool": "NVIDIA Nemotron",
+      "tag": "多模態模型",
+      "tool": "NVIDIA Nemotron 3 Nano Omni",
       "important": false,
-      "title": "NVIDIA Nemotron 3 Nano Omni：為文件、音訊與影片 Agent 優化的多模態長上下文",
-      "summary": "Nemotron 3 Nano Omni 是針對文件、音訊與影片 Agent 的長上下文多模態智能解決方案，強化跨媒體理解與生成。",
+      "title": "NVIDIA Nemotron 3 Nano Omni：面向文件、音訊與影片代理的長上下文多模態智慧",
+      "summary": "NVIDIA 發表 Nemotron 3 Nano Omni，主打長上下文的多模態能力，適合文檔、音訊與影片代理應用。",
       "points": [
-        "對內容創作者與影片工作流，能提升自動字幕、摘要與多媒體內容整合能力。",
-        "可能推動影音自動化、內容審核與智能編輯工具的進步。"
+        "專為文件、音訊與影片等多模態資料設計，可提升代理在複雜內容上的理解與操作能力。",
+        "對影片剪輯、聲音設計與多媒體內容創作的自動化與智能輔助有實務價值。"
       ],
       "url": "https://huggingface.co/blog/nvidia/nemotron-3-nano-omni-multimodal-intelligence",
-      "relatedUrl": "https://www.google.com/search?q=NVIDIA+Nemotron+3+Nano+Omni+Long-Context+Multimodal+Intelligence+for+Documents%2C+Audio+and+Video+Agents+中文"
+      "relatedUrl": "https://www.google.com/search?q=NVIDIA+Nemotron+3+Nano+Omni+多模態+更新"
+    },
+    {
+      "category": "AI 設計",
+      "tag": "UI 在地化",
+      "tool": "Holo2",
+      "important": false,
+      "title": "Holo2：針對 UI 在地化優化的新世代模型，提升介面翻譯與語境適配",
+      "summary": "H Company 發表 Holo2，強化 UI 在地化能力，專注於界面文字與語境的正確翻譯與調整。",
+      "points": [
+        "在地化表現優於前代，適合需要多語版 UI 的設計與產品團隊使用。",
+        "可減少翻譯後的版面調整與語意錯置，節省多語專案的驗證時間。"
+      ],
+      "url": "https://huggingface.co/blog/Hcompany/introducing-holo2-235b-a22b",
+      "relatedUrl": "https://www.google.com/search?q=Holo2+UI+Localization+更新"
     }
   ]
 }
