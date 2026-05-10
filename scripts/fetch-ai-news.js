@@ -9,7 +9,7 @@ const dd = String(TODAY.getDate()).padStart(2, "0");
 
 const WEEK = ["日","一","二","三","四","五","六"];
 
-const currentDate = `${yyyy}/${Number(mm)}/${Number(dd)}（${WEEK[TODAY.getDay()]}）`;
+const currentDate = yyyy + "/" + Number(mm) + "/" + Number(dd) + "（" + WEEK[TODAY.getDay()] + "）";
 
 const outputDir = path.join(process.cwd(), "data");
 const historyDir = path.join(outputDir, "history");
