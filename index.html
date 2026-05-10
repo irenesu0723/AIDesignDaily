@@ -34,16 +34,36 @@ button,input{font:inherit}
 .nav a.active{background:var(--main);border-color:var(--main);color:#fff;}
 
 .date-switcher{position:relative;}
-.date-current{height:44px;min-width:220px;padding:0 16px;border:1px solid #dcdcdc;border-radius:12px;background:#fff;color:#555;font-size:15px;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;transition:.18s ease;box-shadow:0 1px 2px rgba(0,0,0,.03);}
-.date-current:hover{border-color:#cfcfcf;background:#fcfcfc;}
-.date-current .arrow{width:14px;height:14px;display:inline-block;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") center/14px 14px no-repeat;font-size:0;line-height:0;}
-.date-menu{position:absolute;top:46px;right:0;min-width:220px;max-height:260px;overflow-y:auto;background:#fff;border:1px solid #e6e6e6;border-radius:12px;padding:6px 0;box-shadow:0 10px 30px rgba(0,0,0,.08);display:grid;gap:0;opacity:0;pointer-events:none;transform:translateY(4px);transition:.18s ease;z-index:20;scrollbar-width:thin;}
-.date-menu::-webkit-scrollbar{width:6px;}
-.date-menu::-webkit-scrollbar-thumb{background:#d8d8d8;border-radius:999px;}
-.date-menu::-webkit-scrollbar-track{background:transparent;}
+.date-current{height:auto;min-width:0;padding:8px 10px;border:0;background:transparent;color:#555;font-size:19px;display:flex;align-items:center;justify-content:flex-start;gap:10px;cursor:pointer;box-shadow:none;border-radius:10px;font-weight:400;}
+.date-current:hover{color:#333;background:transparent;} 
+.date-current .calendar-icon{width:22px;height:22px;display:inline-block;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3C/svg%3E") center/22px 22px no-repeat;cursor:pointer;flex:0 0 22px;}
+.date-current .arrow{display:none;}
+.date-menu{position:absolute;top:42px;right:0;width:320px;background:#fff;border:1px solid #e6e6e6;border-radius:16px;padding:14px;box-shadow:0 14px 36px rgba(0,0,0,.10);opacity:0;pointer-events:none;transform:translateY(6px);transition:.18s ease;z-index:20;}
 .date-switcher.open .date-menu{opacity:1;pointer-events:auto;transform:translateY(0);}
-.date-menu a{padding:10px 16px;font-size:14px;color:#666;transition:.15s ease;border-radius:0;border:0;background:transparent;}
-.date-menu a:hover,.date-menu a.active{background:#f1f1f1;color:#8b765f;}
+.calendar-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px;}
+.calendar-title-wrap{display:flex;align-items:center;gap:6px;font-size:15px;color:#555;}
+.calendar-year-btn{border:0;background:transparent;padding:0;cursor:pointer;color:#555;font-size:15px;display:flex;align-items:center;gap:6px;}
+.calendar-year-btn:hover{color:#333;}
+.calendar-year-btn::after{content:'';width:14px;height:14px;display:block;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") center/14px 14px no-repeat;opacity:.8;flex:0 0 14px;}
+.calendar-month-text{font-size:15px;color:#555;}
+.calendar-year-panel{position:absolute;top:54px;left:18px;width:120px;max-height:220px;overflow-y:auto;background:#fff;border:1px solid #ececec;border-radius:12px;padding:6px;box-shadow:0 10px 24px rgba(0,0,0,.08);display:none;z-index:3;}
+.calendar-year-panel.show{display:block;}
+.calendar-year-option{width:100%;height:34px;border:0;background:transparent;border-radius:8px;font-size:14px;color:#666;cursor:pointer;}
+.calendar-year-option:hover,.calendar-year-option.active{background:#f3f3f3;color:#333;}
+.calendar-arrow{width:38px;height:38px;border:0;background:transparent;color:#777;font-size:0;line-height:1;cursor:pointer;border-radius:50%;flex:0 0 38px;display:flex;align-items:center;justify-content:center;position:relative;}
+.calendar-arrow:hover{background:#f3f3f3;color:#555;}
+.calendar-arrow::before{content:'';width:18px;height:18px;display:block;background-size:18px 18px;background-repeat:no-repeat;background-position:center;opacity:.8;}
+.calendar-arrow[data-cal-prev]::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='15 18 9 12 15 6'/%3E%3C/svg%3E");}
+.calendar-arrow[data-cal-next]::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'/%3E%3C/svg%3E");}
+.calendar-selects{display:none;}
+.calendar-week,.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;}
+.calendar-week span{font-size:13px;color:#888;padding:8px 0;}
+.calendar-day{height:36px;border:0;background:transparent;color:#333;font-size:14px;border-radius:50%;cursor:pointer;margin:2px auto;width:36px;display:flex;align-items:center;justify-content:center;}
+.calendar-day:hover{background:#f1f1f1;}
+.calendar-day.active{border:0;background:#8b765f;color:#fff;}
+.calendar-day.disabled{color:#c8c8c8;cursor:default;}
+.calendar-day.disabled:hover{background:transparent;}
+.calendar-day.blank{visibility:hidden;}
 .daily-panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:14px;}
 .daily-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px;}
 .daily-title{margin:0;font-size:34px;line-height:1.25;font-weight:400;color:#333;letter-spacing:-0.02em;}
@@ -112,8 +132,8 @@ button,input{font:inherit}
     <div class="nav" style="align-items:flex-end;">
       <div class="date-switcher">
         <button class="date-current" type="button">
-          讀取日期中
-          <span class="arrow" aria-hidden="true"></span>
+          <span class="calendar-icon" aria-hidden="true"></span>
+          <span class="current-date-text">讀取日期中</span>
         </button>
         <div class="date-menu"></div>
       </div>
@@ -178,8 +198,14 @@ button,input{font:inherit}
 </div>
 
 <script>
+const TODAY_TEXT = (() => {
+  const now = new Date();
+  const weekMap = ["日","一","二","三","四","五","六"];
+  return `${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()}（${weekMap[now.getDay()]}）`;
+})();
+
 const FALLBACK_NEWS = {
-  currentDate: "尚無資料",
+  currentDate: TODAY_TEXT,
   dates: [],
   items: [
     {
@@ -202,6 +228,7 @@ const FALLBACK_NEWS = {
 
 let currentNewsData = null;
 let currentDateList = [];
+let activeDateLabel = "";
 
 function normalizeNewsData(data){
   const safeData = data && typeof data === "object" ? data : FALLBACK_NEWS;
@@ -235,13 +262,9 @@ async function fetchJson(url){
 }
 
 async function fetchLatestNews(){
-  const paths = [
-    "./data/news.json",
-    "data/news.json",
-    "/data/news.json"
-  ];
-
+  const paths = ["./data/news.json", "data/news.json", "/data/news.json"];
   let lastError;
+
   for(const url of paths){
     try{
       return await fetchJson(url);
@@ -249,15 +272,12 @@ async function fetchLatestNews(){
       lastError = error;
     }
   }
+
   throw lastError || new Error("news.json 讀取失敗");
 }
 
 async function fetchDateIndex(){
-  const paths = [
-    "./data/index.json",
-    "data/index.json",
-    "/data/index.json"
-  ];
+  const paths = ["./data/index.json", "data/index.json", "/data/index.json"];
 
   for(const url of paths){
     try{
@@ -267,17 +287,14 @@ async function fetchDateIndex(){
       // 沒有 index.json 時，會自動退回 news.json 模式
     }
   }
+
   return null;
 }
 
 async function fetchHistoryNews(file){
-  const paths = [
-    `./data/history/${file}`,
-    `data/history/${file}`,
-    `/data/history/${file}`
-  ];
-
+  const paths = [`./data/history/${file}`, `data/history/${file}`, `/data/history/${file}`];
   let lastError;
+
   for(const url of paths){
     try{
       return await fetchJson(url);
@@ -285,15 +302,14 @@ async function fetchHistoryNews(file){
       lastError = error;
     }
   }
+
   throw lastError || new Error("歷史資料讀取失敗");
 }
 
 function formatDateList(indexData, latestData){
   if(indexData && Array.isArray(indexData.dates) && indexData.dates.length){
     return indexData.dates.map(item => {
-      if(typeof item === "string"){
-        return { label:item, file:null };
-      }
+      if(typeof item === "string") return { label:item, file:null };
       return {
         label:item.label || item.date || latestData.currentDate,
         file:item.file || null
@@ -304,66 +320,207 @@ function formatDateList(indexData, latestData){
   return latestData.dates.map(date => ({ label:date, file:null }));
 }
 
-function setDateMenu(data, dateList){
-  const switcher = document.querySelector('.date-switcher');
-  const currentDate = document.querySelector('.date-current');
-  const dateMenu = document.querySelector('.date-menu');
+function parseDateLabel(label){
+  const text = String(label || "");
+  const match = text.match(new RegExp("([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})"));
+  if(!match) return null;
+  return {
+    year:Number(match[1]),
+    month:Number(match[2]),
+    day:Number(match[3])
+  };
+}
+
+function getWeekText(label){
+  const text = String(label || "");
+  const start = text.indexOf("（");
+  const end = text.indexOf("）");
+  if(start >= 0 && end > start) return text.slice(start + 1, end);
+  return "";
+}
+
+function formatDateText(label){
+  const date = parseDateLabel(label);
+  if(!date) return label || "尚無資料";
+  const week = getWeekText(label);
+  return `${date.year}/${date.month}/${date.day}${week ? `（${week}）` : ""}`;
+}
+
+function fileFromDateParts(year, month, day){
+  return `${year}-${String(month).padStart(2,"0")}-${String(day).padStart(2,"0")}.json`;
+}
+
+function getDateKey(label){
+  const date = parseDateLabel(label);
+  if(!date) return "";
+  return fileFromDateParts(date.year, date.month, date.day);
+}
+
+function buildAvailableDateMap(dateList){
+  const map = new Map();
+  dateList.forEach(item => {
+    const key = getDateKey(item.label);
+    if(key) map.set(key, item);
+  });
+  return map;
+}
+
+function setDateButtonText(label){
+  const currentDate = document.querySelector(".date-current");
+  activeDateLabel = label;
 
   currentDate.innerHTML = `
-    <span class="current-date-text">${data.currentDate}</span>
-    <span class="arrow" aria-hidden="true"></span>
+    <span class="calendar-icon" aria-hidden="true"></span>
+    <span class="current-date-text">${formatDateText(label)}</span>
+  `;
+}
+
+async function selectDateItem(item){
+  if(!item) return;
+
+  setDateButtonText(item.label);
+
+  if(item.file){
+    try{
+      const historyRaw = await fetchHistoryNews(item.file);
+      const historyData = normalizeNewsData(historyRaw);
+      currentNewsData = historyData;
+      renderNewsList(historyData.items);
+      resetTabs();
+    }catch(error){
+      renderNewsList([]);
+      console.warn("歷史資料讀取失敗：", item.file, error);
+    }
+  }else{
+    renderNewsList(currentNewsData.items);
+    resetTabs();
+  }
+}
+
+function renderCalendar(dateList, viewYear, viewMonth, selectedLabel){
+  const dateMenu = document.querySelector(".date-menu");
+  dateMenu.onclick = (event) => event.stopPropagation();
+  const availableMap = buildAvailableDateMap(dateList);
+  const activeKey = getDateKey(selectedLabel);
+  const firstDay = new Date(viewYear, viewMonth - 1, 1);
+  const daysInMonth = new Date(viewYear, viewMonth, 0).getDate();
+  const startWeek = firstDay.getDay();
+  const availableYears = [...new Set(dateList.map(item => parseDateLabel(item.label)?.year).filter(Boolean))];
+  const yearOptions = availableYears.length ? availableYears : [viewYear];
+
+  let cells = "";
+
+  for(let i = 0; i < startWeek; i++){
+    cells += `<button class="calendar-day blank" type="button" tabindex="-1"></button>`;
+  }
+
+  for(let day = 1; day <= daysInMonth; day++){
+    const fileKey = fileFromDateParts(viewYear, viewMonth, day);
+    const item = availableMap.get(fileKey);
+    const isActive = fileKey === activeKey;
+
+    cells += `
+      <button class="calendar-day ${item ? "" : "disabled"} ${isActive ? "active" : ""}" type="button" data-file="${fileKey}" ${item ? "" : "disabled"}>
+        ${day}
+      </button>
+    `;
+  }
+
+  dateMenu.innerHTML = `
+    <div class="calendar-head">
+      <div class="calendar-title-wrap">
+        <button class="calendar-year-btn" type="button" data-year-toggle>
+          ${viewYear} 年
+        </button>
+        <span class="calendar-month-text">${viewMonth} 月</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button class="calendar-arrow" type="button" data-cal-prev>‹</button>
+        <button class="calendar-arrow" type="button" data-cal-next>›</button>
+      </div>
+    </div>
+
+    <div class="calendar-year-panel">
+      ${yearOptions.map(year => `<button class="calendar-year-option ${year === viewYear ? "active" : ""}" type="button" data-year="${year}">${year} 年</button>`).join("")}
+    </div>
+    <div class="calendar-week">
+      <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+    </div>
+    <div class="calendar-grid">${cells}</div>
   `;
 
-  dateMenu.innerHTML = dateList.map((item,index)=>`
-    <a href="#" data-index="${index}" class="${index===0 ? 'active' : ''}">${item.label}</a>
-  `).join('');
+  dateMenu.querySelector("[data-cal-prev]").addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const previous = new Date(viewYear, viewMonth - 2, 1);
+    renderCalendar(dateList, previous.getFullYear(), previous.getMonth() + 1, activeDateLabel);
+  });
 
-  currentDate.onclick = (e)=>{
-    e.preventDefault();
-    switcher.classList.toggle('open');
-  };
+  dateMenu.querySelector("[data-cal-next]").addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const next = new Date(viewYear, viewMonth, 1);
+    renderCalendar(dateList, next.getFullYear(), next.getMonth() + 1, activeDateLabel);
+  });
 
-  dateMenu.querySelectorAll('a').forEach(link=>{
-    link.addEventListener('click', async (e)=>{
-      e.preventDefault();
+  const yearToggle = dateMenu.querySelector("[data-year-toggle]");
+  const yearPanel = dateMenu.querySelector(".calendar-year-panel");
 
-      const index = Number(link.dataset.index);
-      const selected = dateList[index];
+  yearToggle.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    yearPanel.classList.toggle("show");
+  });
 
-      dateMenu.querySelectorAll('a').forEach(item=>item.classList.remove('active'));
-      link.classList.add('active');
-      switcher.classList.remove('open');
-
-      currentDate.innerHTML = `
-        <span class="current-date-text">${selected.label}</span>
-        <span class="arrow" aria-hidden="true"></span>
-      `;
-
-      if(selected.file){
-        try{
-          const historyRaw = await fetchHistoryNews(selected.file);
-          const historyData = normalizeNewsData(historyRaw);
-          currentNewsData = historyData;
-          renderNewsList(historyData.items);
-          resetTabs();
-        }catch(error){
-          renderNewsList([]);
-          console.warn('歷史資料讀取失敗：', selected.file, error);
-        }
-      }else{
-        renderNewsList(currentNewsData.items);
-        resetTabs();
-      }
+  dateMenu.querySelectorAll("[data-year]").forEach(button => {
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      renderCalendar(dateList, Number(button.dataset.year), viewMonth, activeDateLabel);
     });
   });
 
-  document.addEventListener('click',(e)=>{
-    if(!switcher.contains(e.target)) switcher.classList.remove('open');
+  dateMenu.querySelectorAll(".calendar-day:not(.disabled):not(.blank)").forEach(button => {
+    button.addEventListener("click", async () => {
+      const item = availableMap.get(button.dataset.file);
+      document.querySelector(".date-switcher").classList.remove("open");
+      await selectDateItem(item);
+    });
+  });
+}
+
+function setDateMenu(data, dateList){
+  const switcher = document.querySelector(".date-switcher");
+  const currentDate = document.querySelector(".date-current");
+  const firstDate = parseDateLabel(data.currentDate) || parseDateLabel(dateList[0]?.label) || {
+    year:new Date().getFullYear(),
+    month:new Date().getMonth() + 1,
+    day:new Date().getDate()
+  };
+
+  setDateButtonText(data.currentDate);
+  renderCalendar(dateList, firstDate.year, firstDate.month, data.currentDate);
+
+  currentDate.onclick = (event) => {
+    
+    event.preventDefault();
+
+    const isOpening = !switcher.classList.contains("open");
+    switcher.classList.toggle("open");
+
+    if(isOpening){
+      const activeDate = parseDateLabel(activeDateLabel) || firstDate;
+      renderCalendar(dateList, activeDate.year, activeDate.month, activeDateLabel || data.currentDate);
+    }
+  };
+
+  document.addEventListener("click", (event) => {
+    if(!switcher.contains(event.target)) switcher.classList.remove("open");
   });
 }
 
 function renderNewsList(items){
-  const dailyList = document.querySelector('.daily-list');
+  const dailyList = document.querySelector(".daily-list");
 
   if(!items.length){
     dailyList.innerHTML = `<div class="empty-state">此日期或分類目前沒有更新。</div>`;
@@ -373,7 +530,7 @@ function renderNewsList(items){
   dailyList.innerHTML = items.map(item => `
     <article class="daily-item">
       <div class="daily-meta">
-        <span class="tag dark">${item.important ? '今日最重要' : item.category}</span>
+        <span class="tag dark">${item.important ? "今日最重要" : item.category}</span>
         <span class="tag brown">${item.tag}</span>
       </div>
 
@@ -384,36 +541,36 @@ function renderNewsList(items){
 
       <div class="detail-box">
         <ul>
-          ${item.points.map(point=>`<li>${point}</li>`).join('')}
+          ${item.points.map(point => `<li>${point}</li>`).join("")}
         </ul>
       </div>
 
       <div class="daily-actions">
         <a class="btn sub" href="${item.url}" target="_blank" rel="noopener noreferrer">原文</a>
-        ${item.relatedUrl ? `<a class="btn sub" href="${item.relatedUrl}" target="_blank" rel="noopener noreferrer">相關文章</a>` : ''}
+        ${item.relatedUrl ? `<a class="btn sub" href="${item.relatedUrl}" target="_blank" rel="noopener noreferrer">相關文章</a>` : ""}
       </div>
     </article>
-  `).join('');
+  `).join("");
 }
 
 function resetTabs(){
-  const tabs = document.querySelectorAll('.tab');
-  tabs.forEach(t=>t.classList.remove('active'));
-  tabs[0]?.classList.add('active');
+  const tabs = document.querySelectorAll(".tab");
+  tabs.forEach(tab => tab.classList.remove("active"));
+  tabs[0]?.classList.add("active");
 }
 
 function bindTabs(){
-  const tabs = document.querySelectorAll('.tab');
+  const tabs = document.querySelectorAll(".tab");
 
-  tabs.forEach(tab=>{
-    tab.addEventListener('click',()=>{
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
       const category = tab.textContent.trim();
-      const filtered = category === '全部'
+      const filtered = category === "全部"
         ? currentNewsData.items
         : currentNewsData.items.filter(item => item.category === category);
 
-      tabs.forEach(t=>t.classList.remove('active'));
-      tab.classList.add('active');
+      tabs.forEach(item => item.classList.remove("active"));
+      tab.classList.add("active");
       renderNewsList(filtered);
     });
   });
@@ -425,8 +582,8 @@ function runTests(){
   console.assert(normalized.items[0].points.length === 1, "缺少 points 時應補預設重點");
   console.assert(normalized.items[0].relatedUrl.includes("google.com/search"), "應自動產生相關文章搜尋連結");
 
-  const list = formatDateList({dates:[{label:"2026/05/10（日）", file:"2026-05-10.json"}]}, normalizeNewsData(FALLBACK_NEWS));
-  console.assert(list[0].file === "2026-05-10.json", "日期索引應支援歷史檔案 file");
+  const parsed = parseDateLabel("2026/05/10（日）");
+  console.assert(parsed.year === 2026 && parsed.month === 5 && parsed.day === 10, "日期解析應正確");
 }
 
 async function loadNews(){
@@ -445,7 +602,7 @@ async function loadNews(){
     renderNewsList(data.items);
     bindTabs();
   }catch(error){
-    console.warn('news.json 讀取失敗，已使用備用資料。', error);
+    console.warn("news.json 讀取失敗，已使用備用資料。", error);
     const data = normalizeNewsData(FALLBACK_NEWS);
     const dateList = formatDateList(null, data);
 
