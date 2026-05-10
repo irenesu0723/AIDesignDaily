@@ -1,404 +1,332 @@
-// AI Design Daily - RSS + OpenAI 摘要分類 + 每日歷史資料
-// 會輸出：
-// 1. data/news.json                  最新資料
-// 2. data/history/YYYY-MM-DD.json    每日歷史資料
-// 3. data/index.json                 日期下拉索引
-
 const fs = require("fs");
-const path = require("path");
+const gplay = require("google-play-scraper");
+const { chromium } = require("playwright");
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-const MODEL = process.env.OPENAI_MODEL || "gpt-5-mini";
+const IOS_APP_ID = "1274334474";
+const IOS_APP_URL =
+  "https://apps.apple.com/tw/app/lativ-%E6%8F%90%E4%BE%9B%E5%B9%B3%E5%83%B9%E4%B8%94%E9%AB%98%E5%93%81%E8%B3%AA%E6%9C%8D%E9%A3%BE/id1274334474";
+const ANDROID_APP_ID = "tw.com.lativ.shopping";
+const START_DATE = "2025-01-01";
 
-const DATA_DIR = path.join(__dirname, "../data");
-const HISTORY_DIR = path.join(DATA_DIR, "history");
-const LATEST_PATH = path.join(DATA_DIR, "news.json");
-const INDEX_PATH = path.join(DATA_DIR, "index.json");
+function toDateString(value) {
+  if (!value) return new Date().toISOString().slice(0, 10);
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return new Date().toISOString().slice(0, 10);
+  return d.toISOString().slice(0, 10);
+}
 
-const RSS_SOURCES = [
-  "https://openai.com/news/rss.xml",
-  "https://blog.google/technology/ai/rss/",
-  "https://www.adobe.com/newsroom.rss",
-  "https://huggingface.co/blog/feed.xml"
-];
-
-const PRIORITY_TOOLS = [
-  "evoto",
-  "adobe",
-  "firefly",
-  "midjourney",
-  "runway",
-  "chatgpt",
-  "gemini"
-];
-
-const TOOL_KEYWORDS = {
-  "AI 設計": [
-    "evoto", "lightroom", "luminar", "firefly",
-    "flair ai", "pebblely", "photoroom", "caspa ai",
-    "midjourney", "leonardo", "flux", "ideogram", "stable diffusion",
-    "looka", "brandmark", "logoai",
-    "icons8", "svg.io", "illustration", "khroma",
-    "figma", "framer", "relume", "v0",
-    "canva", "adobe express", "gamma", "beautiful.ai", "tome",
-    "tripo", "spline", "meshy", "masterpiece x",
-    "pika", "animatediff", "tooncrafter", "viggle",
-    "runway", "kling", "sora", "luma ai",
-    "roomgpt", "interior ai", "vizcom",
-    "idm-vton", "fashn ai", "try-on"
-  ],
-  "Adobe": [
-    "adobe", "photoshop", "illustrator", "lightroom",
-    "firefly", "premiere", "after effects", "adobe express"
-  ],
-  "模型 / Agent": [
-    "chatgpt", "openai", "gemini", "claude",
-    "grok", "deepseek", "perplexity", "agent"
-  ],
-  "其他": [
-    "notion ai", "notebooklm", "mem", "craft ai",
-    "n8n", "make", "zapier", "relay.app",
-    "cursor", "windsurf", "bolt", "replit",
-    "suno", "udio", "elevenlabs", "voicemod"
-  ]
-};
-
-function stripHtml(html = "") {
-  return html
-    .replace(/<[^>]+>/g, " ")
-    .replace(/&nbsp;/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
+function cleanText(value = "") {
+  return String(value)
     .replace(/\s+/g, " ")
+    .replace(/\u00a0/g, " ")
     .trim();
 }
 
-function getTag(text, tag) {
-  const match = text.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, "i"));
-  return match ? stripHtml(match[1]) : "";
+function normalizeReview(r = {}, platform = "") {
+  return {
+    title: r.title || r.reviewTitle || "",
+    text: r.text || r.content || r.review || "",
+    star: Number(r.score || r.rating || r.star || 0),
+    userName: r.userName || r.user || r.author || r.nickname || "USER NAME",
+    date: toDateString(r.date || r.updated || r.dateTime),
+    platform,
+    replyText: r.replyText || r.reply || r.developerReply || r.response || "",
+    replyDate: r.replyDate ? toDateString(r.replyDate) : ""
+  };
 }
 
-async function fetchRSS(url) {
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+function extractReplyFromPopupText(text = "") {
+  const lines = String(text)
+    .split(/\n+/)
+    .map(v => v.trim())
+    .filter(Boolean);
 
-  const xml = await res.text();
+  const replyIndex = lines.findIndex(line =>
+    line.includes("開發者回覆") ||
+    line.includes("Developer Response") ||
+    line.includes("Developer’s Response")
+  );
 
-  const blocks = [
-    ...xml.matchAll(/<item[\s\S]*?<\/item>/gi),
-    ...xml.matchAll(/<entry[\s\S]*?<\/entry>/gi)
-  ].map(m => m[0]);
+  if (replyIndex === -1) return "";
 
-  return blocks.map(block => {
-    const title = getTag(block, "title");
-    const link =
-      getTag(block, "link") ||
-      (block.match(/<link[^>]+href="([^"]+)"/i)?.[1] ?? "");
+  const replyLines = [];
 
-    const summary =
-      getTag(block, "description") ||
-      getTag(block, "summary") ||
-      getTag(block, "content");
+  for (let i = replyIndex + 1; i < lines.length; i++) {
+    const line = lines[i];
 
-    const published =
-      getTag(block, "pubDate") ||
-      getTag(block, "published") ||
-      getTag(block, "updated");
+    if (!line) continue;
+    if (line.includes("開發者回覆")) continue;
+    if (/^\d{4}\/\d{1,2}\/\d{1,2}$/.test(line)) continue;
+    if (/^\d{4}-\d{1,2}-\d{1,2}$/.test(line)) continue;
+    if (/^\d{1,2}月\d{1,2}日$/.test(line)) continue;
+    if (/^\d+★/.test(line)) break;
+    if (line === "更多") break;
 
-    return {
-      title,
-      link,
-      summary,
-      published,
-      source: url
-    };
-  }).filter(item => item.title && item.link);
+    replyLines.push(line);
+  }
+
+  return cleanText(replyLines.join(" "));
 }
 
-function scoreItem(item) {
-  const text = `${item.title} ${item.summary}`.toLowerCase();
-  let score = 0;
-
-  for (const tool of PRIORITY_TOOLS) {
-    if (text.includes(tool)) score += 10;
-  }
-
-  for (const keywords of Object.values(TOOL_KEYWORDS)) {
-    for (const keyword of keywords) {
-      if (text.includes(keyword)) score += 3;
-    }
-  }
-
-  const updateWords = [
-    "update", "launch", "release", "new", "feature", "model",
-    "beta", "available", "introduce", "announce",
-    "更新", "推出", "發布", "發表", "新功能", "模型", "改版"
+async function getPopupText(page) {
+  const candidates = [
+    '[role="dialog"]',
+    '.we-modal',
+    '.modal',
+    '.overlay',
+    '[class*="modal"]',
+    '[class*="dialog"]',
+    '[class*="overlay"]'
   ];
 
-  for (const word of updateWords) {
-    if (text.includes(word)) score += 2;
+  for (const selector of candidates) {
+    const loc = page.locator(selector).last();
+    try {
+      if (await loc.isVisible({ timeout: 800 })) {
+        const text = await loc.innerText({ timeout: 2000 });
+        if (text && text.includes("開發者回覆")) return text;
+      }
+    } catch {}
   }
 
-  return score;
+  return "";
 }
 
-function isLikelyRelevant(item) {
-  return scoreItem(item) >= 3;
-}
+async function fetchIosWebReplies() {
+  const replies = [];
+  let browser;
 
-function removeDuplicates(items) {
-  const seen = new Set();
-  return items.filter(item => {
-    const key = item.link || item.title;
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-}
+  try {
+    browser = await chromium.launch({ headless: true });
 
-function makeRelatedUrl(tool, title) {
-  const query = `${tool || "AI"} ${title || "AI 更新"} 中文`;
-  return `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-}
+    const page = await browser.newPage({
+      locale: "zh-TW",
+      viewport: { width: 1440, height: 1200 },
+      userAgent:
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36"
+    });
 
-async function summarizeWithAI(items) {
-  if (!OPENAI_API_KEY) {
-    throw new Error("Missing OPENAI_API_KEY");
-  }
+    await page.goto(IOS_APP_URL, { waitUntil: "networkidle", timeout: 60000 });
+    await page.waitForTimeout(4000);
 
-  const input = `
-你是「AI Design Daily」的 AI 設計情報編輯。
+    for (let i = 0; i < 8; i++) {
+      await page.mouse.wheel(0, 2200);
+      await page.waitForTimeout(1200);
+    }
 
-請從以下 RSS 資料中，挑出適合設計人、修圖人、內容創作者關注的 AI 重要更新。
+    const moreButtons = page.locator(
+      'button:has-text("更多"), button:has-text("More"), a:has-text("更多"), a:has-text("More")'
+    );
 
-最重要規則：
-1. 第一優先核心關注工具：
-Evoto、Adobe、Firefly、Midjourney、Runway、ChatGPT、Gemini。
-只要這些工具有重大更新、官方發佈、新功能、模型更新、設計工作流相關消息，要優先收錄並排序靠前。
+    const count = await moreButtons.count();
+    console.log(`iOS More buttons found: ${count}`);
 
-2. 熱門常用 AI 工具為第二優先：
-若有重大更新、發佈新聞、新功能、重要模型更新，也要收錄。
+    for (let i = 0; i < count; i++) {
+      try {
+        const btn = moreButtons.nth(i);
+        if (!(await btn.isVisible())) continue;
 
-3. 模型 / Agent 更新也要進「今日 AI 重點」。
-例如 ChatGPT、Gemini、Claude、Grok、DeepSeek、Perplexity、Agent 類功能。
+        await btn.scrollIntoViewIfNeeded();
+        await page.waitForTimeout(500);
+        await btn.click({ timeout: 8000 });
+        await page.waitForTimeout(1400);
 
-4. 音樂 / 配音、文件筆記、工作流、自動化、Coding 類放「其他」。
+        const popupText = await getPopupText(page);
+        const replyText = extractReplyFromPopupText(popupText);
 
-5. 分不到分類一律放「其他」。
-
-6. 不要收錄純商業、財報、融資、股價、企業人事新聞，除非直接影響 AI 工具功能。
-
-7. 只保留最重要的 3～8 則。
-
-分類規則：
-- AI 設計：人像修圖、商品修圖、去背、放大清晰、生圖、LOGO、ICON/插圖、UI/網頁、排版設計、3D建模、動畫、影片、室內建築、AI試穿。
-- Adobe：Photoshop、Illustrator、Firefly、Lightroom、Premiere、After Effects、Adobe Express 等 Adobe 軟體更新。
-- 模型 / Agent：ChatGPT、Gemini、Claude、Grok、DeepSeek、Perplexity、Agent 類更新。
-- 其他：音樂/配音、文件筆記、工作流、自動化、Coding 或無法分類的 AI 消息。
-
-輸出要求：
-- 使用繁體中文。
-- 標題要像設計情報摘要，不要太工程化。
-- summary 一句話即可。
-- points 2～3 點，簡短清楚。
-- important：第一優先核心工具的重要更新設為 true，其餘通常為 false。
-- relatedUrl：請產生 Google 中文搜尋連結，格式為 https://www.google.com/search?q=...
-  搜尋字串請使用「工具名稱 + 更新標題 + 中文」。
-
-RSS 資料：
-${JSON.stringify(items.slice(0, 40), null, 2)}
-`;
-
-  const schema = {
-    type: "object",
-    additionalProperties: false,
-    required: ["items"],
-    properties: {
-      items: {
-        type: "array",
-        items: {
-          type: "object",
-          additionalProperties: false,
-          required: [
-            "category",
-            "tag",
-            "tool",
-            "important",
-            "title",
-            "summary",
-            "points",
-            "url",
-            "relatedUrl"
-          ],
-          properties: {
-            category: {
-              type: "string",
-              enum: ["AI 設計", "Adobe", "模型 / Agent", "其他"]
-            },
-            tag: { type: "string" },
-            tool: { type: "string" },
-            important: { type: "boolean" },
-            title: { type: "string" },
-            summary: { type: "string" },
-            points: {
-              type: "array",
-              minItems: 2,
-              maxItems: 3,
-              items: { type: "string" }
-            },
-            url: { type: "string" },
-            relatedUrl: { type: "string" }
-          }
+        if (replyText) {
+          replies.push({ replyText });
+          console.log(`iOS reply caught: ${replyText.slice(0, 30)}`);
         }
+
+        await page.keyboard.press("Escape").catch(() => {});
+        await page.waitForTimeout(700);
+      } catch (error) {
+        console.log(`iOS dialog skipped ${i + 1}: ${error.message}`);
+        await page.keyboard.press("Escape").catch(() => {});
       }
     }
-  };
 
-  const res = await fetch("https://api.openai.com/v1/responses", {
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${OPENAI_API_KEY}`,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      model: MODEL,
-      input,
-      text: {
-        format: {
-          type: "json_schema",
-          name: "ai_design_daily_news",
-          schema,
-          strict: true
-        }
-      }
-    })
+    console.log(`iOS web replies found: ${replies.length}`);
+    return replies;
+  } catch (error) {
+    console.log(`iOS Playwright replies skipped: ${error.message}`);
+    return [];
+  } finally {
+    if (browser) await browser.close();
+  }
+}
+
+async function fetchIosReviews() {
+  const all = [];
+
+  for (let page = 1; page <= 10; page++) {
+    const url = `https://itunes.apple.com/tw/rss/customerreviews/page=${page}/id=${IOS_APP_ID}/sortby=mostrecent/json`;
+
+    try {
+      const res = await fetch(url);
+      if (!res.ok) break;
+
+      const json = await res.json();
+      const entries = json.feed?.entry || [];
+
+      const reviews = entries
+        .filter(item => item["im:rating"] && item.content)
+        .map(item => ({
+          title: item.title?.label || "",
+          text: item.content?.label || "",
+          rating: Number(item["im:rating"]?.label || 0),
+          author: item.author?.name?.label || "USER NAME",
+          updated: item.updated?.label || new Date().toISOString()
+        }));
+
+      console.log(`iOS RSS page ${page}: ${reviews.length}`);
+
+      if (!reviews.length) break;
+
+      all.push(...reviews);
+
+      const oldest = normalizeReview(reviews[reviews.length - 1], "ios").date;
+      if (oldest < START_DATE) break;
+    } catch (error) {
+      console.log(`iOS RSS stopped: ${error.message}`);
+      break;
+    }
+  }
+
+  let normalized = all.map(r => normalizeReview(r, "ios"));
+  const webReplies = await fetchIosWebReplies();
+
+  normalized = normalized.map((review, index) => {
+    const reply = webReplies[index];
+    if (!reply || !reply.replyText) return review;
+
+    return {
+      ...review,
+      replyText: reply.replyText,
+      replyDate: reply.replyDate || ""
+    };
   });
 
-  const data = await res.json();
+  console.log(`iOS web replies merged: ${webReplies.length}`);
+  return normalized;
+}
 
-  if (!res.ok) {
-    throw new Error(JSON.stringify(data, null, 2));
+async function fetchAndroidReviews() {
+  let all = [];
+  let token = null;
+
+  for (let page = 1; page <= 30; page++) {
+    const result = await gplay.reviews({
+      appId: ANDROID_APP_ID,
+      sort: 2,
+      num: 150,
+      lang: "zh_TW",
+      country: "tw",
+      paginate: true,
+      nextPaginationToken: token
+    });
+
+    const list = result.data || [];
+    all.push(...list);
+
+    console.log(`Android page ${page}: ${list.length}`);
+
+    token = result.nextPaginationToken;
+    if (!token || !list.length) break;
+
+    const oldest = normalizeReview(list[list.length - 1], "android").date;
+    if (oldest < START_DATE) break;
   }
 
-  const text =
-    data.output_text ||
-    data.output?.flatMap(o => o.content || [])
-      .map(c => c.text || "")
-      .join("");
-
-  const parsed = JSON.parse(text);
-
-  parsed.items = parsed.items.map(item => ({
-    ...item,
-    category: ["AI 設計", "Adobe", "模型 / Agent", "其他"].includes(item.category)
-      ? item.category
-      : "其他",
-    relatedUrl: item.relatedUrl || makeRelatedUrl(item.tool, item.title)
-  }));
-
-  return parsed;
+  return all.map(r => normalizeReview(r, "android"));
 }
 
-function getTaipeiDateParts(offsetDays = 0) {
-  const now = new Date();
-  now.setDate(now.getDate() + offsetDays);
+function mergeReviews(oldReviews = [], newReviews = [], platform = "") {
+  const map = new Map();
 
-  const parts = new Intl.DateTimeFormat("zh-TW", {
-    timeZone: "Asia/Taipei",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    weekday: "short"
-  }).formatToParts(now);
+  [...oldReviews, ...newReviews].forEach(raw => {
+    const review = normalizeReview(raw, platform);
+    if (!review.text) return;
 
-  const y = parts.find(p => p.type === "year").value;
-  const m = parts.find(p => p.type === "month").value;
-  const d = parts.find(p => p.type === "day").value;
-  const w = parts.find(p => p.type === "weekday").value.replace("週", "");
+    const key = [
+      review.platform || "",
+      review.text || "",
+      review.userName || "",
+      review.date || ""
+    ].join("__");
 
-  return {
-    fileDate: `${y}-${m}-${d}`,
-    label: `${y}/${m}/${d}（${w}）`
-  };
+    const existed = map.get(key);
+
+    map.set(key, {
+      ...(existed || {}),
+      ...review,
+      replyText: review.replyText || existed?.replyText || "",
+      replyDate: review.replyDate || existed?.replyDate || ""
+    });
+  });
+
+  return Array.from(map.values()).sort(
+    (a, b) => new Date(b.date) - new Date(a.date)
+  );
 }
 
-function readJsonIfExists(filePath, fallback) {
+function readOldData() {
+  if (!fs.existsSync("data.json")) {
+    return { reviews: { ios: [], android: [] } };
+  }
+
   try {
-    if (!fs.existsSync(filePath)) return fallback;
-    return JSON.parse(fs.readFileSync(filePath, "utf8"));
+    const old = JSON.parse(fs.readFileSync("data.json", "utf8"));
+    return {
+      reviews: {
+        ios: old.reviews?.ios || [],
+        android: old.reviews?.android || []
+      }
+    };
   } catch {
-    return fallback;
+    return { reviews: { ios: [], android: [] } };
   }
-}
-
-function updateDateIndex(todayLabel, todayFile) {
-  const existing = readJsonIfExists(INDEX_PATH, { dates: [] });
-  const dates = Array.isArray(existing.dates) ? existing.dates : [];
-
-  const withoutToday = dates.filter(item => item.file !== todayFile);
-
-  const updated = [
-    { label: todayLabel, file: todayFile },
-    ...withoutToday
-  ].slice(0, 60);
-
-  fs.writeFileSync(INDEX_PATH, JSON.stringify({ dates: updated }, null, 2), "utf8");
-}
-
-function runTests() {
-  console.assert(scoreItem({ title: "Evoto new AI retouch update", summary: "" }) >= 10, "Evoto 應為高優先");
-  console.assert(scoreItem({ title: "Random company funding news", summary: "" }) < 10, "一般商業新聞不應高分");
-  console.assert(makeRelatedUrl("Evoto", "AI 修圖更新").includes("google.com/search"), "relatedUrl 應為 Google 搜尋");
-
-  const today = getTaipeiDateParts();
-  console.assert(today.fileDate.match(/^\d{4}-\d{2}-\d{2}$/), "fileDate 格式應為 YYYY-MM-DD");
 }
 
 async function main() {
-  runTests();
+  const oldData = readOldData();
 
-  const all = [];
+  let iosNew = [];
+  let androidNew = [];
 
-  for (const source of RSS_SOURCES) {
-    try {
-      const items = await fetchRSS(source);
-      all.push(...items);
-    } catch (err) {
-      console.warn("RSS 讀取失敗：", source, err.message);
-    }
+  try {
+    iosNew = await fetchIosReviews();
+    console.log(`iOS fetched total: ${iosNew.length}`);
+  } catch (error) {
+    console.error("iOS 抓取失敗：", error.message);
   }
 
-  const relevant = removeDuplicates(all)
-    .filter(isLikelyRelevant)
-    .sort((a, b) => scoreItem(b) - scoreItem(a));
+  try {
+    androidNew = await fetchAndroidReviews();
+    console.log(`Android fetched total: ${androidNew.length}`);
+  } catch (error) {
+    console.error("Android 抓取失敗：", error.message);
+  }
 
-  const aiResult = await summarizeWithAI(relevant);
-
-  const today = getTaipeiDateParts(0);
-  const historyFile = `${today.fileDate}.json`;
-  const historyPath = path.join(HISTORY_DIR, historyFile);
-
-  const output = {
-    currentDate: today.label,
-    dates: [today.label],
-    items: aiResult.items
+  const reviews = {
+    ios: mergeReviews(oldData.reviews.ios, iosNew, "ios"),
+    android: mergeReviews(oldData.reviews.android, androidNew, "android")
   };
 
-  fs.mkdirSync(DATA_DIR, { recursive: true });
-  fs.mkdirSync(HISTORY_DIR, { recursive: true });
+  const data = {
+    updatedAt: new Date().toISOString(),
+    reviews
+  };
 
-  fs.writeFileSync(LATEST_PATH, JSON.stringify(output, null, 2), "utf8");
-  fs.writeFileSync(historyPath, JSON.stringify(output, null, 2), "utf8");
-  updateDateIndex(today.label, historyFile);
+  fs.writeFileSync("data.json", JSON.stringify(data, null, 2), "utf8");
 
-  console.log(`已更新 ${LATEST_PATH}`);
-  console.log(`已備份 ${historyPath}`);
-  console.log(`已更新 ${INDEX_PATH}`);
-  console.log(`收錄 ${output.items.length} 則 AI 重點`);
+  console.log("data.json updated");
+  console.log(`iOS stored: ${reviews.ios.length}`);
+  console.log(`Android stored: ${reviews.android.length}`);
 }
 
-main().catch(err => {
-  console.error(err);
+main().catch(error => {
+  console.error(error);
   process.exit(1);
 });
