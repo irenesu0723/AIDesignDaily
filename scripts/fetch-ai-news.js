@@ -442,20 +442,23 @@ async function summarizeWithAI(items) {
 
 function getTaipeiDateParts(offsetDays) {
   const now = new Date();
-  now.setDate(now.getDate() + (offsetDays || 0));
 
-  const parts = new Intl.DateTimeFormat("zh-TW", {
-    timeZone: "Asia/Taipei",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    weekday: "short"
-  }).formatToParts(now);
+  const taipeiNow = new Date(
+    now.toLocaleString("en-US", {
+      timeZone: "Asia/Taipei"
+    })
+  );
 
-  const y = parts.find(function(p) { return p.type === "year"; }).value;
-  const m = parts.find(function(p) { return p.type === "month"; }).value;
-  const d = parts.find(function(p) { return p.type === "day"; }).value;
-  const w = parts.find(function(p) { return p.type === "weekday"; }).value.replace("週", "");
+  taipeiNow.setDate(
+    taipeiNow.getDate() + (offsetDays || 0)
+  );
+
+  const y = taipeiNow.getFullYear();
+  const m = String(taipeiNow.getMonth() + 1).padStart(2, "0");
+  const d = String(taipeiNow.getDate()).padStart(2, "0");
+
+  const WEEK = ["日", "一", "二", "三", "四", "五", "六"];
+  const w = WEEK[taipeiNow.getDay()];
 
   return {
     fileDate: y + "-" + m + "-" + d,
@@ -523,6 +526,11 @@ async function main() {
   const aiResult = await summarizeWithAI(relevant);
 
   const today = getTaipeiDateParts(0);
+
+  console.log("台灣日期：", today);
+  console.log("historyFile：", today.fileDate + ".json");
+  console.log("currentLabel：", today.label);
+
   const historyFile = today.fileDate + ".json";
   const historyPath = path.join(HISTORY_DIR, historyFile);
 
