@@ -291,7 +291,11 @@ async function summarizeWithAI(items) {
     "例如：AI MODEL 一致性、AI 商攝、影片生成、AI Agent 工作流。",
     "",
     "輸出要求：",
-    "- 使用繁體中文。",
+    "- 所有輸出必須為繁體中文。",
+    "- title 必須翻譯為繁體中文。",
+    "- 不可直接使用英文新聞標題。",
+    "- 若原文為英文，請改寫成中文 AI 情報摘要風格。",
+    "- tag 也需使用繁體中文。",
     "- 標題要像設計情報摘要，不要太工程化。",
     "- summary 一句話即可。",
     "- points 2～3 點，簡短清楚。",
@@ -536,7 +540,9 @@ async function main() {
 
   const output = {
     currentDate: today.label,
-    updatedAt: new Date().toISOString(),
+    updatedAt: new Date().toLocaleString("sv-SE", {
+      timeZone: "Asia/Taipei"
+    }),
     dates: [today.label],
     trends: aiResult.trends,
     items: aiResult.items
