@@ -536,6 +536,7 @@ async function main() {
 
   const output = {
     currentDate: today.label,
+    updatedAt: new Date().toISOString(),
     dates: [today.label],
     trends: aiResult.trends,
     items: aiResult.items
