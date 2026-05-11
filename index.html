@@ -426,7 +426,7 @@ function setDateButtonText(label){
     <span class="calendar-icon" aria-hidden="true"></span>
     <span class="date-info">
       <span class="current-date-text">${formatDateText(label)}</span>
-      <span class="update-time">Updated 07:00 · 15:00</span>
+      <span class="update-time">Last Update ${new Date().toLocaleTimeString("zh-TW", { hour12:false })}</span>
     </span>
   `;
 }
