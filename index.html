@@ -283,6 +283,7 @@ function normalizeNewsData(data){
 
   return {
     currentDate: safeData.currentDate || FALLBACK_NEWS.currentDate,
+    updatedAt: safeData.updatedAt || "",
     dates: Array.isArray(safeData.availableDates) && safeData.availableDates.length
       ? safeData.availableDates
       : Array.isArray(safeData.dates) && safeData.dates.length
@@ -418,15 +419,34 @@ function buildAvailableDateMap(dateList){
   return map;
 }
 
+function formatUpdateTime(value){
+  if(!value) return "";
+
+  const date = new Date(value);
+  if(Number.isNaN(date.getTime())) return value;
+
+  return date.toLocaleTimeString("zh-TW", {
+    hour12:false,
+    hour:"2-digit",
+    minute:"2-digit",
+    second:"2-digit",
+    timeZone:"Asia/Taipei"
+  });
+}
+
 function setDateButtonText(label){
   const currentDate = document.querySelector(".date-current");
   activeDateLabel = label;
+
+  const updateText = currentNewsData && currentNewsData.updatedAt
+    ? `Last Update ${formatUpdateTime(currentNewsData.updatedAt)}`
+    : "";
 
   currentDate.innerHTML = `
     <span class="calendar-icon" aria-hidden="true"></span>
     <span class="date-info">
       <span class="current-date-text">${formatDateText(label)}</span>
-      <span class="update-time">Last Update ${new Date().toLocaleTimeString("zh-TW", { hour12:false })}</span>
+      ${updateText ? `<span class="update-time">${updateText}</span>` : ""}
     </span>
   `;
 }
@@ -441,6 +461,7 @@ async function selectDateItem(item){
       const historyRaw = await fetchHistoryNews(item.file);
       const historyData = normalizeNewsData(historyRaw);
       currentNewsData = historyData;
+      setDateButtonText(historyData.currentDate || item.label);
       renderTrends(historyData.trends);
       renderNewsList(historyData.items);
       resetTabs();
