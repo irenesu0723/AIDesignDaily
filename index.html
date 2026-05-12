@@ -422,6 +422,11 @@ function buildAvailableDateMap(dateList){
 function formatUpdateTime(value){
   if(!value) return "";
 
+  const text = String(value);
+
+  const taipeiTextMatch = text.match(new RegExp("[0-9]{4}-[0-9]{2}-[0-9]{2}\s+([0-9]{2}:[0-9]{2}:[0-9]{2})"));
+  if(taipeiTextMatch) return taipeiTextMatch[1];
+
   const date = new Date(value);
   if(Number.isNaN(date.getTime())) return value;
 
