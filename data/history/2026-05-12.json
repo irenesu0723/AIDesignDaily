@@ -1,139 +1,167 @@
 {
   "currentDate": "2026/5/12（二）",
-  "updatedAt": "2026-05-12 16:16:27",
+  "updatedAt": "2026-05-12 21:28:31",
   "dates": [
     "2026/5/12（二）"
   ],
   "trends": [
     {
-      "title": "個人化影像生成與相簿整合成為實務趨勢",
-      "summary": "工具開始允許直接使用個人相片與生活脈絡作為生成素材，設計與內容創作者能更快速產出個人化且一致的視覺內容。"
+      "title": "個人化影像生成成為設計素材新來源",
+      "summary": "工具開始整合個人相簿與上下文（如 Gemini Nano Banana），讓生成影像更具個人語境與故事性，設計與內容創作者可利用此產生情境化素材或替代實拍。"
     },
     {
-      "title": "多模態與超長上下文是代理人與創作工具的關鍵",
-      "summary": "從 DeepSeek-V4 到 Nemotron 類型的模型，支援百萬級上下文與視聽多模態理解，讓代理人能處理更複雜的素材與長期專案。"
+      "title": "長上下文與多模態成為 Agent 與內容生成關鍵",
+      "summary": "DeepSeek、Nemotron 等聚焦百萬 token 與多模態理解的新模型，意味著未來可以在單一 Agent 中處理大量文件、長影片或跨媒體素材，對大型專案管理與素材一致性很重要。"
     },
     {
-      "title": "API 可用性升級：推論分層與事件驅動降低成本與延遲",
-      "summary": "推論層級（Flex/Priority）與 Webhooks 類事件驅動設計，正在把模型整合變成更可實作、可量化成本的工作流選項。"
+      "title": "API 與基礎設施朝生產級可用性演進",
+      "summary": "Gemini 的 Flex/Priority 推理層與 Webhooks，加上專用 TPU，顯示供應商在降低成本、保證延遲與整合可靠性上投入，利於設計工具與平台把 AI 流程放到生產線。"
     },
     {
-      "title": "語音與影音生成品質提升，適合內容創作者採用",
-      "summary": "像 Flash TTS 這類更具表情的語音模型，使文字到聲音的轉換更自然，能直接應用於旁白、短片與角色配音等製作。"
+      "title": "邊緣與本地部署工具普及，提升私有化與互動體驗",
+      "summary": "像 ROCm 上的單卡 ChatGPT 部署與 Transformers.js 的 WebGPU 支援，讓設計工具能在本地或瀏覽器端執行模型，減少延遲與隱私顧慮，利於互動式編輯器與離線工作流程。"
     }
   ],
   "items": [
     {
-      "category": "AI 設計",
-      "tag": "個人化影像",
+      "category": "模型 / Agent",
+      "tag": "個人化圖像",
       "tool": "Gemini",
       "important": true,
-      "title": "Gemini 應用程式：Nano Banana 2 用你的相簿與個人脈絡生成個人化影像",
-      "summary": "Nano Banana 2 現在會使用個人上下文與 Google Photos 的內容來產生更具個人化和生活感的影像。",
+      "title": "Gemini 應用：Nano Banana 2 推出個人化影像生成功能",
+      "summary": "Nano Banana 2 能利用你的個人上下文與 Google Photos，生成反映個人生活的客製化影像。",
       "points": [
-        "可直接將 Google Photos 中的素材納入生成流程，提升人物與場景的一致性與真實感",
-        "適合製作個人化社群視覺、品牌故事或商攝素材，降低從頭建立風格的成本"
+        "可串接 Google Photos 與個人資訊，生成更貼近使用者生活場景的影像。",
+        "對設計師與內容創作者來說，能快速產出具個人化風格或情境的素材，節省拍攝成本。"
       ],
       "url": "https://blog.google/innovation-and-ai/products/gemini-app/personal-intelligence-nano-banana/",
-      "relatedUrl": "https://www.google.com/search?q=Gemini+應用程式+Nano+Banana+2+個人化+影像"
+      "relatedUrl": "https://www.google.com/search?q=Gemini+Nano+Banana+2+個人化影像"
     },
     {
       "category": "模型 / Agent",
-      "tag": "語音合成",
+      "tag": "語音合成 / TTS",
       "tool": "Gemini",
       "important": true,
-      "title": "Gemini 3.1 Flash TTS：更具表情與跨產品的語音合成",
-      "summary": "Gemini 3.1 的 Flash TTS 推出，提供更自然且具表情的語音合成，已在多個 Google 產品中可用。",
+      "title": "Gemini 3.1 Flash TTS：整合到 Google 產品的新一代表現力語音",
+      "summary": "Gemini 3.1 Flash TTS 提供更表情豐富與自然的語音合成，已在 Google 產品中可用。",
       "points": [
-        "強化語調與情緒表達，適合廣告旁白、影片配音與角色語音應用",
-        "可整合至內容產製流程，加速從文字到影音的落地速度"
+        "語音表現力與自然度提升，利於影音內容、配音與導覽語音的高品質製作。",
+        "對創作者來說，可快速產出多語種、多情緒的語音素材，減少錄音成本。"
       ],
       "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-tts/",
-      "relatedUrl": "https://www.google.com/search?q=Gemini+3.1+Flash+TTS+語音+合成"
+      "relatedUrl": "https://www.google.com/search?q=Gemini+3.1+Flash+TTS+語音合成"
     },
     {
       "category": "模型 / Agent",
-      "tag": "API 推論分層",
+      "tag": "API / 推理層",
       "tool": "Gemini API",
       "important": true,
-      "title": "Gemini API 推出 Flex 與 Priority 推論層級，平衡成本與延遲",
-      "summary": "Google 為 Gemini API 新增兩種推論層級（Flex、Priority），讓開發者在成本與低延遲間更靈活選擇。",
+      "title": "Gemini API 新增 Flex 與 Priority 推理層，平衡成本與延遲",
+      "summary": "Google 在 Gemini API 推出兩種新的推理等級，讓開發者在成本與回應延遲間更靈活調整。",
       "points": [
-        "Flex 適合成本敏感或非即時任務，Priority 提供更低延遲與高可靠性",
-        "對於影像/影片生成、自動化輸出與即時互動工作流能更精準配置資源"
+        "Flex 與 Priority 提供不同的延遲/成本權衡，利於大規模或即時生成工作的優化。",
+        "對內容平台與設計工具整合者而言，可根據工作流程選擇合適的 SLA 以控管成本。"
       ],
       "url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-flex-and-priority-inference/",
-      "relatedUrl": "https://www.google.com/search?q=Gemini+API+Flex+Priority+推論+層級"
+      "relatedUrl": "https://www.google.com/search?q=Gemini+API+Flex+Priority+推理層+成本+延遲"
     },
     {
       "category": "模型 / Agent",
-      "tag": "Webhook",
+      "tag": "API / Webhooks",
       "tool": "Gemini API",
       "important": true,
-      "title": "Gemini API 支援事件驅動 Webhooks，降低長任務輪詢延遲與成本",
-      "summary": "Gemini API 推出 Event-Driven Webhooks，以 push 通知取代繁瑣的輪詢，減少等待時間與資源浪費。",
+      "title": "Gemini API 推出事件驅動 Webhooks，降低長任務輪詢延遲",
+      "summary": "Gemini API 的 Webhooks 支持推播通知，避免無效率的輪詢並加速長時間任務回報。",
       "points": [
-        "適合長時間或大檔案生成的工作流，能即時回傳處理狀態與結果",
-        "對設計自動化與媒體處理流水線能顯著提升效率與可靠性"
+        "適合需要長時間生成或批次處理的影像/影片任務，減少資源浪費與延遲。",
+        "對整合工具或自動化工作流來說，可更穩定地接收任務完成通知與結果。"
       ],
       "url": "https://blog.google/innovation-and-ai/technology/developers-tools/event-driven-webhooks/",
-      "relatedUrl": "https://www.google.com/search?q=Gemini+API+Webhooks+事件+驅動+降低+延遲"
+      "relatedUrl": "https://www.google.com/search?q=Gemini+API+Webhooks+事件驅動+長任務"
     },
     {
       "category": "模型 / Agent",
-      "tag": "多模態",
-      "tool": "NVIDIA Nemotron 3 Nano Omni",
-      "important": false,
-      "title": "NVIDIA Nemotron 3 Nano Omni：為文件、音訊與影片代理人提供長上下文多模態能力",
-      "summary": "NVIDIA 發表 Nemotron 3 Nano Omni，專注於文件、音訊與影片代理人的長上下文與多模態理解。",
+      "tag": "ChatGPT/單卡部署",
+      "tool": "ChatGPT (類)",
+      "important": true,
+      "title": "在單張 GPU 上以 ROCm 執行類 ChatGPT 聊天機器人的方法",
+      "summary": "示範如何使用 ROCm 在單張 AMD GPU 上部署與執行類 ChatGPT 的聊天模型，降低硬體門檻。",
       "points": [
-        "擴展模型在視訊、音訊與文本間的跨模態理解，利於影片腳本、字幕與素材管理",
-        "對於需要長期上下文記憶的創作與編輯工具具有實務價值"
+        "對開發者與自建工具的設計團隊來說，可在較低成本硬體上本地運行聊天型模型。",
+        "有助於私有化部署、加速原型與離線工作流程（對內容審核與隱私友好）。"
       ],
-      "url": "https://huggingface.co/blog/nvidia/nemotron-3-nano-omni-multimodal-intelligence",
-      "relatedUrl": "https://www.google.com/search?q=NVIDIA+Nemotron+3+Nano+Omni+多模態+文件+音訊+影片"
+      "url": "https://huggingface.co/blog/chatbot-amd-gpu",
+      "relatedUrl": "https://www.google.com/search?q=ChatGPT+單張+GPU+ROCm+部署"
     },
     {
       "category": "模型 / Agent",
-      "tag": "長上下文",
-      "tool": "DeepSeek-V4",
+      "tag": "長上下文 Agent",
+      "tool": "DeepSeek",
       "important": false,
-      "title": "DeepSeek-V4：代理人可實際利用的百萬標記上下文",
-      "summary": "DeepSeek-V4 宣布支援百萬 token 的超長上下文，讓代理人能更有效地處理大量、長期的資料與指令。",
+      "title": "DeepSeek-V4：可供 Agent 使用的百萬 token 長上下文能力",
+      "summary": "DeepSeek-V4 宣稱可處理百萬 token 的長上下文，讓 Agent 與多文件檢索更實用。",
       "points": [
-        "超長上下文有助於維持專案風格、品牌指南與跨文件一致性",
-        "對資產管理、長篇內容生成與複雜影片製作的上下文連貫性有直接助益"
+        "對於需要跨大量素材做創意合成或品牌資產檢索的設計工作流非常有用。",
+        "長上下文能提升多文件一致性，減少斷裂式內容生成與校對成本。"
       ],
       "url": "https://huggingface.co/blog/deepseekv4",
-      "relatedUrl": "https://www.google.com/search?q=DeepSeek-V4+百萬+上下文+代理人"
+      "relatedUrl": "https://www.google.com/search?q=DeepSeek-V4+百萬+token+長上下文"
     },
     {
       "category": "模型 / Agent",
-      "tag": "硬體加速",
+      "tag": "多模態 / 文件與影音 Agent",
+      "tool": "NVIDIA Nemotron",
+      "important": false,
+      "title": "NVIDIA Nemotron 3 Nano Omni：面向文件、音訊與影片 Agent 的長上下文多模態模型",
+      "summary": "Nemotron 3 Nano Omni 聚焦長上下文、多模態理解，盼用於文件與影音代理人的智能任務。",
+      "points": [
+        "對影像/影片自動化流程與長片段理解（字幕、內容標註）有直接應用價值。",
+        "反映業界向長上下文與跨媒體理解方向演進，利於製作大型多段素材的工具整合。"
+      ],
+      "url": "https://huggingface.co/blog/nvidia/nemotron-3-nano-omni-multimodal-intelligence",
+      "relatedUrl": "https://www.google.com/search?q=NVIDIA+Nemotron+3+Nano+Omni+多模態"
+    },
+    {
+      "category": "模型 / Agent",
+      "tag": "硬體 / Agent 基礎設施",
       "tool": "Google TPU",
       "important": false,
-      "title": "Google 推出兩款專用 TPU，加速代理人與多模態推論",
-      "summary": "Google 發表第八代 TPU，其中兩款為代理人時代專用晶片，旨在提升大模型與多模態推論效能。",
+      "title": "Google 推出兩款專為 Agent 世代設計的第八代 TPU",
+      "summary": "Google 公布兩種專用 TPU，為代理型 AI 與大規模多任務推理提供硬體加速。",
       "points": [
-        "能為雲端生成影像、影片與即時代理人任務提供更高效的推論能力",
-        "長期可改善大規模創作平台的即時性與成本結構"
+        "可能加速大型多模態模型與 agent 的推理效率，影響雲端生成型工作流程的成本與速度。",
+        "設計與影像處理平台的整合者應關注新硬體帶來的延時與吞吐量變化。"
       ],
       "url": "https://blog.google/innovation-and-ai/infrastructure-and-cloud/google-cloud/tpus-8t-8i-cloud-next/",
-      "relatedUrl": "https://www.google.com/search?q=Google+TPU+第八代+專用+代理人+晶片"
+      "relatedUrl": "https://www.google.com/search?q=Google+TPU+第八代+Agent+專用"
+    },
+    {
+      "category": "其他",
+      "tag": "前端部署 / WebGPU",
+      "tool": "Transformers.js",
+      "important": false,
+      "title": "Transformers.js v3：加入 WebGPU 支持與更多模型與任務",
+      "summary": "Transformers.js v3 增加 WebGPU 支援，讓瀏覽器端執行模型與推理更高效。",
+      "points": [
+        "有助於在客戶端直接執行輕量模型，為設計工具提供無伺服器或低延遲的互動體驗。",
+        "對於想把 AI 功能內嵌到網站或設計工具的團隊，降低後端依賴與成本。"
+      ],
+      "url": "https://huggingface.co/blog/transformersjs-v3",
+      "relatedUrl": "https://www.google.com/search?q=Transformers.js+v3+WebGPU+支持"
     },
     {
       "category": "模型 / Agent",
-      "tag": "教育課程",
-      "tool": "Google+Kaggle",
+      "tag": "UI 本地化",
+      "tool": "Holo2",
       "important": false,
-      "title": "Google 與 Kaggle 推回 5 天 AI Agents 強化課程（Vibe Coding），開放報名",
-      "summary": "Google 與 Kaggle 合辦的 AI Agents 5 日密集課程開放註冊，聚焦代理人設計與實作，適合開發者與想整合代理人工作流的設計師。",
+      "title": "H Company 發表 Holo2：主打 UI 本地化的新模型家族",
+      "summary": "Holo2 聚焦於 UI 本地化（界面詞彙、格式與語境轉換），提升本地化品質與效率。",
       "points": [
-        "課程涵蓋代理人設計、工具整合與實作案例，利於跨領域團隊快速上手",
-        "對希望把代理人或自動化串入設計流程的團隊，具實務價值"
+        "對設計師與產品團隊在多語系介面快速本地化、校對文案有實務幫助。",
+        "能減少人工本地化成本並提高一致性，適合快速迭代的產品化流程。"
       ],
-      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/kaggle-genai-intensive-course-vibe-coding-june-2026/",
-      "relatedUrl": "https://www.google.com/search?q=Google+Kaggle+AI+Agents+Vibe+Coding+課程+報名"
+      "url": "https://huggingface.co/blog/Hcompany/introducing-holo2-235b-a22b",
+      "relatedUrl": "https://www.google.com/search?q=Holo2+UI+本地化+H+Company"
     }
   ]
 }
