@@ -444,31 +444,48 @@ async function summarizeWithAI(items) {
   return parsed;
 }
 
+
 function getTaipeiDateParts(offsetDays) {
-  const now = new Date();
 
-  const taipeiNow = new Date(
-    now.toLocaleString("en-US", {
-      timeZone: "Asia/Taipei"
-    })
+  const nowUTC = new Date();
+
+  const taipeiTime = new Date(
+    nowUTC.getTime() + (8 * 60 * 60 * 1000)
   );
 
-  taipeiNow.setDate(
-    taipeiNow.getDate() + (offsetDays || 0)
+  taipeiTime.setDate(
+    taipeiTime.getDate() + (offsetDays || 0)
   );
 
-  const y = taipeiNow.getFullYear();
-  const m = String(taipeiNow.getMonth() + 1).padStart(2, "0");
-  const d = String(taipeiNow.getDate()).padStart(2, "0");
+  const y = taipeiTime.getUTCFullYear();
 
-  const WEEK = ["日", "一", "二", "三", "四", "五", "六"];
-  const w = WEEK[taipeiNow.getDay()];
+  const m = String(
+    taipeiTime.getUTCMonth() + 1
+  ).padStart(2, "0");
+
+  const d = String(
+    taipeiTime.getUTCDate()
+  ).padStart(2, "0");
+
+  const WEEK = ["日","一","二","三","四","五","六"];
+
+  const w = WEEK[taipeiTime.getUTCDay()];
 
   return {
     fileDate: y + "-" + m + "-" + d,
-    label: y + "/" + Number(m) + "/" + Number(d) + "（" + w + "）"
+    label:
+      y +
+      "/" +
+      Number(m) +
+      "/" +
+      Number(d) +
+      "（" +
+      w +
+      "）"
   };
 }
+
+
 
 function readJsonIfExists(filePath, fallback) {
   try {
