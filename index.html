@@ -1,41 +1,719 @@
-```js
-function getTaipeiDateParts(offsetDays) {
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Design Daily｜設計 AI 情報</title>
+<meta name="theme-color" content="#f3f3f3" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="AI Design Daily" />
+<link rel="manifest" href="manifest.json" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+<style>
+:root{
+  --bg:#f3f3f3;
+  --card:#ffffff;
+  --text:#333333;
+  --sub:#777777;
+  --muted:#999999;
+  --line:#e5e5e5;
+  --line2:#eeeeee;
+  --main:#8b765f;
+  --main2:#7d6752;
+  --soft:#f8f8f8;
+  --tag:#f1f1f1;
+  --radius:10px;
+  --shadow:0 2px 8px rgba(0,0,0,.04);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","Microsoft JhengHei",Arial,sans-serif;font-weight:400;letter-spacing:.01em;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit}
+.page{width:1180px;max-width:100%;margin:0 auto;padding:22px 18px 48px;}
+.header{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:20px;}
+.logo{display:flex;flex-direction:column;gap:10px;line-height:1.25;}
+.logo .title{font-size:38px;letter-spacing:-0.03em;font-weight:500;color:#2f2f2f;line-height:1.05;}
+.logo .desc{font-size:20px;color:#666;line-height:1.35;margin-top:0;}
+.nav{display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;justify-content:flex-end;padding-top:42px;}
+.nav a{font-size:14px;color:#555;background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 12px;}
+.nav a.active{background:var(--main);border-color:var(--main);color:#fff;}
 
-  const nowUTC = new Date();
+.date-switcher{position:relative;}
+.date-current{height:auto;min-width:0;padding:8px 10px;border:0;background:transparent;color:#555;font-size:19px;display:flex;align-items:flex-start;justify-content:flex-start;gap:10px;cursor:pointer;box-shadow:none;border-radius:10px;font-weight:400;}
+.date-current:hover{color:#333;background:transparent;} 
+.date-current .calendar-icon{width:22px;height:22px;display:inline-block;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='3' y1='10' x2='21' y2='10'/%3E%3C/svg%3E") center/22px 22px no-repeat;cursor:pointer;flex:0 0 22px;}
+.date-current .arrow{display:none;}
+.date-info{display:flex;flex-direction:column;align-items:flex-start;line-height:1.2;gap:4px;}
+.update-time{font-size:11px;color:#999;letter-spacing:.08em;font-weight:400;}
+.date-menu{position:absolute;top:42px;right:0;width:320px;background:#fff;border:1px solid #e6e6e6;border-radius:16px;padding:14px;box-shadow:0 14px 36px rgba(0,0,0,.10);opacity:0;pointer-events:none;transform:translateY(6px);transition:.18s ease;z-index:20;}
+.date-switcher.open .date-menu{opacity:1;pointer-events:auto;transform:translateY(0);}
+.calendar-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px;}
+.calendar-title-wrap{display:flex;align-items:center;gap:6px;font-size:15px;color:#555;}
+.calendar-year-btn{border:0;background:transparent;padding:0;cursor:pointer;color:#555;font-size:15px;display:flex;align-items:center;gap:6px;}
+.calendar-year-btn:hover{color:#333;}
+.calendar-year-btn::after{content:'';width:14px;height:14px;display:block;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") center/14px 14px no-repeat;opacity:.8;flex:0 0 14px;}
+.calendar-month-text{font-size:15px;color:#555;}
+.calendar-year-panel{position:absolute;top:54px;left:18px;width:120px;max-height:220px;overflow-y:auto;background:#fff;border:1px solid #ececec;border-radius:12px;padding:6px;box-shadow:0 10px 24px rgba(0,0,0,.08);display:none;z-index:3;}
+.calendar-year-panel.show{display:block;}
+.calendar-year-option{width:100%;height:34px;border:0;background:transparent;border-radius:8px;font-size:14px;color:#666;cursor:pointer;}
+.calendar-year-option:hover,.calendar-year-option.active{background:#f3f3f3;color:#333;}
+.calendar-arrow{width:38px;height:38px;border:0;background:transparent;color:#777;font-size:0;line-height:1;cursor:pointer;border-radius:50%;flex:0 0 38px;display:flex;align-items:center;justify-content:center;position:relative;}
+.calendar-arrow:hover{background:#f3f3f3;color:#555;}
+.calendar-arrow::before{content:'';width:18px;height:18px;display:block;background-size:18px 18px;background-repeat:no-repeat;background-position:center;opacity:.8;}
+.calendar-arrow[data-cal-prev]::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='15 18 9 12 15 6'/%3E%3C/svg%3E");}
+.calendar-arrow[data-cal-next]::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'/%3E%3C/svg%3E");}
+.calendar-selects{display:none;}
+.calendar-week,.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;}
+.calendar-week span{font-size:13px;color:#888;padding:8px 0;}
+.calendar-day{height:36px;border:0;background:transparent;color:#333;font-size:14px;border-radius:50%;cursor:pointer;margin:2px auto;width:36px;display:flex;align-items:center;justify-content:center;}
+.calendar-day:hover{background:#f1f1f1;}
+.calendar-day.active{border:0;background:#8b765f;color:#fff;}
+.calendar-day.disabled{color:#c8c8c8;cursor:default;}
+.calendar-day.disabled:hover{background:transparent;}
+.calendar-day.blank{visibility:hidden;}
+.daily-panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:14px;}
+.daily-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px;}
+.daily-title{margin:0;font-size:34px;line-height:1.25;font-weight:400;color:#333;letter-spacing:-0.02em;}
+.daily-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:stretch;}
+.daily-item{position:relative;display:flex;flex-direction:column;gap:14px;border:1px solid var(--line2);border-radius:12px;background:#fff;padding:18px 18px 16px;min-height:320px;height:100%;overflow:hidden;}
+.daily-meta{display:flex;flex-direction:row;gap:8px;align-items:center;flex-wrap:wrap;}
+.daily-item h2{margin:0 0 8px;font-size:28px;line-height:1.35;font-weight:400;color:#2f2f2f;letter-spacing:-0.02em;}
+.daily-item p{margin:0;color:#666;font-size:16px;line-height:1.82;}
+.daily-actions{display:flex;gap:8px;white-space:nowrap;padding-top:8px;margin-top:auto;position:relative;z-index:3;}
+.detail-box{margin-top:10px;color:#666;font-size:16px;line-height:1.88;min-height:100px;}
+.detail-box ul{margin:0;padding-left:18px;}
+.empty-state{grid-column:1/-1;border:1px dashed #dddddd;border-radius:12px;background:#fafafa;color:#777;padding:26px;text-align:center;font-size:15px;line-height:1.8;}
+.main-card,.side-card,.section,.mini-card,.tool-card,.history-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);}
+.tag{display:inline-flex;align-items:center;border-radius:999px;background:#f1f1f1;color:#666;border:0;font-size:13px;line-height:1;padding:7px 11px;white-space:nowrap;}
+.tag.dark{background:#707070;color:#fff;border:0;}
+.tag.brown{background:#ededed;color:#666;border:0;}
+.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:10px 16px;font-size:14px;border:1px solid var(--main);background:var(--main);color:#fff;min-height:38px;cursor:pointer;}
+.btn.sub{background:#fff;color:#555;border-color:var(--line);}
+.section{padding:18px 20px;margin-bottom:14px;background:#fff;transition:.2s ease;}
+.section:hover{transform:translateY(-1px);} 
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:16px;}
+.section-title{margin:0;font-size:34px;line-height:1.25;font-weight:400;color:#333;letter-spacing:-0.02em;}
+.tabs{display:flex;gap:26px;overflow-x:auto;padding-top:10px;padding-bottom:10px;margin-bottom:18px;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{position:relative;flex:0 0 auto;border:0;background:transparent;border-radius:0;padding:0 0 14px;font-size:18px;color:#888;line-height:1.1;cursor:pointer;}
+.tab.active{background:transparent;color:#333;border-color:transparent;}
+.tab.active::after{content:'';position:absolute;left:0;bottom:-1px;width:100%;height:2px;background:#666;border-radius:999px;}
+.tool-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+.tool-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:stretch;}
+.trend-flow{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:stretch;}
+.tool-card{width:100%;box-shadow:none;padding:18px 16px;text-align:left;display:flex;flex-direction:column;justify-content:flex-start;min-height:118px;background:#fff;border:1px solid var(--line2);}
+.tool-card a{color:var(--main);border-bottom:1px solid rgba(139,118,95,.22);padding-bottom:1px;transition:.15s ease;}
+.tool-card a:hover{color:var(--main2);border-color:rgba(125,103,82,.5);}
+.tool-card h4{font-size:24px;font-weight:400;margin:0 0 10px;color:#333;letter-spacing:-0.01em;line-height:1.3;}
+.tool-card p{font-size:16px;color:#777;line-height:1.85;margin:0;}
+.footer{padding:20px 0 0;text-align:center;color:#999;font-size:12px;line-height:1.7;}
+@media(max-width:860px){
+  .trend-flow{grid-template-columns:1fr;}
 
-  const taipeiTime = new Date(
-    nowUTC.getTime() + (8 * 60 * 60 * 1000)
-  );
+  .logo{width:100%;}
+  .nav{order:2;display:flex;width:100%;justify-content:flex-start;padding-top:0;}
+  .date-switcher{width:100%;}
+  .date-current{width:100%;min-width:0;}
+  .daily-list{grid-template-columns:1fr;}
+  .daily-item{min-height:auto;}
+  .daily-actions{width:100%;}
+  .daily-actions .btn{flex:1;}
+  .page{padding:16px 14px 38px;}
+  .header{align-items:flex-start;margin-bottom:14px;flex-direction:column;gap:12px;}
+  .logo .title{font-size:30px;}
+  .tool-flow{grid-template-columns:1fr 1fr;}
+  .section{padding:16px;margin-bottom:14px;}
+}
+@media(max-width:460px){
+  .tool-flow{grid-template-columns:1fr 1fr;}
+  .section-title{font-size:28px;}
+  .daily-title{font-size:28px;}
+  .daily-item h2{font-size:23px;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="header">
+    <a class="logo" href="#">
+      <span class="title">AI Design Daily</span>
+      <span class="desc">Daily AI Updates for Designers</span>
+    </a>
+    <div class="nav" style="align-items:flex-end;">
+      <div class="date-switcher">
+        <button class="date-current" type="button">
+          <span class="calendar-icon" aria-hidden="true"></span>
+          <span class="current-date-text">讀取日期中</span>
+        </button>
+        <div class="date-menu"></div>
+      </div>
+    </div>
+  </header>
 
-  taipeiTime.setDate(
-    taipeiTime.getDate() + (offsetDays || 0)
-  );
+  <main>
+    <section class="daily-panel" id="today">
+      <div class="daily-head">
+        <div>
+          <h1 class="daily-title">今日 AI 重點</h1>
+        </div>
+      </div>
 
-  const y = taipeiTime.getUTCFullYear();
+      <div class="tabs" style="margin-bottom:18px;">
+        <button class="tab active" type="button">全部</button>
+        <button class="tab" type="button">AI 設計</button>
+        <button class="tab" type="button">Adobe</button>
+        <button class="tab" type="button">模型 / Agent</button>
+        <button class="tab" type="button">其他</button>
+      </div>
 
-  const m = String(
-    taipeiTime.getUTCMonth() + 1
-  ).padStart(2, "0");
+      <div class="daily-list">
+        <div class="empty-state">正在讀取今日 AI 重點...</div>
+      </div>
+    </section>
 
-  const d = String(
-    taipeiTime.getUTCDate()
-  ).padStart(2, "0");
+    <section class="section" id="trends">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">AI 設計趨勢</h2>
+        </div>
+      </div>
 
-  const WEEK = ["日","一","二","三","四","五","六"];
+      <div class="trend-flow" id="trend-list">
+        <article class="tool-card">
+          <h4>AI MODEL 一致性</h4>
+          <p>正在讀取今日趨勢...</p>
+        </article>
+      </div>
+    </section>
 
-  const w = WEEK[taipeiTime.getUTCDay()];
+    <section class="section" id="tools">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">熱門常用 AI 工具</h2>
+        </div>
+      </div>
+
+      <div class="tool-grid tool-flow">
+        <article class="tool-card"><h4>人像修圖</h4><p><a href="https://evoto.ai" target="_blank" rel="noopener noreferrer">Evoto</a> · <a href="https://www.adobe.com/products/photoshop-lightroom.html" target="_blank" rel="noopener noreferrer">Lightroom AI</a> · <a href="https://skylum.com/luminar" target="_blank" rel="noopener noreferrer">Luminar Neo</a></p></article>
+        <article class="tool-card"><h4>商品修圖</h4><p><a href="https://www.adobe.com/products/firefly.html" target="_blank" rel="noopener noreferrer">Photoshop Firefly</a> · <a href="https://flair.ai" target="_blank" rel="noopener noreferrer">Flair AI</a> · <a href="https://pebblely.com" target="_blank" rel="noopener noreferrer">Pebblely</a> · <a href="https://www.photoroom.com" target="_blank" rel="noopener noreferrer">Photoroom</a> · <a href="https://www.caspa.ai" target="_blank" rel="noopener noreferrer">Caspa AI</a></p></article>
+        <article class="tool-card"><h4>去背</h4><p><a href="https://www.remove.bg" target="_blank" rel="noopener noreferrer">Remove.bg</a> · <a href="https://clipdrop.co" target="_blank" rel="noopener noreferrer">Clipdrop</a> · <a href="https://cleanup.pictures" target="_blank" rel="noopener noreferrer">Cleanup.pictures</a></p></article>
+        <article class="tool-card"><h4>放大清晰</h4><p><a href="https://www.topazlabs.com/topaz-photo-ai" target="_blank" rel="noopener noreferrer">Topaz Photo AI</a> · <a href="https://magnific.ai" target="_blank" rel="noopener noreferrer">Magnific</a></p></article>
+        <article class="tool-card"><h4>生圖</h4><p><a href="https://www.midjourney.com" target="_blank" rel="noopener noreferrer">Midjourney</a> · <a href="https://leonardo.ai" target="_blank" rel="noopener noreferrer">Leonardo</a> · <a href="https://blackforestlabs.ai" target="_blank" rel="noopener noreferrer">Flux</a> · <a href="https://ideogram.ai" target="_blank" rel="noopener noreferrer">Ideogram</a> · <a href="https://stability.ai" target="_blank" rel="noopener noreferrer">Stable Diffusion</a></p></article>
+        <article class="tool-card"><h4>LOGO</h4><p><a href="https://looka.com" target="_blank" rel="noopener noreferrer">Looka</a> · <a href="https://brandmark.io" target="_blank" rel="noopener noreferrer">Brandmark</a> · <a href="https://www.logoai.com" target="_blank" rel="noopener noreferrer">LogoAI</a></p></article>
+        <article class="tool-card"><h4>ICON / 插圖</h4><p><a href="https://icons8.com" target="_blank" rel="noopener noreferrer">Icons8 AI</a> · <a href="https://svg.io" target="_blank" rel="noopener noreferrer">SVG.io</a> · <a href="https://illostration.com" target="_blank" rel="noopener noreferrer">illostration AI</a> · <a href="https://www.khroma.co" target="_blank" rel="noopener noreferrer">Khroma</a></p></article>
+        <article class="tool-card"><h4>UI / 網頁</h4><p><a href="https://www.figma.com/ai" target="_blank" rel="noopener noreferrer">Figma AI</a> · <a href="https://www.framer.com/ai" target="_blank" rel="noopener noreferrer">Framer AI</a> · <a href="https://v0.dev" target="_blank" rel="noopener noreferrer">v0</a> · <a href="https://www.relume.io" target="_blank" rel="noopener noreferrer">Relume</a></p></article>
+        <article class="tool-card"><h4>排版設計</h4><p><a href="https://www.canva.com/ai" target="_blank" rel="noopener noreferrer">Canva AI</a> · <a href="https://www.adobe.com/express" target="_blank" rel="noopener noreferrer">Adobe Express</a> · <a href="https://gamma.app" target="_blank" rel="noopener noreferrer">Gamma</a> · <a href="https://www.beautiful.ai" target="_blank" rel="noopener noreferrer">Beautiful.ai</a> · <a href="https://tome.app" target="_blank" rel="noopener noreferrer">Tome</a></p></article>
+        <article class="tool-card"><h4>3D 建模</h4><p><a href="https://www.tripo3d.ai" target="_blank" rel="noopener noreferrer">Tripo</a> · <a href="https://spline.design" target="_blank" rel="noopener noreferrer">Spline</a> · <a href="https://www.meshy.ai" target="_blank" rel="noopener noreferrer">Meshy</a> · <a href="https://www.masterpiecex.com" target="_blank" rel="noopener noreferrer">Masterpiece X</a></p></article>
+        <article class="tool-card"><h4>動畫</h4><p><a href="https://pika.art" target="_blank" rel="noopener noreferrer">Pika</a> · <a href="https://github.com/guoyww/AnimateDiff" target="_blank" rel="noopener noreferrer">AnimateDiff</a> · <a href="https://github.com/ToonCrafter/ToonCrafter" target="_blank" rel="noopener noreferrer">Tooncrafter</a> · <a href="https://www.viggle.ai" target="_blank" rel="noopener noreferrer">Viggle</a></p></article>
+        <article class="tool-card"><h4>影片</h4><p><a href="https://runwayml.com" target="_blank" rel="noopener noreferrer">Runway</a> · <a href="https://klingai.com" target="_blank" rel="noopener noreferrer">Kling</a> · <a href="https://sora.com" target="_blank" rel="noopener noreferrer">Sora</a> · <a href="https://lumalabs.ai/dream-machine" target="_blank" rel="noopener noreferrer">Luma AI</a></p></article>
+        <article class="tool-card"><h4>音樂 / 配音</h4><p><a href="https://suno.com" target="_blank" rel="noopener noreferrer">Suno</a> · <a href="https://www.udio.com" target="_blank" rel="noopener noreferrer">Udio</a> · <a href="https://elevenlabs.io" target="_blank" rel="noopener noreferrer">ElevenLabs</a> · <a href="https://www.voicemod.net" target="_blank" rel="noopener noreferrer">Voicemod</a></p></article>
+        <article class="tool-card"><h4>室內建築</h4><p><a href="https://www.roomgpt.io" target="_blank" rel="noopener noreferrer">RoomGPT</a> · <a href="https://interiorai.com" target="_blank" rel="noopener noreferrer">Interior AI</a> · <a href="https://www.vizcom.ai" target="_blank" rel="noopener noreferrer">Vizcom</a></p></article>
+        <article class="tool-card"><h4>AI 商攝</h4><p><a href="https://flair.ai" target="_blank" rel="noopener noreferrer">Flair AI</a> · <a href="https://mokker.ai" target="_blank" rel="noopener noreferrer">Mokker AI</a> · <a href="https://www.caspa.ai" target="_blank" rel="noopener noreferrer">Caspa AI</a> · <a href="https://www.krea.ai" target="_blank" rel="noopener noreferrer">Krea</a> · <a href="https://openart.ai" target="_blank" rel="noopener noreferrer">OpenArt</a></p></article>
+        <article class="tool-card"><h4>AI MODEL</h4><p><a href="https://www.krea.ai" target="_blank" rel="noopener noreferrer">Krea</a> · <a href="https://www.dzine.ai" target="_blank" rel="noopener noreferrer">Dzine</a> · <a href="https://www.reve.art" target="_blank" rel="noopener noreferrer">Reve</a> · <a href="https://higgsfield.ai" target="_blank" rel="noopener noreferrer">Higgsfield</a> · <a href="https://fashn.ai" target="_blank" rel="noopener noreferrer">Fashn AI</a> · <a href="https://github.com/yisol/IDM-VTON" target="_blank" rel="noopener noreferrer">IDM-VTON</a></p></article>
+        <article class="tool-card"><h4>模型 / Agent</h4><p><a href="https://chatgpt.com" target="_blank" rel="noopener noreferrer">ChatGPT</a> · <a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer">Gemini</a> · <a href="https://claude.ai" target="_blank" rel="noopener noreferrer">Claude</a> · <a href="https://www.perplexity.ai" target="_blank" rel="noopener noreferrer">Perplexity</a> · <a href="https://grok.com" target="_blank" rel="noopener noreferrer">Grok</a> · <a href="https://www.deepseek.com" target="_blank" rel="noopener noreferrer">DeepSeek</a></p></article>
+        <article class="tool-card"><h4>文件筆記</h4><p><a href="https://www.notion.com/product/ai" target="_blank" rel="noopener noreferrer">Notion AI</a> · <a href="https://notebooklm.google.com" target="_blank" rel="noopener noreferrer">NotebookLM</a> · <a href="https://get.mem.ai" target="_blank" rel="noopener noreferrer">Mem</a> · <a href="https://www.craft.do" target="_blank" rel="noopener noreferrer">Craft AI</a></p></article>
+        <article class="tool-card"><h4>工作流</h4><p><a href="https://n8n.io" target="_blank" rel="noopener noreferrer">n8n</a> · <a href="https://www.make.com" target="_blank" rel="noopener noreferrer">Make</a> · <a href="https://zapier.com/ai" target="_blank" rel="noopener noreferrer">Zapier AI</a> · <a href="https://www.relay.app" target="_blank" rel="noopener noreferrer">Relay.app</a></p></article>
+        <article class="tool-card"><h4>AI Coding</h4><p><a href="https://cursor.com" target="_blank" rel="noopener noreferrer">Cursor</a> · <a href="https://windsurf.com" target="_blank" rel="noopener noreferrer">Windsurf</a> · <a href="https://bolt.new" target="_blank" rel="noopener noreferrer">Bolt</a> · <a href="https://replit.com/ai" target="_blank" rel="noopener noreferrer">Replit AI</a></p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    AI Design Daily｜AI 情報整理更新
+  </footer>
+</div>
+
+<script>
+const TODAY_TEXT = (() => {
+  const now = new Date();
+  const weekMap = ["日","一","二","三","四","五","六"];
+  return `${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()}（${weekMap[now.getDay()]}）`;
+})();
+
+const FALLBACK_NEWS = {
+  currentDate: TODAY_TEXT,
+  dates: [],
+  items: [
+    {
+      category: "AI 設計",
+      tag: "AI修圖",
+      tool: "Gemini",
+      important: true,
+      title: "目前尚未讀取到 news.json",
+      summary: "請確認 data/news.json 是否已放在 GitHub Pages 專案根目錄下。若是在本機直接開 HTML，部分瀏覽器會阻擋 fetch。",
+      points: [
+        "正確路徑應為 data/news.json。",
+        "GitHub Pages 部署後重新整理頁面。",
+        "Actions 成功後可檢查 news.json 是否有更新。"
+      ],
+      url: "#",
+      relatedUrl: "https://www.google.com/search?q=GitHub%20Pages%20fetch%20JSON%20file"
+    }
+  ]
+};
+
+let currentNewsData = null;
+let currentDateList = [];
+let activeDateLabel = "";
+
+const FALLBACK_TRENDS = [
+  {
+    title: "AI MODEL 一致性",
+    summary: "Krea、Higgsfield、Reve 等工具持續強化人物一致性與商攝流程，AI MODEL 已逐漸進入可商業化階段。"
+  },
+  {
+    title: "AI 商攝",
+    summary: "商品情境、AI 打光、背景生成與 AI 試穿需求增加，電商設計工作流正在快速 AI 化。"
+  },
+  {
+    title: "影片生成",
+    summary: "Runway、Kling、Sora 持續推進影片生成品質，短影音與商品動態內容需求快速增加。"
+  },
+  {
+    title: "AI Agent 工作流",
+    summary: "ChatGPT、Gemini、Claude 開始整合 Agent 與自動化流程，AI 已逐漸從聊天工具轉向工作助手。"
+  }
+];
+
+function normalizeNewsData(data){
+  const safeData = data && typeof data === "object" ? data : FALLBACK_NEWS;
+  const items = Array.isArray(safeData.items) ? safeData.items : [];
 
   return {
-    fileDate: y + "-" + m + "-" + d,
-    label:
-      y +
-      "/" +
-      Number(m) +
-      "/" +
-      Number(d) +
-      "（" +
-      w +
-      "）"
+    currentDate: safeData.currentDate || FALLBACK_NEWS.currentDate,
+    updatedAt: safeData.updatedAt || "",
+    dates: Array.isArray(safeData.availableDates) && safeData.availableDates.length
+      ? safeData.availableDates
+      : Array.isArray(safeData.dates) && safeData.dates.length
+        ? safeData.dates
+        : [safeData.currentDate || FALLBACK_NEWS.currentDate],
+    items: items.map(item => ({
+      category: item.category || "其他",
+      tag: item.tag || item.tool || "AI",
+      tool: item.tool || "AI",
+      important: Boolean(item.important),
+      title: item.title || "未命名更新",
+      summary: item.summary || "尚無摘要。",
+      points: Array.isArray(item.points) && item.points.length ? item.points : ["尚無功能重點。"],
+      url: item.url || "#",
+      relatedUrl: item.relatedUrl || `https://www.google.com/search?q=${encodeURIComponent((item.tool || "AI") + " " + (item.title || "AI 更新") + " 中文")}`
+    })),
+    trends: Array.isArray(safeData.trends) && safeData.trends.length
+      ? safeData.trends.map(trend => ({
+          title: trend.title || "AI 設計趨勢",
+          summary: trend.summary || "今日尚無明確趨勢摘要。"
+        }))
+      : FALLBACK_TRENDS
   };
 }
-```
+
+async function fetchJson(url){
+  const response = await fetch(`${url}?v=${Date.now()}`, { cache: "no-store" });
+  if(!response.ok) throw new Error(`${response.status} ${response.statusText}`);
+  return await response.json();
+}
+
+async function fetchLatestNews(){
+  const paths = ["./data/news.json", "data/news.json", "/data/news.json"];
+  let lastError;
+
+  for(const url of paths){
+    try{
+      return await fetchJson(url);
+    }catch(error){
+      lastError = error;
+    }
+  }
+
+  throw lastError || new Error("news.json 讀取失敗");
+}
+
+async function fetchDateIndex(){
+  const paths = ["./data/index.json", "data/index.json", "/data/index.json"];
+
+  for(const url of paths){
+    try{
+      const indexData = await fetchJson(url);
+      if(Array.isArray(indexData.dates)) return indexData;
+    }catch(error){
+      // 沒有 index.json 時，會自動退回 news.json 模式
+    }
+  }
+
+  return null;
+}
+
+async function fetchHistoryNews(file){
+  const paths = [`./data/history/${file}`, `data/history/${file}`, `/data/history/${file}`];
+  let lastError;
+
+  for(const url of paths){
+    try{
+      return await fetchJson(url);
+    }catch(error){
+      lastError = error;
+    }
+  }
+
+  throw lastError || new Error("歷史資料讀取失敗");
+}
+
+function formatDateList(indexData, latestData){
+  if(indexData && Array.isArray(indexData.dates) && indexData.dates.length){
+    return indexData.dates.map(item => {
+      if(typeof item === "string") return { label:item, file:null };
+      return {
+        label:item.label || item.date || latestData.currentDate,
+        file:item.file || null
+      };
+    });
+  }
+
+  return latestData.dates.map(date => ({ label:date, file:null }));
+}
+
+function parseDateLabel(label){
+  const text = String(label || "");
+  const match = text.match(new RegExp("([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})"));
+  if(!match) return null;
+  return {
+    year:Number(match[1]),
+    month:Number(match[2]),
+    day:Number(match[3])
+  };
+}
+
+function getWeekText(label){
+  const text = String(label || "");
+  const start = text.indexOf("（");
+  const end = text.indexOf("）");
+  if(start >= 0 && end > start) return text.slice(start + 1, end);
+  return "";
+}
+
+function formatDateText(label){
+  const date = parseDateLabel(label);
+  if(!date) return label || "尚無資料";
+  const week = getWeekText(label);
+  return `${date.year}/${date.month}/${date.day}${week ? `（${week}）` : ""}`;
+}
+
+function fileFromDateParts(year, month, day){
+  return `${year}-${String(month).padStart(2,"0")}-${String(day).padStart(2,"0")}.json`;
+}
+
+function getDateKey(label){
+  const date = parseDateLabel(label);
+  if(!date) return "";
+  return fileFromDateParts(date.year, date.month, date.day);
+}
+
+function buildAvailableDateMap(dateList){
+  const map = new Map();
+  dateList.forEach(item => {
+    const key = getDateKey(item.label);
+    if(key) map.set(key, item);
+  });
+  return map;
+}
+
+function formatUpdateTime(value){
+  if(!value) return "";
+
+  const text = String(value);
+
+  const parts = text.split(" ");
+  const timePattern = new RegExp("^[0-9]{2}:[0-9]{2}:[0-9]{2}$");
+  if(parts.length >= 2 && timePattern.test(parts[1])) return parts[1];
+
+  const date = new Date(value);
+  if(Number.isNaN(date.getTime())) return value;
+
+  return date.toLocaleTimeString("zh-TW", {
+    hour12:false,
+    hour:"2-digit",
+    minute:"2-digit",
+    second:"2-digit",
+    timeZone:"Asia/Taipei"
+  });
+}
+
+function setDateButtonText(label){
+  const currentDate = document.querySelector(".date-current");
+  activeDateLabel = label;
+
+  const updateText = currentNewsData && currentNewsData.updatedAt
+    ? `Last Update ${formatUpdateTime(currentNewsData.updatedAt)}`
+    : "";
+
+  currentDate.innerHTML = `
+    <span class="calendar-icon" aria-hidden="true"></span>
+    <span class="date-info">
+      <span class="current-date-text">${formatDateText(label)}</span>
+      ${updateText ? `<span class="update-time">${updateText}</span>` : ""}
+    </span>
+  `;
+}
+
+async function selectDateItem(item){
+  if(!item) return;
+
+  setDateButtonText(item.label);
+
+  if(item.file){
+    try{
+      const historyRaw = await fetchHistoryNews(item.file);
+      const historyData = normalizeNewsData(historyRaw);
+      currentNewsData = historyData;
+      setDateButtonText(historyData.currentDate || item.label);
+      renderTrends(historyData.trends);
+      renderNewsList(historyData.items);
+      resetTabs();
+    }catch(error){
+      renderNewsList([]);
+      console.warn("歷史資料讀取失敗：", item.file, error);
+    }
+  }else{
+    renderNewsList(currentNewsData.items);
+    resetTabs();
+  }
+}
+
+function renderCalendar(dateList, viewYear, viewMonth, selectedLabel){
+  const dateMenu = document.querySelector(".date-menu");
+  dateMenu.onclick = (event) => event.stopPropagation();
+  const availableMap = buildAvailableDateMap(dateList);
+  const activeKey = getDateKey(selectedLabel);
+  const firstDay = new Date(viewYear, viewMonth - 1, 1);
+  const daysInMonth = new Date(viewYear, viewMonth, 0).getDate();
+  const startWeek = firstDay.getDay();
+  const availableYears = [...new Set(dateList.map(item => parseDateLabel(item.label)?.year).filter(Boolean))];
+  const yearOptions = availableYears.length ? availableYears : [viewYear];
+
+  let cells = "";
+
+  for(let i = 0; i < startWeek; i++){
+    cells += `<button class="calendar-day blank" type="button" tabindex="-1"></button>`;
+  }
+
+  for(let day = 1; day <= daysInMonth; day++){
+    const fileKey = fileFromDateParts(viewYear, viewMonth, day);
+    const item = availableMap.get(fileKey);
+    const isActive = fileKey === activeKey;
+
+    cells += `
+      <button class="calendar-day ${item ? "" : "disabled"} ${isActive ? "active" : ""}" type="button" data-file="${fileKey}" ${item ? "" : "disabled"}>
+        ${day}
+      </button>
+    `;
+  }
+
+  dateMenu.innerHTML = `
+    <div class="calendar-head">
+      <div class="calendar-title-wrap">
+        <button class="calendar-year-btn" type="button" data-year-toggle>
+          ${viewYear} 年
+        </button>
+        <span class="calendar-month-text">${viewMonth} 月</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button class="calendar-arrow" type="button" data-cal-prev>‹</button>
+        <button class="calendar-arrow" type="button" data-cal-next>›</button>
+      </div>
+    </div>
+
+    <div class="calendar-year-panel">
+      ${yearOptions.map(year => `<button class="calendar-year-option ${year === viewYear ? "active" : ""}" type="button" data-year="${year}">${year} 年</button>`).join("")}
+    </div>
+    <div class="calendar-week">
+      <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+    </div>
+    <div class="calendar-grid">${cells}</div>
+  `;
+
+  dateMenu.querySelector("[data-cal-prev]").addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const previous = new Date(viewYear, viewMonth - 2, 1);
+    renderCalendar(dateList, previous.getFullYear(), previous.getMonth() + 1, activeDateLabel);
+  });
+
+  dateMenu.querySelector("[data-cal-next]").addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const next = new Date(viewYear, viewMonth, 1);
+    renderCalendar(dateList, next.getFullYear(), next.getMonth() + 1, activeDateLabel);
+  });
+
+  const yearToggle = dateMenu.querySelector("[data-year-toggle]");
+  const yearPanel = dateMenu.querySelector(".calendar-year-panel");
+
+  yearToggle.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    yearPanel.classList.toggle("show");
+  });
+
+  dateMenu.querySelectorAll("[data-year]").forEach(button => {
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      renderCalendar(dateList, Number(button.dataset.year), viewMonth, activeDateLabel);
+    });
+  });
+
+  dateMenu.querySelectorAll(".calendar-day:not(.disabled):not(.blank)").forEach(button => {
+    button.addEventListener("click", async () => {
+      const item = availableMap.get(button.dataset.file);
+      document.querySelector(".date-switcher").classList.remove("open");
+      await selectDateItem(item);
+    });
+  });
+}
+
+function setDateMenu(data, dateList){
+  const switcher = document.querySelector(".date-switcher");
+  const currentDate = document.querySelector(".date-current");
+  const firstDate = parseDateLabel(data.currentDate) || parseDateLabel(dateList[0]?.label) || {
+    year:new Date().getFullYear(),
+    month:new Date().getMonth() + 1,
+    day:new Date().getDate()
+  };
+
+  setDateButtonText(data.currentDate);
+  renderCalendar(dateList, firstDate.year, firstDate.month, data.currentDate);
+
+  currentDate.onclick = (event) => {
+    
+    event.preventDefault();
+
+    const isOpening = !switcher.classList.contains("open");
+    switcher.classList.toggle("open");
+
+    if(isOpening){
+      const activeDate = parseDateLabel(activeDateLabel) || firstDate;
+      renderCalendar(dateList, activeDate.year, activeDate.month, activeDateLabel || data.currentDate);
+    }
+  };
+
+  document.addEventListener("click", (event) => {
+    if(!switcher.contains(event.target)) switcher.classList.remove("open");
+  });
+}
+
+function renderTrends(trends){
+  const trendList = document.querySelector("#trend-list");
+  const safeTrends = Array.isArray(trends) && trends.length ? trends : FALLBACK_TRENDS;
+
+  trendList.innerHTML = safeTrends.map(trend => `
+    <article class="tool-card">
+      <h4>${trend.title}</h4>
+      <p>${trend.summary}</p>
+    </article>
+  `).join("");
+}
+
+function renderNewsList(items){
+  const dailyList = document.querySelector(".daily-list");
+
+  if(!items.length){
+    dailyList.innerHTML = `<div class="empty-state">此日期或分類目前沒有更新。</div>`;
+    return;
+  }
+
+  dailyList.innerHTML = items.map(item => `
+    <article class="daily-item">
+      <div class="daily-meta">
+        <span class="tag dark">${item.important ? "今日最重要" : item.category}</span>
+        <span class="tag brown">${item.tag}</span>
+      </div>
+
+      <div>
+        <h2>${item.title}</h2>
+        <p>${item.summary}</p>
+      </div>
+
+      <div class="detail-box">
+        <ul>
+          ${item.points.map(point => `<li>${point}</li>`).join("")}
+        </ul>
+      </div>
+
+      <div class="daily-actions">
+        <a class="btn sub" href="${item.url}" target="_blank" rel="noopener noreferrer">原文</a>
+        ${item.relatedUrl ? `<a class="btn sub" href="${item.relatedUrl}" target="_blank" rel="noopener noreferrer">相關文章</a>` : ""}
+      </div>
+    </article>
+  `).join("");
+}
+
+function resetTabs(){
+  const tabs = document.querySelectorAll(".tab");
+  tabs.forEach(tab => tab.classList.remove("active"));
+  tabs[0]?.classList.add("active");
+}
+
+function bindTabs(){
+  const tabs = document.querySelectorAll(".tab");
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      const category = tab.textContent.trim();
+      const filtered = category === "全部"
+        ? currentNewsData.items
+        : currentNewsData.items.filter(item => item.category === category);
+
+      tabs.forEach(item => item.classList.remove("active"));
+      tab.classList.add("active");
+      renderNewsList(filtered);
+    });
+  });
+}
+
+function runTests(){
+  const normalized = normalizeNewsData({ items:[{ title:"測試標題" }] });
+  console.assert(normalized.items[0].category === "其他", "預設分類應為其他");
+  console.assert(normalized.items[0].points.length === 1, "缺少 points 時應補預設重點");
+  console.assert(normalized.items[0].relatedUrl.includes("google.com/search"), "應自動產生相關文章搜尋連結");
+
+  const parsed = parseDateLabel("2026/05/10（日）");
+  console.assert(parsed.year === 2026 && parsed.month === 5 && parsed.day === 10, "日期解析應正確");
+}
+
+async function loadNews(){
+  runTests();
+
+  try{
+    const rawData = await fetchLatestNews();
+    const data = normalizeNewsData(rawData);
+    const indexData = await fetchDateIndex();
+    const dateList = formatDateList(indexData, data);
+
+    currentNewsData = data;
+    currentDateList = dateList;
+
+    setDateMenu(data, dateList);
+    renderTrends(data.trends);
+    renderNewsList(data.items);
+    bindTabs();
+  }catch(error){
+    console.warn("news.json 讀取失敗，已使用備用資料。", error);
+    const data = normalizeNewsData(FALLBACK_NEWS);
+    const dateList = formatDateList(null, data);
+
+    currentNewsData = data;
+    currentDateList = dateList;
+
+    setDateMenu(data, dateList);
+    renderTrends(data.trends);
+    renderNewsList(data.items);
+    bindTabs();
+  }
+}
+
+loadNews();
+</script>
+</body>
+</html>
